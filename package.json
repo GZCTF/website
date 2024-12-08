@@ -11,14 +11,14 @@
   "dependencies": {
     "react-ga4": "^2.1.0",
     "react-microsoft-clarity": "^1.2.0",
-    "rspress": "^1.37.3",
+    "rspress": "^1.37.4",
     "rspress-plugin-katex": "^0.3.0",
     "rspress-plugin-sitemap": "^1.1.1"
   },
   "devDependencies": {
     "@types/node": "^22.10.1",
-    "@types/react": "^18.3.12",
-    "@types/react-dom": "^18.3.1",
-    "prettier": "^3.4.1"
+    "@types/react": "^18.3.14",
+    "@types/react-dom": "^18.3.2",
+    "prettier": "^3.4.2"
   }
 }
