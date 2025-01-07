@@ -13,3 +13,4 @@ GZ::CTF is an open source CTF platform based on ASP.NET Core.
 
 - Website: [https://gzctf.gzti.me](https://gzctf.gzti.me)
 - Repository: [https://github.com/GZTimeWalker/GZCTF](https://github.com/GZTimeWalker/GZCTF)
+- API Reference: [https://gzctf.apidocumentation.com](https://gzctf.apidocumentation.com)

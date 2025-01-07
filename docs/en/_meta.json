@@ -8,5 +8,9 @@
     "text": "config",
     "link": "/config/appsettings",
     "activeMatch": "/config/"
+  },
+  {
+    "text": "apiref",
+    "link": "https://gzctf.apidocumentation.com"
   }
 ]

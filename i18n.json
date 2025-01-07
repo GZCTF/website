@@ -28,5 +28,10 @@
     "en": "Getting Started",
     "ja": "はじめに",
     "zh": "开始"
+  },
+  "apiref": {
+    "en": "API Reference",
+    "ja": "API リファレンス",
+    "zh": "API 参考"
   }
 }
