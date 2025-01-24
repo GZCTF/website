@@ -61,14 +61,9 @@ GZCTF 的安全性和前端功能（如操作剪贴板）依赖于 HTTPS，此�
        "ServerAddress": ""
      },
      "CaptchaConfig": {
-       "Provider": "None", // or "CloudflareTurnstile" or "GoogleRecaptcha"
+       "Provider": "None", // or "CloudflareTurnstile" or "HashPow"
        "SiteKey": "<Your SITE_KEY>",
-       "SecretKey": "<Your SECRET_KEY>",
-       // optional
-       "GoogleRecaptcha": {
-         "VerifyAPIAddress": "https://www.recaptcha.net/recaptcha/api/siteverify",
-         "RecaptchaThreshold": "0.5"
-       }
+       "SecretKey": "<Your SECRET_KEY>"
      },
      "ForwardedOptions": {
        "ForwardedHeaders": 7,

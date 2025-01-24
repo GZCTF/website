@@ -117,11 +117,6 @@ Here is a complete example of configuration:
     "SiteKey": "...",
     "SecretKey": "...",
     // optional
-    "GoogleRecaptcha": {
-      "VerifyAPIAddress": "https://www.recaptcha.net/recaptcha/api/siteverify",
-      "RecaptchaThreshold": "0.5"
-    },
-    // optional
     "HashPow": {
       "Difficulty": 18
     }
@@ -384,7 +379,7 @@ Please make sure that the password does not contain special characters (such as 
 
 Configure the CAPTCHA used for user registration, account recovery and login, optional.
 
-- **Provider:** CAPTCHA provider, can be `None`, `HashPow`, `GoogleRecaptcha` or `CloudflareTurnstile`
+- **Provider:** CAPTCHA provider, can be `None`, `HashPow` or `CloudflareTurnstile`
 - **SiteKey:** CAPTCHA Sitekey
 - **SecretKey:** CAPTCHA Secretkey
 
@@ -409,6 +404,14 @@ Configure the HashPow captcha related information, optional.
 - **Difficulty:** Difficulty of HashPow captcha, used to specify the number of leading zeros in the hash bits. The avaliable range is from 8 to 48.
 
 #### GoogleRecaptcha
+
+:::danger DEPRECATED
+
+This feature is deprecated and will be removed since v1.2.2 due to the lack of maintenance of upstream dependence.
+
+Please use the `CloudflareTurnstile` CAPTCHA provider instead.
+
+:::
 
 Configure the Google Recaptcha v3 related information, optional.
 

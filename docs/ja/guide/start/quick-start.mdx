@@ -61,14 +61,9 @@ GZCTF の使用をすぐに開始するには、Docker と docker-compose をイ
        "ServerAddress": ""
      },
      "CaptchaConfig": {
-       "Provider": "None", // or "CloudflareTurnstile" or "GoogleRecaptcha"
+       "Provider": "None", // or "CloudflareTurnstile" or "HashPow"
        "SiteKey": "<Your SITE_KEY>",
-       "SecretKey": "<Your SECRET_KEY>",
-       // optional
-       "GoogleRecaptcha": {
-         "VerifyAPIAddress": "https://www.recaptcha.net/recaptcha/api/siteverify",
-         "RecaptchaThreshold": "0.5"
-       }
+       "SecretKey": "<Your SECRET_KEY>"
      },
      "ForwardedOptions": {
        "ForwardedHeaders": 7,

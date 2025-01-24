@@ -117,11 +117,6 @@
     "SiteKey": "...",
     "SecretKey": "...",
     // optional
-    "GoogleRecaptcha": {
-      "VerifyAPIAddress": "https://www.recaptcha.net/recaptcha/api/siteverify",
-      "RecaptchaThreshold": "0.5"
-    },
-    // optional
     "HashPow": {
       "Difficulty": 18
     }
@@ -384,7 +379,7 @@ Docker Swarm はもはや活発なプロジェクトではなく、k8s と比較
 
 ここでは、キャプチャ関連の情報を設定します。これは、登録、アカウントの回復、ログイン時のキャプチャの検証に使用されます。オプションです。
 
-- **Provider:** キャプチャのプロバイダ。`None`、`HashPow`、`GoogleRecaptcha`、または`CloudflareTurnstile`を選択できます。
+- **Provider:** キャプチャのプロバイダ。`None`、`HashPow`または`CloudflareTurnstile`を選択できます。
 - **SiteKey:** キャプチャの Sitekey
 - **SecretKey:** キャプチャの Secretkey
 
@@ -409,6 +404,14 @@ HashPow キャプチャの関連情報を設定します。オプションです
 - **Difficulty:** HashPow キャプチャの難易度。ハッシュビットの先頭にあるゼロの数を指定するために使用されます。利用可能な範囲は 8 から 48 です。
 
 #### GoogleRecaptcha
+
+:::danger DEPRECATED
+
+この機能は非推奨となり、v1.2.2以降で削除されます。これは上流依存関係のメンテナンス不足によるものです。
+
+代わりに `CloudflareTurnstile` CAPTCHAプロバイダをご利用ください。
+
+:::
 
 Google Recaptcha v3 の関連情報を設定します。オプションです。
 

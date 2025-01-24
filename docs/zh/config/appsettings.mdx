@@ -117,11 +117,6 @@
     "SiteKey": "...",
     "SecretKey": "...",
     // optional
-    "GoogleRecaptcha": {
-      "VerifyAPIAddress": "https://www.recaptcha.net/recaptcha/api/siteverify",
-      "RecaptchaThreshold": "0.5"
-    },
-    // optional
     "HashPow": {
       "Difficulty": 18
     }
@@ -402,7 +397,7 @@ GZCTF 支持测量和分布式追踪。您可以配置您想要使用的提供�
 
 此处配置验证码相关信息，用于注册、找回账号和登录时的验证码验证，可选项。
 
-- **Provider:** 验证码提供商，可选 `None`、`HashPow`、`GoogleRecaptcha` 或 `CloudflareTurnstile`
+- **Provider:** 验证码提供商，可选 `None`、`HashPow` 或 `CloudflareTurnstile`
 - **SiteKey:** 验证码 Sitekey
 - **SecretKey:** 验证码 Secretkey
 
@@ -427,6 +422,14 @@ GZCTF 支持测量和分布式追踪。您可以配置您想要使用的提供�
 - **Difficulty:** HashPow 验证码的难度，用于指定哈希二进制前导零位数，范围为 8 至 48。
 
 #### GoogleRecaptcha
+
+:::danger DEPRECATED
+
+由于上游依赖缺少维护，此功能已弃用，并将从 `v1.2.2` 开始删除。
+
+请使用 `CloudflareTurnstile` 作为验证码提供商。
+
+:::
 
 配置 Google Recaptcha v3 的相关信息，可选项。
 
