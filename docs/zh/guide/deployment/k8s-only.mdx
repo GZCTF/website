@@ -47,7 +47,14 @@
      namespace: gzctf-server
    data:
      appsettings.json: |
-       { ... } # appsettings.json 中的内容
+       {
+        "ConnectionStrings": {
+          "Database": "Host=gzctf-db:5432;Database=ctf;Username=postgres;Password=...",
+          "RedisCache": "gzctf-garnet:6379,abortConnect=false",
+          "Storage": "minio.s3://serviceUrl=...;key=...;bucket=..."
+        },
+        ...
+       } # appsettings.json 中的内容
    ---
    apiVersion: v1
    kind: ServiceAccount
@@ -194,27 +201,28 @@
    apiVersion: apps/v1
    kind: Deployment
    metadata:
-     name: gzctf-redis
+     name: gzctf-garnet
      namespace: gzctf-server
      labels:
-       app: gzctf-redis
+       app: gzctf-garnet
    spec:
      replicas: 1
      selector:
        matchLabels:
-         app: gzctf-redis
+         app: gzctf-garnet
      template:
        metadata:
          labels:
-           app: gzctf-redis
+           app: gzctf-garnet
        spec:
          containers:
-           - name: gzctf-redis
-             image: redis:alpine
+           - name: gzctf-garnet
+             image: ghcr.io/microsoft/garnet-alpine:latest
              imagePullPolicy: Always
              ports:
                - containerPort: 6379
-                 name: redis
+                 name: garnet
+             args: ["--bind", "0.0.0.0"]
              resources:
                requests:
                  cpu: 10m
@@ -298,11 +306,11 @@
    apiVersion: v1
    kind: Service
    metadata:
-     name: gzctf-redis
+     name: gzctf-garnet
      namespace: gzctf-server
    spec:
      selector:
-       app: gzctf-redis
+       app: gzctf-garnet
      ports:
        - protocol: TCP
          port: 6379

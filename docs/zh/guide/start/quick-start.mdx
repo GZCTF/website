@@ -146,9 +146,9 @@ You are now connected to database "gzctf" as user "postgres".
 gzctf=# #do your sql query
 ```
 
-## 使用 Redis 作为缓存
+## 使用 Garnet/Redis 作为缓存
 
-如果你想使用 Redis 作为缓存，获得更无缝的版本切换、服务端重启体验，可以在上述到配置中添加如下内容：
+如果你想使用 Garnet/Redis 作为缓存，获得更无缝的版本切换、服务端重启体验，可以在上述到配置中添加如下内容：
 
 1. `compose.yml` 文件
 
@@ -161,7 +161,9 @@ gzctf=# #do your sql query
          - cache
 
      cache:
-       image: redis:alpine
+       # It is recommended to use garnet, you can also use redis:alpine
+       image: ghcr.io/microsoft/garnet-alpine:latest
+       command: ["--bind", "0.0.0.0"]
        restart: always
 
      db:

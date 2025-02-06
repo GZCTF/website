@@ -145,9 +145,9 @@ You are now connected to database "gzctf" as user "postgres".
 gzctf=# #do your sql query
 ```
 
-## Use Redis as cache
+## Use Garnet/Redis as cache
 
-If you want to use Redis as a cache to get a more seamless version switching and server restart experience, you can add the following content to the above configuration:
+If you want to use Garnet/Redis as a cache to get a more seamless version switching and server restart experience, you can add the following content to the above configuration:
 
 1. `compose.yml` file
 
@@ -160,7 +160,9 @@ If you want to use Redis as a cache to get a more seamless version switching and
          - cache
 
      cache:
-       image: redis:alpine
+       # It is recommended to use garnet, you can also use redis:alpine
+       image: ghcr.io/microsoft/garnet-alpine:latest
+       command: ["--bind", "0.0.0.0"]
        restart: always
 
      db:
