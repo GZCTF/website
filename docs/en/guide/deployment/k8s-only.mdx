@@ -180,6 +180,8 @@ This article focuses on deploying GZCTF in a Kubernetes cluster. For configurati
              ports:
                - containerPort: 8080
                  name: http
+               - containerPort: 3000
+                 name: metrics
              volumeMounts:
                - name: gzctf-files
                  mountPath: /app/files

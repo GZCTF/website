@@ -73,7 +73,7 @@ You will need to install Docker and docker-compose to get started with GZCTF. Yo
    }
    ```
 
-3. Save the following content as the `compose.yml` file, **and replace with your initialization parameters**.
+3. Save the following content as the `compose.yml` file, **and replace with your initialization parameters**. Available backend languages are `en-US`, `zh-CN`, `zh-TW`, `ja-JP`, `id-ID`, `ko-KR`, `ru-RU`, `de-DE`, `fr-FR`, `es-ES`, `vi-VN`.
 
    ```yml
    services:
@@ -82,7 +82,7 @@ You will need to install Docker and docker-compose to get started with GZCTF. Yo
        restart: always
        environment:
          - "GZCTF_ADMIN_PASSWORD=<Your GZCTF_ADMIN_PASSWORD>"
-         # choose your backend language `en_US` / `zh_CN` / `ja_JP`
+         # choose your backend language `en_US` / `zh_CN` / `ja_JP` ...
          - "LC_ALL=en_US.UTF-8"
        ports:
          - "80:8080"

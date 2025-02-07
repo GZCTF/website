@@ -73,7 +73,7 @@ GZCTF 的安全性和前端功能（如操作剪贴板）依赖于 HTTPS，此�
    }
    ```
 
-3. 将以下内容保存为 `compose.yml` 文件，**并替换为你的初始化参数**
+3. 将以下内容保存为 `compose.yml` 文件，**并替换为你的初始化参数**。其中，可选后端语言有：`en-US`, `zh-CN`, `zh-TW`, `ja-JP`, `id-ID`, `ko-KR`, `ru-RU`, `de-DE`, `fr-FR`, `es-ES`, `vi-VN`。
 
    ```yaml
    services:
@@ -82,7 +82,7 @@ GZCTF 的安全性和前端功能（如操作剪贴板）依赖于 HTTPS，此�
        restart: always
        environment:
          - "GZCTF_ADMIN_PASSWORD=<Your GZCTF_ADMIN_PASSWORD>"
-         # choose your backend language `en_US` / `zh_CN` / `ja_JP`
+         # choose your backend language `en_US` / `zh_CN` / `ja_JP` ...
          - "LC_ALL=zh_CN.UTF-8"
        ports:
          - "80:8080"

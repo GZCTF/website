@@ -73,7 +73,7 @@ GZCTF の使用をすぐに開始するには、Docker と docker-compose をイ
    }
    ```
 
-3. 次のコンテンツを `compose.yml` ファイルとして保存し、**初期化パラメーターに置き換えってください**。
+3. 次のコンテンツを `compose.yml` ファイルとして保存し、**初期化パラメーターに置き換えってください**。利用可能なバックエンド言語は `en-US`, `zh-CN`, `zh-TW`, `ja-JP`, `id-ID`, `ko-KR`, `ru-RU`, `de-DE`, `fr-FR`, `es-ES`, `vi-VN` です。
 
    ```yaml
    services:
@@ -82,7 +82,7 @@ GZCTF の使用をすぐに開始するには、Docker と docker-compose をイ
        restart: always
        environment:
          - "GZCTF_ADMIN_PASSWORD=<Your GZCTF_ADMIN_PASSWORD>"
-         # choose your backend language `en_US` / `zh_CN` / `ja_JP`
+         # choose your backend language `en_US` / `zh_CN` / `ja_JP` ...
          - "LC_ALL=ja_JP.UTF-8"
        ports:
          - "80:8080"
