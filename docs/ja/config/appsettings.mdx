@@ -106,10 +106,11 @@
   },
   "RequestLogging": false,
   "DisableRateLimit": false,
-  "RegistryConfig": {
-    "UserName": "",
-    "Password": "",
-    "ServerAddress": ""
+  "Registries": {
+    "ghcr.io": {
+      "UserName": "...",
+      "Password": "ghp_..."
+    }
   },
   "CaptchaConfig": {
     "Provider": "None",
@@ -353,11 +354,32 @@ Docker Swarm はもはや活発なプロジェクトではなく、k8s と比較
 
 ### RegistryConfig
 
-ここでは Docker Registry のユーザー名とパスワードを設定します。これは、ゲームで動的にコンテナを作成する際にイメージをプルするための認証で、オプションです。
+::: warning
 
-- **UserName:** Docker Registry のユーザー名
-- **Password:** Docker Registry のパスワード
-- **ServerAddress:** Docker Registry のアドレス。`https://`のプレフィックスは含めないでください。
+**この設定項目は非推奨となり、`Registries` フィールドを使用して定義してください。**
+
+:::
+
+### Registries
+
+ここでは、Docker Registry のユーザー名とパスワードを設定します。これは、ゲームで動的にコンテナを作成する際にイメージをプルするための認証で、オプションです。
+
+```json
+"Registries": {
+  "ghcr.io": {
+    "UserName": "...",
+    "Password": "ghp_..."
+  },
+  "docker.io": {
+    "UserName": "...",
+    "Password": "..."
+  },
+  "your.custom.registry": {
+    "UserName": "...",
+    "Password": "..."
+  }
+}
+```
 
 :::info
 

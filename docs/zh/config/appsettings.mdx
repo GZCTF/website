@@ -106,10 +106,11 @@
   },
   "RequestLogging": false,
   "DisableRateLimit": false,
-  "RegistryConfig": {
-    "UserName": "",
-    "Password": "",
-    "ServerAddress": ""
+  "Registries": {
+    "ghcr.io": {
+      "UserName": "...",
+      "Password": "ghp_..."
+    }
   },
   "CaptchaConfig": {
     "Provider": "None",
@@ -371,11 +372,32 @@ GZCTF 支持测量和分布式追踪。您可以配置您想要使用的提供�
 
 ### RegistryConfig
 
+::: warning
+
+**此配置项即将被弃用，请使用 `Registries` 配置项进行配置。**
+
+:::
+
+### Registries
+
 此处配置 Docker Registry 的用户名和密码，用于比赛动态创建容器时拉取镜像的验证，可选项。
 
-- **UserName:** Docker Registry 用户名
-- **Password:** Docker Registry 密码
-- **ServerAddress:** Docker Registry 地址，请注意不需要包含 `https://` 前缀
+```json
+"Registries": {
+  "ghcr.io": {
+    "UserName": "...",
+    "Password": "ghp_..."
+  },
+  "docker.io": {
+    "UserName": "...",
+    "Password": "..."
+  },
+  "your.custom.registry": {
+    "UserName": "...",
+    "Password": "..."
+  }
+}
+```
 
 :::info
 

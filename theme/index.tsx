@@ -1,5 +1,5 @@
 import { LogoHeader } from "@Components/LogoHeader";
-import { Layout as BasicLayout } from 'rspress/theme';
+import { Layout as BasicLayout } from "rspress/theme";
 import ReactGA from "react-ga4";
 import { clarity } from "react-microsoft-clarity";
 

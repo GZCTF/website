@@ -106,10 +106,11 @@ Here is a complete example of configuration:
   },
   "RequestLogging": false,
   "DisableRateLimit": false,
-  "RegistryConfig": {
-    "UserName": "",
-    "Password": "",
-    "ServerAddress": ""
+  "Registries": {
+    "ghcr.io": {
+      "UserName": "...",
+      "Password": "ghp_..."
+    }
   },
   "CaptchaConfig": {
     "Provider": "None",
@@ -353,11 +354,34 @@ With this configuration enabled, GZCTF can use minimal resources to block malici
 
 ### RegistryConfig
 
+::: warning
+
+**This configuration item is about to be deprecated, please use the `Registries` field to define it.**
+
+:::
+
+### Registries
+
 Here we can configure the username and password of the Docker Registry, which is used to pull the container image for dynamic container during the game.
 
-- **UserName:** User name of the Docker Registry
-- **Password:** Password of the Docker Registry
-- **ServerAddress:** Address of the Docker Registry, please note that the `https://` prefix is not required
+```json
+"Registries": {
+  "ghcr.io": {
+    "UserName": "...",
+    "Password": "ghp_..."
+  },
+  "docker.io": {
+    "UserName": "...",
+    "Password": "..."
+  },
+  "your.custom.registry": {
+    "UserName": "...",
+    "Password": "..."
+  }
+}
+```
+
+You can customize the configuration of other registries according to the above format. The `UserName` and `Password` fields are required.
 
 :::info
 
