@@ -1,7 +1,7 @@
 import { FC } from "react";
 import { useLang } from "rspress/runtime";
 import { Link } from "rspress/theme";
-import classes from "@Styles/Badges.module.scss";
+import classes from "@Styles/Badges.module.css";
 
 export const ProjectBadges: FC = () => {
   const lang = useLang();

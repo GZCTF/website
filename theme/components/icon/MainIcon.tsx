@@ -1,4 +1,4 @@
-import classes from "@Styles/Icon.module.scss";
+import classes from "@Styles/Icon.module.css";
 import { SVGProps, FC } from "react";
 
 interface MainIconProps extends SVGProps<SVGSVGElement> {
