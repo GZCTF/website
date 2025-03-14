@@ -1,6 +1,6 @@
 {
   "name": "gzctf-docs",
-  "version": "1.2.3",
+  "version": "1.2.4",
   "private": true,
   "scripts": {
     "dev": "rspress dev",
@@ -11,7 +11,7 @@
   "dependencies": {
     "react-ga4": "^2.1.0",
     "react-microsoft-clarity": "^2.0.0",
-    "rspress": "2.0.0-alpha.0",
+    "rspress": "2.0.0-alpha.2",
     "rspress-plugin-katex": "^0.3.0",
     "rspress-plugin-sitemap": "^1.1.1"
   },
