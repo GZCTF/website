@@ -13,7 +13,12 @@ export const LogoHeader: FC = () => {
     <div style={{ display: "flex", alignItems: "center", gap: "2px" }}>
       <Link
         href={lang === defaultLang ? "/" : lang}
-        className="flex items-center w-full h-full text-base font-semibold transition-opacity duration-300 hover:opacity-60"
+        style={{
+          display: "flex",
+          alignItems: "center",
+          width: "100%",
+          height: "100%",
+        }}
       >
         <MainIcon width={40} height={40} />
         <span
