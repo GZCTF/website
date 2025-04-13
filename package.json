@@ -1,6 +1,6 @@
 {
   "name": "gzctf-docs",
-  "version": "1.2.4",
+  "version": "1.2.6",
   "private": true,
   "scripts": {
     "dev": "rspress dev",
@@ -11,14 +11,14 @@
   "dependencies": {
     "react-ga4": "^2.1.0",
     "react-microsoft-clarity": "^2.0.0",
-    "rspress": "2.0.0-alpha.8",
+    "rspress": "2.0.0-alpha.10",
     "rspress-plugin-katex": "^0.3.0",
     "rspress-plugin-sitemap": "^1.1.1"
   },
   "devDependencies": {
-    "@types/node": "^22.13.16",
-    "@types/react": "^19.0.12",
-    "@types/react-dom": "^19.0.4",
+    "@types/node": "^22.14.1",
+    "@types/react": "^19.1.1",
+    "@types/react-dom": "^19.1.2",
     "prettier": "^3.5.3"
   },
   "pnpm": {
