@@ -10,7 +10,11 @@ GZCTF 自带对于流量的 WebSocket-TCP 转发功能和对应的流量记录�
 {
   "ContainerProvider": {
     "PortMappingType": "PlatformProxy",
-    "EnableTrafficCapture": false
+    "EnableTrafficCapture": false,
+    "DockerConfig": {
+      // optional, change it to the actual network if you use docker
+      "ChallengeNetwork": "challenges"
+    }
   }
 }
 ```

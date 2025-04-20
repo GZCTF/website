@@ -10,7 +10,11 @@ In `appsettings.json`, locate the `ContainerProvider` section and configure it a
 {
   "ContainerProvider": {
     "PortMappingType": "PlatformProxy",
-    "EnableTrafficCapture": false
+    "EnableTrafficCapture": false,
+    "DockerConfig": {
+      // optional, change it to the actual network if you use docker
+      "ChallengeNetwork": "challenges"
+    }
   }
 }
 ```

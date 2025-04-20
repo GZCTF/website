@@ -10,7 +10,11 @@ GZCTFには、WebSocket-TCPの転送機能と対応するトラフィック記�
 {
   "ContainerProvider": {
     "PortMappingType": "PlatformProxy",
-    "EnableTrafficCapture": false
+    "EnableTrafficCapture": false,
+    "DockerConfig": {
+      // optional, change it to the actual network if you use docker
+      "ChallengeNetwork": "challenges"
+    }
   }
 }
 ```
