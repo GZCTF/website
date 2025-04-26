@@ -352,7 +352,7 @@ In order to make GZCTF able to obtain the real IP address of users through XFF, 
 ```yaml
 service:
   spec:
-externalTrafficPolicy: Local # To make XFF work properly, set externalTrafficPolicy to Local
+    externalTrafficPolicy: Local # To make XFF work properly, set externalTrafficPolicy to Local
 deployment:
   kind: DaemonSet
 ports:
