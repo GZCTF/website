@@ -352,7 +352,7 @@
    ```yaml
    service:
      spec:
-     externalTrafficPolicy: Local # 为了让 XFF 能够正常工作，需要将 externalTrafficPolicy 设置为 Local
+       externalTrafficPolicy: Local # 为了让 XFF 能够正常工作，需要将 externalTrafficPolicy 设置为 Local
    deployment:
      kind: DaemonSet
    ports:
