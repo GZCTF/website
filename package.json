@@ -11,15 +11,18 @@
   "dependencies": {
     "react-ga4": "^2.1.0",
     "react-microsoft-clarity": "^2.0.0",
-    "rspress": "2.0.0-beta.5",
-    "rspress-plugin-katex": "^0.3.0",
-    "rspress-plugin-sitemap": "^1.1.2"
+    "rspress": "2.0.0-beta.4"
   },
   "devDependencies": {
-    "@types/node": "^22.15.18",
-    "@types/react": "^19.1.4",
+    "@rspress/plugin-llms": "2.0.0-beta.4",
+    "@rspress/plugin-shiki": "^1.44.0",
+    "@types/node": "^22.15.29",
+    "@types/react": "^19.1.6",
     "@types/react-dom": "^19.1.5",
-    "prettier": "^3.5.3"
+    "prettier": "^3.5.3",
+    "rsbuild-plugin-open-graph": "^1.0.2",
+    "rspress-plugin-katex": "^0.3.0",
+    "rspress-plugin-sitemap": "^1.1.2"
   },
   "pnpm": {
     "onlyBuiltDependencies": [

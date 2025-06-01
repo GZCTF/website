@@ -2,6 +2,10 @@ import * as path from "path";
 import { defineConfig } from "rspress/config";
 import pluginSitemap from "rspress-plugin-sitemap";
 import katex from "rspress-plugin-katex";
+import { pluginLlms } from "@rspress/plugin-llms";
+import { pluginOpenGraph } from "rsbuild-plugin-open-graph";
+
+const PUBLIC_URL = process.env.PUBLIC_URL || "https://gzctf.gzti.me";
 
 export default defineConfig({
   root: path.join(__dirname, "docs"),
@@ -10,10 +14,11 @@ export default defineConfig({
   description: "GZ::CTF Project Documentation",
   icon: "/favicon.webp",
   plugins: [
-    katex(),
+    katex() as any,
     pluginSitemap({
-      domain: "https://gzctf.gzti.me",
+      domain: PUBLIC_URL,
     }),
+    pluginLlms(),
   ],
   markdown: {
     checkDeadLinks: true,
@@ -31,9 +36,14 @@ export default defineConfig({
       ["txt", "plaintext"],
     ],
   },
-  ssg: {
-    strict: true,
+  route: {
+    cleanUrls: true,
   },
+  search: {
+    codeBlocks: true,
+  },
+  ssg: true,
+  mediumZoom: true,
   locales: [
     {
       lang: "en",
@@ -120,6 +130,16 @@ export default defineConfig({
     ],
   },
   builderConfig: {
+    plugins: [
+      pluginOpenGraph({
+        title: "GZ::CTF Project Documentation",
+        type: "website",
+        url: PUBLIC_URL,
+        image: `${PUBLIC_URL}/favicon.webp`,
+        description:
+          "GZ::CTF is a powerful CTF platform designed for high performance, security, and flexibility. It offers dynamic scoring, robust security features, and a rich set of tools for both organizers and participants.",
+      }),
+    ],
     html: {
       tags: [
         {
