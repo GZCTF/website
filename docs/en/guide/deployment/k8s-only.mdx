@@ -261,7 +261,7 @@ This article focuses on deploying GZCTF in a Kubernetes cluster. For configurati
                  value: xxx # Database password, needs to be consistent with the database password in appsettings.json
              volumeMounts:
                - name: gzctf-db
-                 mountPath: /var/lib/postgresql/data
+                 mountPath: /var/lib/postgresql
              resources:
                requests:
                  cpu: 500m
