@@ -19,7 +19,6 @@ GZCTF 的安全性和前端功能（如操作剪贴板）依赖于 HTTPS，此�
 :::
 
 1. 为了后续的配置，请准备好如下的初始化参数：
-
    - `GZCTF_ADMIN_PASSWORD`：初始管理员密码，在数据库未初始化时生效，需要在第一次启动时进行设置，配置在 `compose.yml` 中。
    - `POSTGRES_PASSWORD`: 数据库密码，需要配置在 `compose.yml` 中及 `appsettings.json` 中。
    - `XOR_KEY`: 用于加密比赛私钥的随机字符串，需要配置在 `appsettings.json` 中。

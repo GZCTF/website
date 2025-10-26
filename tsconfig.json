@@ -14,18 +14,11 @@
     "allowImportingTsExtensions": true,
     "paths": {
       "i18n": ["./i18n.json"],
-      "@Components/*": ["./theme/components/*"],
-      "@Styles/*": ["./theme/styles/*"]
+      "@Components/*": ["./src/components/*"],
+      "@Styles/*": ["./src/styles/*"]
     }
   },
-  "include": [
-    "docs",
-    "theme",
-    "rspress.config.ts",
-    "docs/en/guide/break-changes.mdx",
-    "_old/en/deployment.mdx",
-    "docs/en/guide/thanks.mdx"
-  ],
+  "include": ["docs", "theme", "src", "rspress.config.ts", "env.d.ts"],
   "mdx": {
     "checkMdx": true
   }

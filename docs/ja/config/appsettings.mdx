@@ -187,7 +187,6 @@ GZCTFはAWS S3やAzure Blob Storageなどの外部ストレージサービスを
 - [MinIO S3](https://min.io/)
 
   `minio.s3://keyId=...;key=...;bucket=...;region=...;serviceUrl=...`
-
   - `keyId`: 任意。Access Key ID
   - `key`: 任意。Secret Access Key
   - `bucket`: Bucket 名
@@ -197,7 +196,6 @@ GZCTFはAWS S3やAzure Blob Storageなどの外部ストレージサービスを
 - [AWS S3](https://aws.amazon.com/s3/)
 
   `aws.s3://keyId=...;key=...;bucket=...;region=...`
-
   - `keyId`: 任意。Access Key ID
   - `key`: 任意。Secret Access Key
   - `bucket`: Bucket 名
@@ -223,7 +221,6 @@ GZCTFはAWS S3やAzure Blob Storageなどの外部ストレージサービスを
 
 - **LogLevel**: 名前空間ごとの最小ロギングレベル。
 - **Loki**: Loki サーバーの設定。
-
   - **Enable**: 有効にするかどうか。
   - **EndpointUri**: Loki サーバーの URI。
   - **Labels**: 任意。グローバルログイベントラベル。
@@ -239,23 +236,19 @@ GZCTFはAWS S3やAzure Blob Storageなどの外部ストレージサービスを
 GZCTF はメトリクスと分散トレーシングをサポートしています。使用するプロバイダーを設定できます。
 
 - **Prometheus**: Prometheus エンドポイント。
-
   - **Enable**: 有効にするかどうか。
   - **TotalNameSuffixForCounters**: 任意。カウンタに `_total` サフィックスを含めるかどうか。
 
 - **OpenTelemetry**: メトリクスとトレーシングデータを OpenTelemetry にエクスポートします。
-
   - **Enable**: 有効にするかどうか。
   - **Protocol**: `Grpc` または `HttpProtobuf`。
   - **EndpointUri**: テレメトリーデーターがプッシュされる OpenTelemetry エンドポイント URI。
 
 - **AzureMonitor**: メトリクスとトレーシングデータを ApplicationInsights にエクスポートします。
-
   - **Enable**: 有効にするかどうか。
   - **ConnectionString**: 接続文字列。
 
 - **Console**: トレーシングデータをコンソールにエクスポートします。
-
   - **Enable**: 有効にするかどうか。
 
 ### EmailConfig
@@ -299,7 +292,6 @@ Docker Swarm はもはや活発なプロジェクトではなく、k8s と比較
 :::
 
 - **Uri:** Docker API Server のアドレス
-
   - ローカルの docker を使用する場合は、Uri を空にし、`/var/run/docker.sock`をコンテナの対応する位置にマウントします。
   - 外部の docker を使用する場合は、Uri を対応する docker API Server に指定します。**外部 API の認証はまだ実装されていませんので、このデプロイ方法は推奨されません。**
 

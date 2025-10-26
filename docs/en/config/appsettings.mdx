@@ -187,7 +187,6 @@ GZCTF supports external storage services like AWS S3 and Azure Blob Storage. You
 - [MinIO S3](https://min.io/)
 
   `minio.s3://keyId=...;key=...;bucket=...;region=...;serviceUrl=...`
-
   - `keyId`: Optional. Access Key ID
   - `key`: Optional. Secret Access Key
   - `bucket`: Bucket name
@@ -197,7 +196,6 @@ GZCTF supports external storage services like AWS S3 and Azure Blob Storage. You
 - [AWS S3](https://aws.amazon.com/s3/)
 
   `aws.s3://keyId=...;key=...;bucket=...;region=...`
-
   - `keyId`: Optional. Access Key ID
   - `key`: Optional. Secret Access Key
   - `bucket`: Bucket name
@@ -223,7 +221,6 @@ You can configure the logging level and scopes, besides, GZCTF also supports sen
 
 - **LogLevel**: The minimal logging level per namespace.
 - **Loki**: The configuration of Loki server.
-
   - **Enable**: Enable it or not.
   - **EndpointUri**: The URI of Loki server.
   - **Labels**: Optional. The global log event labels.
@@ -239,23 +236,19 @@ Available logging levels: Trace, Debug, Information, Warning, Error, Critical, N
 GZCTF supports metrics and distributed tracing. You can configure the providers you want to use.
 
 - **Prometheus**: Prometheus endpoint support.
-
   - **Enable**: Enable it or not.
   - **TotalNameSuffixForCounters**: Optional. Whether to include `_total` suffix in counters or not.
 
 - **OpenTelemetry**: Exporting metrics and tracing data to OpenTelemetry.
-
   - **Enable**: Enable it or not.
   - **Protocol**: `Grpc` or `HttpProtobuf`.
   - **EndpointUri**: The OpenTelemetry endpoint URI to push telemetry data.
 
 - **AzureMonitor**: Exporting metrics and tracing data to ApplicationInsights.
-
   - **Enable**: Enable it or not.
   - **ConnectionString**: The connection string.
 
 - **Console**: Exporting tracing data to console.
-
   - **Enable**: Enable it or not.
 
 ### EmailConfig
@@ -299,7 +292,6 @@ Since Docker Swarm is no longer an active project, security features are far beh
 :::
 
 - **Uri:** Docker API Server Address
-
   - If you use local docker, please leave Uri empty, and mount `/var/run/docker.sock` into the container.
   - If you use external docker, please set Uri to the corresponding docker API Server, **external API authentication has not been implemented, this deployment method is not recommended**
 

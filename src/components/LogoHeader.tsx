@@ -1,7 +1,7 @@
 import MainIcon from "@Components/icon/MainIcon";
-import { usePageData } from "rspress/runtime";
+import { usePageData } from "@rspress/core/runtime";
 import { FC } from "react";
-import { Link } from "rspress/theme";
+import { Link } from "@rspress/core/theme";
 import classes from "@Styles/Icon.module.css";
 
 export const LogoHeader: FC = () => {

@@ -205,7 +205,6 @@ GZCTF 支持使用外部存储，如 AWS S3、Azure Blob 等。GZCTF 会将所�
 - [MinIO S3](https://min.io/)
 
   `minio.s3://keyId=...;key=...;bucket=...;region=...;serviceUrl=...`
-
   - `keyId`：可选。Access Key ID
   - `key`：可选。Secret Access Key
   - `bucket`：Bucket 名称
@@ -215,7 +214,6 @@ GZCTF 支持使用外部存储，如 AWS S3、Azure Blob 等。GZCTF 会将所�
 - [AWS S3](https://aws.amazon.com/s3/)
 
   `aws.s3://keyId=...;key=...;bucket=...;region=...`
-
   - `keyId`：可选。Access Key ID
   - `key`：可选。Secret Access Key
   - `bucket`：Bucket 名称
@@ -241,7 +239,6 @@ GZCTF 支持使用外部存储，如 AWS S3、Azure Blob 等。GZCTF 会将所�
 
 - **LogLevel**：每个命名空间的最小日志级别。
 - **Loki**：Loki 服务器的配置。
-
   - **Enable**：是否启用。
   - **EndpointUri**：Loki 服务器的 URI。
   - **Labels**：可选。全局日志事件标签。
@@ -257,23 +254,19 @@ GZCTF 支持使用外部存储，如 AWS S3、Azure Blob 等。GZCTF 会将所�
 GZCTF 支持测量和分布式追踪。您可以配置您想要使用的提供商。
 
 - **Prometheus**: Prometheus 支持。
-
   - **Enable**: 是否启用。
   - **TotalNameSuffixForCounters**: 可选。是否在计数器中包含 `_total` 后缀。
 
 - **OpenTelemetry**：将测量和追踪数据导出到 OpenTelemetry。
-
   - **Enable**：是否启用。
   - **Protocol**：`Grpc` 或 `HttpProtobuf`。
   - **EndpointUri**：将数据推送到的 OpenTelemetry 地址。
 
 - **AzureMonitor**：将测量和追踪数据导出到 ApplicationInsights。
-
   - **Enable**：是否启用。
   - **ConnectionString**：连接字符串。
 
 - **Console**：将追踪数据导出到控制台。
-
   - **Enable**：是否启用。
 
 ### EmailConfig
@@ -317,7 +310,6 @@ GZCTF 支持测量和分布式追踪。您可以配置您想要使用的提供�
 :::
 
 - **Uri:** Docker API Server 地址
-
   - 如需使用本地 docker，请将 Uri 置空，并将 `/var/run/docker.sock` 挂载入容器对应位置
   - 如需使用外部 docker，请将 Uri 指向对应 docker API Server，**外部 API 鉴权尚未实现，不推荐此部署方式**
 

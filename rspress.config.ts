@@ -1,9 +1,8 @@
 import * as path from "path";
 import { defineConfig } from "rspress/config";
 import pluginSitemap from "rspress-plugin-sitemap";
-import katex from "rspress-plugin-katex";
-import { pluginLlms } from "@rspress/plugin-llms";
 import { pluginOpenGraph } from "rsbuild-plugin-open-graph";
+import katex from "rspress-plugin-katex";
 
 const PUBLIC_URL = process.env.PUBLIC_URL || "https://gzctf.gzti.me";
 
@@ -14,35 +13,22 @@ export default defineConfig({
   description: "GZ::CTF Project Documentation",
   icon: "/favicon.webp",
   plugins: [
-    katex() as any,
     pluginSitemap({
       domain: PUBLIC_URL,
     }),
-    pluginLlms(),
+    katex(),
   ],
-  markdown: {
-    checkDeadLinks: true,
-    highlightLanguages: [
-      ["js", "javascript"],
-      ["ts", "typescript"],
-      ["jsx", "tsx"],
-      ["xml", "xml-doc"],
-      ["md", "markdown"],
-      ["mdx", "tsx"],
-      ["yml", "yaml"],
-      ["py", "python"],
-      ["sh", "bash"],
-      ["json", "json"],
-      ["txt", "plaintext"],
-    ],
-  },
   route: {
     cleanUrls: true,
   },
   search: {
     codeBlocks: true,
   },
-  ssg: true,
+  markdown: {
+    codeHighlighter: "shiki",
+    mdxRs: false,
+  },
+  ssg: false,
   mediumZoom: true,
   locales: [
     {

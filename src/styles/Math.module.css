@@ -1,0 +1,16 @@
+.display {
+  overflow-x: auto;
+  overflow-y: hidden;
+  margin: 1em 0;
+  text-align: center;
+}
+
+.inline {
+  display: inline-block;
+  vertical-align: middle;
+}
+
+.error {
+  color: #e74c3c;
+  font-family: monospace;
+}

@@ -15,7 +15,6 @@
 3. 多实例部署时，负载均衡器需要配置 sticky session，否则无法使用 websocket 来获取实时数据。
 4. **如果你不想那么麻烦，那就部署单实例吧！**
 5. 既然选择使用 K8s 进行部署，一定程度上说明你需要更大的 Pod 数量，请务必注意如下配置项：
-
    - 在安装时指定 `--kube-controller-manager-arg=node-cidr-mask-size=16`，默认的 CIDR 为 `/24`，最多支持 255 个 Pod。**此配置项在安装后无法更改**。
 
      ```bash
