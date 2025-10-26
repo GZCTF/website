@@ -19,8 +19,8 @@
     "Database": "Host=db:5432;Database=gzctf;Username=postgres;Password=<Database Password>"
     // redis is optional
     // "RedisCache": "cache:6379,password=<Redis Password>",
-    // external storage (minio s3, aws s3, azure blob) is optional, aws s3 for example
-    // "Storage": "minio.s3://keyId=<YOUR_KEY_ID>;key=<YOUR_KEY>;bucket=<YOUR_BUCKET>;region=<YOUR_REGION>"
+    // local disk storage (default) or s3-compatible storage (optional)
+    // "Storage": "disk://path=./files" or "s3://accessKey=<YOUR_ACCESS_KEY>;secretKey=<YOUR_SECRET_KEY>;bucket=<YOUR_BUCKET>;region=<YOUR_REGION>"
   },
   "Logging": {
     "LogLevel": {
@@ -198,40 +198,34 @@ GZCTF 使用 Redis 作为缓存和消息队列。单实例部署的情况下 Red
 
 可选参数。
 
-GZCTF 支持使用外部存储，如 AWS S3、Azure Blob 等。GZCTF 会将所有文件存储在外部存储。
+GZCTF 支持两种类型的存储提供商：
 
-我们支持以下格式，他们所对应的 `ConnectionString` 格式如下：
+- **本地磁盘存储（默认）**
 
-- [MinIO S3](https://min.io/)
+  `disk://path=./files`
+  - `path`：可选。本地文件存储路径（默认值：`./files`）
 
-  `minio.s3://keyId=...;key=...;bucket=...;region=...;serviceUrl=...`
-  - `keyId`：可选。Access Key ID
-  - `key`：可选。Secret Access Key
+- **S3 兼容存储** (AWS S3、MinIO、DigitalOcean Spaces 等)
+
+  `s3://accessKey=...;secretKey=...;bucket=...;region=...`
+
+  或使用特定的协议头以方便使用：
+  - `aws.s3://...` (等同于 `s3://...`)
+  - `minio.s3://...` (等同于 `s3://...`)
+
+  参数：
+  - `accessKey`：可选。Access Key ID
+  - `secretKey`：可选。Secret Access Key
   - `bucket`：Bucket 名称
   - `region`：区域 (例如 `us-east-1`)
-  - `serviceUrl`：MinIO 服务的地址
-
-- [AWS S3](https://aws.amazon.com/s3/)
-
-  `aws.s3://keyId=...;key=...;bucket=...;region=...`
-  - `keyId`：可选。Access Key ID
-  - `key`：可选。Secret Access Key
-  - `bucket`：Bucket 名称
-  - `region`：区域 (例如 `us-east-1`)
-  - `serviceUrl`：可选。兼容 S3 的服务的地址
-
-- [Azure Blob](https://azure.microsoft.com/en-us/services/storage/blobs/)
-
-  `azure.file://account=...;key=...`
-
-  详细可以参考 [快速入门：适用于 .NET 的 Azure Blob 存储客户端库](https://learn.microsoft.com/zh-cn/azure/storage/blobs/storage-quickstart-blobs-dotnet?tabs=visual-studio%2Cconnection-string%2Croles-azure-portal%2Csign-in-azure-cli%2Cidentity-visual-studio&pivots=blob-storage-quickstart-scratch#authenticate-to-azure-and-authorize-access-to-blob-data)
+  - `endpoint`：可选。自定义端点 URL（用于 MinIO 或其他 S3 兼容服务）
+  - `useHttp`：可选。是否使用 HTTP 而不是 HTTPS（默认值：false）
+  - `forcePathStyle`：可选。是否使用路径风格 URL 而不是虚拟托管风格（默认值：false）
 
 更多详细内容，请查阅：
 
-- [AWS](https://www.nuget.org/packages/FluentStorage.AWS): https://github.com/robinrodricks/FluentStorage/wiki/AWS-S3-Storage, https://github.com/robinrodricks/FluentStorage/wiki/MinIO-Storage
-- [Azure.Blobs](https://www.nuget.org/packages/FluentStorage.Azure.Blobs): https://github.com/robinrodricks/FluentStorage/wiki/Azure-Blob-Storage
-
-如果你需要更多 FluentStorage 的 Provider，请提交 Issue 说明。
+- [AWS S3](https://docs.aws.amazon.com/s3/index.html)
+- [MinIO S3](https://docs.min.io/)
 
 ### Logging
 

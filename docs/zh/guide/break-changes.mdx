@@ -1,5 +1,39 @@
 # 破坏性变更
 
+## v1.7.0
+
+**存储系统重构 - 参数名变更 (⚠️ 需要更新配置)**
+
+| 存储类型 | v1.6.2 | v1.7.0 | 状态 |
+|--------|--------|--------|------|
+| AWS S3 | `keyId`/`key` | `accessKey`/`secretKey` | ❌ 参数名变更 |
+| MinIO | `keyId`/`key`/`serviceUrl` | `accessKey`/`secretKey`/`endpoint` | ❌ 参数名变更 |
+| Azure Blob | `account`/`key` | ❌ **不再支持** | ❌ **已移除** |
+
+**AWS S3 示例:**
+```
+# v1.6.2
+aws.s3://keyId=AKIA...;key=secret...;bucket=my-bucket;region=us-east-1
+
+# v1.7.0
+aws.s3://accessKey=AKIA...;secretKey=secret...;bucket=my-bucket;region=us-east-1
+```
+
+**MinIO 示例:**
+```
+# v1.6.2
+minio.s3://keyId=admin;key=admin;bucket=gzctf;serviceUrl=http://minio:9000
+
+# v1.7.0
+minio.s3://accessKey=admin;secretKey=admin;bucket=gzctf;endpoint=http://minio:9000;forcePathStyle=true
+```
+
+⚠️ **Azure Blob Storage 已移除** - 迁移到 MinIO (自托管) 或 AWS S3
+
+**S3 参数:** `accessKey`, `secretKey` (必需*), `bucket`, `region`, `endpoint` (可选), `useHttp`, `forcePathStyle`, `sessionToken`
+
+⚠️ **数据库自动升级，不支持降级**
+
 ## v1.2.2
 
 **Breaking Changes**

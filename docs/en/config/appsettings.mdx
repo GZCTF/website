@@ -15,13 +15,13 @@ Here is a complete example of configuration:
 ```json
 {
   "AllowedHosts": "*",
-  "ConnectionStrings": {
+    "ConnectionStrings": {
     "Database": "Host=db:5432;Database=gzctf;Username=postgres;Password=<Database Password>"
     // redis is optional
     // "RedisCache": "cache:6379,password=<Redis Password>",
-    // external storage (minio s3, aws s3, azure blob) is optional, aws s3 for example
-    // "Storage": "minio.s3://keyId=<YOUR_KEY_ID>;key=<YOUR_KEY>;bucket=<YOUR_BUCKET>;region=<YOUR_REGION>"
-  },
+    // local disk storage (default) or s3-compatible storage (optional)
+    // "Storage": "disk://path=./files" or "s3://accessKey=<YOUR_ACCESS_KEY>;secretKey=<YOUR_SECRET_KEY>;bucket=<YOUR_BUCKET>;region=<YOUR_REGION>"
+  },,
   "Logging": {
     "LogLevel": {
       "Default": "Information",
@@ -182,38 +182,34 @@ In v1.0 and later, GZCTF supports using [Garnet](https://github.com/microsoft/ga
 
 This field is optional.
 
-GZCTF supports external storage services like AWS S3 and Azure Blob Storage. You can configure the storage service to store files and other data.
+GZCTF supports two types of storage providers:
 
-- [MinIO S3](https://min.io/)
+- **Local Disk Storage (default)**
 
-  `minio.s3://keyId=...;key=...;bucket=...;region=...;serviceUrl=...`
-  - `keyId`: Optional. Access Key ID
-  - `key`: Optional. Secret Access Key
+  `disk://path=./files`
+  - `path`: Optional. Path to store files locally (default: `./files`)
+
+- **S3-compatible Storage** (AWS S3, MinIO, DigitalOcean Spaces, etc.)
+
+  `s3://accessKey=...;secretKey=...;bucket=...;region=...`
+
+  or use specific schemes for convenience:
+  - `aws.s3://...` (equivalent to `s3://...`)
+  - `minio.s3://...` (equivalent to `s3://...`)
+
+  Parameters:
+  - `accessKey`: Optional. Access Key ID
+  - `secretKey`: Optional. Secret Access Key
   - `bucket`: Bucket name
   - `region`: Region (such as `us-east-1`)
-  - `serviceUrl`: MinIO service URL
-
-- [AWS S3](https://aws.amazon.com/s3/)
-
-  `aws.s3://keyId=...;key=...;bucket=...;region=...`
-  - `keyId`: Optional. Access Key ID
-  - `key`: Optional. Secret Access Key
-  - `bucket`: Bucket name
-  - `region`: Region (such as `us-east-1`)
-  - `serviceUrl`: Optional. URL of the storage provider (for example for DigitalOcean).
-
-- [Azure Blob](https://azure.microsoft.com/en-us/services/storage/blobs/)
-
-  `azure.file://account=...;key=...`
-
-  For more information, checkout [Quickstart: Azure Blob Storage client library for .NET](https://learn.microsoft.com/en-us/azure/storage/blobs/storage-quickstart-blobs-dotnet?tabs=visual-studio%2Cconnection-string%2Croles-azure-portal%2Csign-in-azure-cli%2Cidentity-visual-studio&pivots=blob-storage-quickstart-scratch#authenticate-to-azure-and-authorize-access-to-blob-data)
+  - `endpoint`: Optional. Custom endpoint URL (for MinIO or other S3-compatible services)
+  - `useHttp`: Optional. Whether to use HTTP instead of HTTPS (default: false)
+  - `forcePathStyle`: Optional. Whether to use path-style URLs instead of virtual-hosted-style (default: false)
 
 For more information, see the following links:
 
-- [AWS](https://www.nuget.org/packages/FluentStorage.AWS): https://github.com/robinrodricks/FluentStorage/wiki/AWS-S3-Storage, https://github.com/robinrodricks/FluentStorage/wiki/MinIO-Storage
-- [Azure.Blobs](https://www.nuget.org/packages/FluentStorage.Azure.Blobs): https://github.com/robinrodricks/FluentStorage/wiki/Azure-Blob-Storage
-
-If you want to use more FluentStorage providers, please open an issue.
+- [AWS S3](https://docs.aws.amazon.com/s3/index.html)
+- [MinIO S3](https://docs.min.io/)
 
 ### Logging
 

@@ -25,7 +25,7 @@ export default defineConfig({
     codeBlocks: true,
   },
   markdown: {
-    codeHighlighter: "shiki",
+    codeHighlighter: "prism",
     mdxRs: false,
   },
   ssg: false,

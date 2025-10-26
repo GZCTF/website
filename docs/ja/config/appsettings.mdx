@@ -19,8 +19,8 @@
     "Database": "Host=db:5432;Database=gzctf;Username=postgres;Password=<Database Password>"
     // redis is optional
     // "RedisCache": "cache:6379,password=<Redis Password>",
-    // external storage (minio s3, aws s3, azure blob) is optional, aws s3 for example
-    // "Storage": "minio.s3://keyId=<YOUR_KEY_ID>;key=<YOUR_KEY>;bucket=<YOUR_BUCKET>;region=<YOUR_REGION>"
+    // local disk storage (default) or s3-compatible storage (optional)
+    // "Storage": "disk://path=./files" or "s3://accessKey=<YOUR_ACCESS_KEY>;secretKey=<YOUR_SECRET_KEY>;bucket=<YOUR_BUCKET>;region=<YOUR_REGION>"
   },
   "Logging": {
     "LogLevel": {
@@ -182,38 +182,34 @@ v1.0以降、GZCTFは[ガーネット](https://github.com/microsoft/garnet)を�
 
 このフィールドはオプションです。
 
-GZCTFはAWS S3やAzure Blob Storageなどの外部ストレージサービスをサポートしています。ファイルやその他のデータを保存するためにストレージサービスを構成できます。
+GZCTFは2種類のストレージプロバイダーをサポートしています:
 
-- [MinIO S3](https://min.io/)
+- **ローカルディスクストレージ（デフォルト）**
 
-  `minio.s3://keyId=...;key=...;bucket=...;region=...;serviceUrl=...`
-  - `keyId`: 任意。Access Key ID
-  - `key`: 任意。Secret Access Key
+  `disk://path=./files`
+  - `path`: 任意。ファイルをローカルに保存するパス（デフォルト: `./files`）
+
+- **S3互換ストレージ** (AWS S3、MinIO、DigitalOcean Spaces など)
+
+  `s3://accessKey=...;secretKey=...;bucket=...;region=...`
+
+  または便宜上、特定のスキームを使用できます:
+  - `aws.s3://...` (equivalent to `s3://...`)
+  - `minio.s3://...` (equivalent to `s3://...`)
+
+  パラメータ:
+  - `accessKey`: 任意。Access Key ID
+  - `secretKey`: 任意。Secret Access Key
   - `bucket`: Bucket 名
   - `region`: リージョン（例：`us-east-1`）
-  - `serviceUrl`：MinIO サーバーの URL。
-
-- [AWS S3](https://aws.amazon.com/s3/)
-
-  `aws.s3://keyId=...;key=...;bucket=...;region=...`
-  - `keyId`: 任意。Access Key ID
-  - `key`: 任意。Secret Access Key
-  - `bucket`: Bucket 名
-  - `region`: リージョン（例：`us-east-1`）
-  - `serviceUrl`: 任意。ストレージプロバイダーのURL（例：DigitalOcean用）。
-
-- [Azure Blob](https://azure.microsoft.com/en-us/services/storage/blobs/)
-
-  `azure.file://account=...;key=...`
-
-  詳細については、[クイックスタート: .NET 用 Azure Blob Storage クライアント ライブラリ](https://learn.microsoft.com/ja-jp/azure/storage/blobs/storage-quickstart-blobs-dotnet?tabs=visual-studio%2Cconnection-string%2Croles-azure-portal%2Csign-in-azure-cli%2Cidentity-visual-studio&pivots=blob-storage-quickstart-scratch#authenticate-to-azure-and-authorize-access-to-blob-data)を参照してください。
+  - `endpoint`: 任意。カスタムエンドポイント URL（MinIO または他の S3 互換サービス用）
+  - `useHttp`: 任意。HTTPS の代わりに HTTP を使用するかどうか（デフォルト: false）
+  - `forcePathStyle`: 任意。パススタイル URL を使用するかどうか（デフォルト: false）
 
 詳細については、以下のリンクを参照してください:
 
-- [AWS](https://www.nuget.org/packages/FluentStorage.AWS): https://github.com/robinrodricks/FluentStorage/wiki/AWS-S3-Storage, https://github.com/robinrodricks/FluentStorage/wiki/MinIO-Storage
-- [Azure.Blobs](https://www.nuget.org/packages/FluentStorage.Azure.Blobs): https://github.com/robinrodricks/FluentStorage/wiki/Azure-Blob-Storage
-
-より多くのFluentStorageプロバイダを使いたい場合は、issueを開いてください。
+- [AWS S3](https://docs.aws.amazon.com/s3/index.html)
+- [MinIO S3](https://docs.min.io/)
 
 ### Logging
 

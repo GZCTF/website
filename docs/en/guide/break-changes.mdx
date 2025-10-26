@@ -1,5 +1,56 @@
 # Breaking Changes
 
+## v1.7.0
+
+**Storage System Redesign (⚠️ Configuration Update Required)**
+
+### Storage Connection String Changes
+
+| Type | Old Format | New Format | Status |
+|------|-----------|-----------|--------|
+| Local Disk | `disk://path=...` | `disk://path=...` | ✅ No change |
+| AWS S3 | `keyId=...;key=...` | `accessKey=...;secretKey=...` | ❌ Parameters renamed |
+| MinIO S3 | `keyId=...;key=...` | `accessKey=...;secretKey=...` | ❌ Parameters renamed |
+| Azure Blob | `azure.blobs://...` | ❌ Not supported | ❌ Removed |
+
+### ⚠️ Required Updates
+
+**AWS S3 / MinIO users:**
+
+Update `ConnectionStrings:Storage`:
+
+```
+OLD: aws.s3://keyId=AKIA...;key=secret...;bucket=my-bucket;region=us-east-1
+NEW: aws.s3://accessKey=AKIA...;secretKey=secret...;bucket=my-bucket;region=us-east-1
+
+OLD: minio.s3://keyId=admin;key=admin;bucket=gzctf;serviceUrl=http://minio:9000
+NEW: minio.s3://accessKey=admin;secretKey=admin;bucket=gzctf;endpoint=http://minio:9000;forcePathStyle=true
+```
+
+**Azure Blob users:**
+
+Azure Blob Storage is no longer supported. Migrate to AWS S3 or MinIO:
+1. Choose alternative storage
+2. Migrate file data
+3. Update GZCTF configuration
+4. Restart GZCTF
+
+### S3 Parameters
+
+- `accessKey` (required*): AWS Access Key ID
+- `secretKey` (required*): AWS Secret Access Key
+- `bucket` (required): Bucket name
+- `region` (required**): AWS region
+- `endpoint` (optional): Custom URL for MinIO
+- `useHttp` (optional): Use HTTP (default: false)
+- `forcePathStyle` (optional): Path-style URLs (default: false)
+- `sessionToken` (optional): Temporary credentials
+
+\* If omitted, AWS default credential chain is used
+\*\* Either `region` or `endpoint` must be specified
+
+⚠️ **Database upgraded automatically.** Downgrade not supported.
+
 ## v1.2.2
 
 **Breaking Changes**
