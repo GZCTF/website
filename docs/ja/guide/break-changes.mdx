@@ -6,12 +6,12 @@
 
 ### ストレージ設定の変更
 
-| タイプ | 旧形式 | 新形式 | ステータス |
-|------|-------|-------|---------|
-| ローカルディスク | `disk://path=...` | `disk://path=...` | ✅ 変化なし |
-| AWS S3 | `keyId=...;key=...` | `accessKey=...;secretKey=...` | ❌ パラメータ名変更 |
-| MinIO S3 | `keyId=...;key=...` | `accessKey=...;secretKey=...` | ❌ パラメータ名変更 |
-| Azure Blob | `azure.blobs://...` | ❌ サポートなし | ❌ 削除済み |
+| タイプ           | 旧形式              | 新形式                        | ステータス          |
+| ---------------- | ------------------- | ----------------------------- | ------------------- |
+| ローカルディスク | `disk://path=...`   | `disk://path=...`             | ✅ 変化なし         |
+| AWS S3           | `keyId=...;key=...` | `accessKey=...;secretKey=...` | ❌ パラメータ名変更 |
+| MinIO S3         | `keyId=...;key=...` | `accessKey=...;secretKey=...` | ❌ パラメータ名変更 |
+| Azure Blob       | `azure.blobs://...` | ❌ サポートなし               | ❌ 削除済み         |
 
 ### ⚠️ 必須の更新
 
@@ -30,6 +30,7 @@
 **Azure Blob ユーザー:**
 
 Azure Blob Storage はサポートされなくなりました。AWS S3 または MinIO に移行してください:
+
 1. 別のストレージを選択
 2. ファイルデータを移行
 3. GZCTF 設定を更新
@@ -37,10 +38,10 @@ Azure Blob Storage はサポートされなくなりました。AWS S3 または
 
 ### S3 パラメータ
 
-- `accessKey` (必須*): AWS アクセスキー ID
-- `secretKey` (必須*): AWS シークレットキー
+- `accessKey` (必須\*): AWS アクセスキー ID
+- `secretKey` (必須\*): AWS シークレットキー
 - `bucket` (必須): バケット名
-- `region` (必須**): AWS リージョン
+- `region` (必須\*\*): AWS リージョン
 - `endpoint` (オプション): MinIO 用カスタム URL
 - `useHttp` (オプション): HTTP を使用 (デフォルト: false)
 - `forcePathStyle` (オプション): パススタイル URL (デフォルト: false)
