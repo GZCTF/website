@@ -208,4 +208,6 @@ registry.cn-shanghai.aliyuncs.com/gztime/gzctf:latest
 
 也可以参考和借鉴 [W4terCTF 2023](https://github.com/W4terDr0p/W4terCTF-2023) 的公开题目仓库，此内的题目均在题目正常工作的情况下尽量保证 Docker Image 的体积足够小，以便于在比赛中快速部署。
 
+建议使用 [GZCTF Challenge Base](https://github.com/GZCTF/challenge-base) 镜像作为题目容器的基础镜像，我们尽可能最小化了这些基础镜像，并定期更新；利用他们可以确保题目容器最大限度共享镜像层，减少存储空间占用和镜像拉取时间。
+
 GZCTF 通过将 `GZCTF_FLAG` 环境变量注入到容器中来实现动态 flag 的分发，因此请确保题目**的容器初始化脚本**中将这个环境变量中的文本放入到合适的位置。请注意，这一环境变量的初始化是在容器启动时进行的，而非容器镜像构建时。
