@@ -15,13 +15,13 @@ Here is a complete example of configuration:
 ```json
 {
   "AllowedHosts": "*",
-    "ConnectionStrings": {
+  "ConnectionStrings": {
     "Database": "Host=db:5432;Database=gzctf;Username=postgres;Password=<Database Password>"
     // redis is optional
     // "RedisCache": "cache:6379,password=<Redis Password>",
     // local disk storage (default) or s3-compatible storage (optional)
     // "Storage": "disk://path=./files" or "s3://accessKey=<YOUR_ACCESS_KEY>;secretKey=<YOUR_SECRET_KEY>;bucket=<YOUR_BUCKET>;region=<YOUR_REGION>"
-  },,
+  },
   "Logging": {
     "LogLevel": {
       "Default": "Information",
