@@ -1,0 +1,24 @@
+<!doctype html>
+<html>
+  <head>
+    <title>GZ::CTF API Reference</title>
+    <meta name="description" content="GZ::CTF API Reference" />
+    <meta charset="utf-8" />
+    <link rel="icon" href="/favicon.webp">
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+  </head>
+  <body>
+    <div id="app"></div>
+    <script src="https://cdn.jsdelivr.net/npm/@scalar/api-reference"></script>
+    <script>
+      Scalar.createApiReference("#app", {
+        url: "/openapi.json",
+        description: "GZ::CTF API Reference",
+        favicon: "/favicon.webp",
+        servers: [{
+          url: "http://localhost:8080",
+        }]
+      });
+    </script>
+  </body>
+</html>
