@@ -12,10 +12,10 @@
     "katex": "^0.16.25",
     "react-ga4": "^2.1.0",
     "react-microsoft-clarity": "^2.0.0",
-    "rspress": "^1.45.8"
+    "rspress": "^1.46.0"
   },
   "devDependencies": {
-    "@types/node": "^24.9.2",
+    "@types/node": "^24.10.0",
     "@types/react": "^19.2.2",
     "@types/react-dom": "^19.2.2",
     "prettier": "^3.6.2",

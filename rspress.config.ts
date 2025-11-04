@@ -28,7 +28,7 @@ export default defineConfig({
     codeHighlighter: "prism",
     mdxRs: false,
   },
-  ssg: false,
+  ssg: true,
   mediumZoom: true,
   locales: [
     {
