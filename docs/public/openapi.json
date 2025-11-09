@@ -9375,23 +9375,22 @@
         "type": "object",
         "description": "Post item (Edit)",
         "additionalProperties": false,
-        "required": [
-          "title"
-        ],
         "properties": {
           "title": {
             "type": "string",
             "description": "Post title",
             "maxLength": 50,
-            "minLength": 1
+            "nullable": true
           },
           "summary": {
             "type": "string",
-            "description": "Post summary"
+            "description": "Post summary",
+            "nullable": true
           },
           "content": {
             "type": "string",
-            "description": "Post content"
+            "description": "Post content",
+            "nullable": true
           },
           "tags": {
             "type": "array",
@@ -9403,7 +9402,8 @@
           },
           "isPinned": {
             "type": "boolean",
-            "description": "Is pinned"
+            "description": "Is pinned",
+            "nullable": true
           }
         }
       },
