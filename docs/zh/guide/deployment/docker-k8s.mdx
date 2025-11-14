@@ -38,12 +38,12 @@ INSTALL_K3S_EXEC="--docker"
 如果需要在一台 k3s 实例上运行超过 255 个题目容器，**需要在安装 k3s 时** 指定 `INSTALL_K3S_EXEC`，并更改 `node-cidr-mask-size` 为所需的子网大小。
 
 ```bash
-INSTALL_K3S_EXEC="--kube-controller-manager-arg=node-cidr-mask-size=16"
+INSTALL_K3S_EXEC="--kube-controller-manager-arg=node-cidr-mask-size=22"
 ```
 
-**上述配置项在安装后无法更改。** CIDR 修改为 `/16` 可以支持 65535 个 Pod。
+**上述配置项在安装后无法轻易更改。** 推荐将 `node-cidr-mask-size` 设置为 `/22`（每节点约 1024 个 Pod），或在需要时使用 `/20`（每节点约 4096 个 Pod）。继续增大（例如 `/16`）只会让单节点预留过大的地址空间，削弱集群扩展更多 worker 的能力。
 
-上述配置仅修改了节点 Pod 使用的 IP 地址范围，如果需要修改节点的 Pod 数量限制，请参考下文。
+上述配置仅修改了节点 Pod 使用的 IP 地址范围，如果需要修改节点的 Pod 数量上限，请参考下文。
 
 :::
 
@@ -158,29 +158,30 @@ Reference: [How do you increase maximum pods per node in K3S?](https://stackover
 
 :::
 
-在 k3s control-panel 所在的机器上执行以下命令：
+在 k3s control-panel 所在的机器上，使用内置配置文件 `/etc/rancher/k3s/config.yaml` 调整参数：
 
-- `sudo nano /etc/rancher/k3s/kubelet.config`
-- 编辑如下设置中的 `maxPods`
+- `sudo nano /etc/rancher/k3s/config.yaml`
+- 增加或修改如下内容（示例将每节点上限提高到 800）：
 
   ```yaml
-  apiVersion: kubelet.config.k8s.io/v1beta1
-  kind: KubeletConfiguration
-  maxPods: 800
+  kubelet-arg:
+    - max-pods=800
   ```
 
-- `sudo nano /etc/systemd/system/k3s.service`
-
-- 编辑如下设置中的 `ExecStart`，指定`kubelet-arg`
+- 保存后重启服务使其生效：
 
   ```bash
-  ExecStart=/usr/local/bin/k3s \
-      server \
-      --kubelet-arg=config=/etc/rancher/k3s/kubelet.config
+  sudo systemctl restart k3s
   ```
 
-- `sudo systemctl daemon-reload`
-- `sudo systemctl restart k3s`
+- 可选：若你同时需要为每个节点预留更大的 Pod 子网，可在同一文件中配置 `kube-controller-manager-arg`。推荐使用 `/22`（约 1024 个 Pod/节点），或按需使用 `/20`：
+
+  ```yaml
+  kube-controller-manager-arg:
+    - node-cidr-mask-size=22
+  ```
+
+- 注意：将 `node-cidr-mask-size` 设得过小（如 `/16`）会为单节点分配过大的地址块，降低集群横向扩展 worker 的灵活性。
 
 ## 添加容器镜像仓库
 

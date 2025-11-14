@@ -38,10 +38,10 @@ INSTALL_K3S_EXEC="--docker"
 If you need to run more than 255 challenge containers on a single k3s instance, you **need to specify `INSTALL_K3S_EXEC` during k3s installation** and change `node-cidr-mask-size` to the desired subnet size.
 
 ```bash
-INSTALL_K3S_EXEC="--kube-controller-manager-arg=node-cidr-mask-size=16"
+INSTALL_K3S_EXEC="--kube-controller-manager-arg=node-cidr-mask-size=22"
 ```
 
-**The above configuration CANNOT BE CHANGED after installation.** Changing the CIDR to `/16` can support 65535 Pods.
+**The above configuration cannot be easily changed after installation.** We recommend using `/22` (about 1024 Pods per node), or `/20` (about 4096 Pods per node) if needed. Increasing the block further (e.g., `/16`) just reserves an oversized address space per node and reduces the cluster's ability to scale out workers.
 
 The above configuration only changes the IP address range used by the node Pods. If you need to change the node's Pod limit, please refer to the following.
 
@@ -158,29 +158,30 @@ Reference: [How do you increase maximum pods per node in K3S?](https://stackover
 
 :::
 
-Run the following commands on the machine where the k3s control-panel is located:
+On the machine where the k3s control-panel is located, use the built-in config file `/etc/rancher/k3s/config.yaml`:
 
-- `sudo nano /etc/rancher/k3s/kubelet.config`
-- Edit the `maxPods` setting as follows
+- `sudo nano /etc/rancher/k3s/config.yaml`
+- Add or update the following (example increases per-node limit to 800):
 
   ```yaml
-  apiVersion: kubelet.config.k8s.io/v1beta1
-  kind: KubeletConfiguration
-  maxPods: 800
+  kubelet-arg:
+    - max-pods=800
   ```
 
-- `sudo nano /etc/systemd/system/k3s.service`
-
-- Edit the `ExecStart` setting below to specify `kubelet-arg`
+- Restart the service to apply:
 
   ```bash
-  ExecStart=/usr/local/bin/k3s \
-      server \
-      --kubelet-arg=config=/etc/rancher/k3s/kubelet.config
+  sudo systemctl restart k3s
   ```
 
-- `sudo systemctl daemon-reload`
-- `sudo systemctl restart k3s`
+- Optional: If you also need a larger Pod subnet per node, configure `kube-controller-manager-arg` in the same file. We recommend `/22` (~1024 Pods/node), or `/20` if required:
+
+  ```yaml
+  kube-controller-manager-arg:
+    - node-cidr-mask-size=22
+  ```
+
+- Note: Using a very small mask (e.g., `/16`) allocates an oversized block per node and hurts horizontal scaling by limiting the number of workers you can add.
 
 ## Add Container Image Registry
 

@@ -38,10 +38,10 @@ INSTALL_K3S_EXEC="--docker"
 もし一台のk3sインスタンスで255個を超える問題コンテナを実行したい場合は、**k3sのインストール時に**`INSTALL_K3S_EXEC`を指定し、`node-cidr-mask-size`を必要なサブネットサイズに変更する必要があります。
 
 ```bash
-INSTALL_K3S_EXEC="--kube-controller-manager-arg=node-cidr-mask-size=16"
+INSTALL_K3S_EXEC="--kube-controller-manager-arg=node-cidr-mask-size=22"
 ```
 
-**上記の設定はインストール後に変更できません。** CIDRを`/16`に変更すると、65535個のPodをサポートできます。
+**上記の設定はインストール後に容易には変更できません。** 推奨は `/22`（各ノード約 1024 Pod）で、必要に応じて `/20`（各ノード約 4096 Pod）を使用してください。さらに大きくしても（例: `/16`）単一ノードに過大なアドレス空間を確保するだけで、worker を増やしてスケールさせる能力を損ないます。
 
 上記の設定は、ノードのPodが使用するIPアドレス範囲を変更するだけであり、ノードのPod数制限を変更する場合は、以下を参照してください。
 
@@ -158,29 +158,30 @@ k3sのデフォルトのコンテナ数制限は110ですが、これは大量�
 
 :::
 
-k3s control-panelが存在するマシンで以下のコマンドを実行します：
+k3s control-panelが存在するマシンで、内蔵の設定ファイル `/etc/rancher/k3s/config.yaml` を使用して調整します：
 
-- `sudo nano /etc/rancher/k3s/kubelet.config`
-- `maxPods`の設定を編集します。
+- `sudo nano /etc/rancher/k3s/config.yaml`
+- 以下を追加・編集します（例：各ノードの上限を 800 に設定）：
 
   ```yaml
-  apiVersion: kubelet.config.k8s.io/v1beta1
-  kind: KubeletConfiguration
-  maxPods: 800
+  kubelet-arg:
+    - max-pods=800
   ```
 
-- `sudo nano /etc/systemd/system/k3s.service`
-
-- `ExecStart`の設定を編集し、`kubelet-arg`を指定します。
+- 保存後、サービスを再起動して反映します：
 
   ```bash
-  ExecStart=/usr/local/bin/k3s \
-      server \
-      --kubelet-arg=config=/etc/rancher/k3s/kubelet.config
+  sudo systemctl restart k3s
   ```
 
-- `sudo systemctl daemon-reload`
-- `sudo systemctl restart k3s`
+- オプション：各ノードにより大きな Pod サブネットを確保したい場合は、同じファイルで `kube-controller-manager-arg` を設定します。推奨は `/22`（各ノード約 1024 Pod）、必要に応じて `/20`：
+
+  ```yaml
+  kube-controller-manager-arg:
+    - node-cidr-mask-size=22
+  ```
+
+- 注意：`node-cidr-mask-size` を小さくしすぎる（例：`/16`）と、単一ノードに過大なアドレスブロックが割り当てられ、worker を追加して水平スケールする柔軟性が低下します。
 
 ## コンテナイメージリポジトリの追加
 
