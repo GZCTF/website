@@ -1,5 +1,5 @@
 {
-  "x-generator": "NSwag v14.6.1.0 (NJsonSchema v11.5.1.0 (Newtonsoft.Json v13.0.0.0))",
+  "x-generator": "NSwag v14.6.2.0 (NJsonSchema v11.5.2.0 (Newtonsoft.Json v13.0.0.0))",
   "openapi": "3.0.0",
   "info": {
     "title": "GZCTF Server API",
@@ -1570,10 +1570,7 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "type": "array",
-                  "items": {
-                    "$ref": "#/components/schemas/WriteupInfoModel"
-                  }
+                  "$ref": "#/components/schemas/WriteupInfoModel"
                 }
               }
             }
@@ -8151,6 +8148,7 @@
       },
       "ModelWithCaptcha": {
         "type": "object",
+        "x-abstract": true,
         "additionalProperties": false,
         "properties": {
           "challenge": {
@@ -9016,6 +9014,26 @@
         "description": "Game writeup information",
         "additionalProperties": false,
         "properties": {
+          "divisions": {
+            "type": "object",
+            "description": "Division ID to Division Name mapping",
+            "additionalProperties": {
+              "type": "string"
+            }
+          },
+          "writeups": {
+            "type": "array",
+            "description": "Writeups list",
+            "items": {
+              "$ref": "#/components/schemas/WriteupInfo"
+            }
+          }
+        }
+      },
+      "WriteupInfo": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
           "id": {
             "type": "integer",
             "description": "Participation ID",
@@ -9037,6 +9055,12 @@
             "type": "integer",
             "description": "File upload time",
             "format": "uint64"
+          },
+          "divisionId": {
+            "type": "integer",
+            "description": "The division the team belongs to",
+            "format": "int32",
+            "nullable": true
           }
         }
       },
@@ -10318,7 +10342,7 @@
             "description": "Storage limit (MB)",
             "format": "int32",
             "maximum": 1048576.0,
-            "minimum": 128.0,
+            "minimum": 0.0,
             "nullable": true
           },
           "containerExposePort": {
