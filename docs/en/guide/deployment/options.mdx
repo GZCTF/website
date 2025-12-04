@@ -43,13 +43,3 @@ When using Separated Deployment with Docker and K8s, **the platform traffic prox
 :::
 
 GZCTF, database, and challenge containers are all in the same Docker instance. This deployment method can be deployed on a single machine with small resources, **but the security is low, and the resource restriction-related functions are not perfect. It is only recommended for single machine testing and minimal deployment**. [Still under construction, refer to Quick Start](/guide/start/quick-start)
-
-## Docker Swarm Cluster Deployment
-
-:::danger{title="Not Recommended 🚫"}
-
-**This deployment method is not recommended due to lack of deployment experience and potential security issues compared to the above deployment methods.**
-
-:::
-
-GZCTF, database, and challenge containers are all in a Docker Swarm cluster. Although the Docker Swarm cluster deployment function is available, it is **not recommended** due to lack of deployment experience and potential security issues compared to the above deployment methods.

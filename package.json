@@ -12,13 +12,13 @@
     "katex": "^0.16.25",
     "react-ga4": "^2.1.0",
     "react-microsoft-clarity": "^2.0.0",
-    "rspress": "^1.46.1"
+    "rspress": "^1.46.2"
   },
   "devDependencies": {
     "@types/node": "^24.10.1",
-    "@types/react": "^19.2.6",
+    "@types/react": "^19.2.7",
     "@types/react-dom": "^19.2.3",
-    "prettier": "^3.6.2",
+    "prettier": "^3.7.4",
     "rsbuild-plugin-open-graph": "^1.1.0",
     "rspress-plugin-katex": "^0.3.0",
     "rspress-plugin-sitemap": "^1.2.1"

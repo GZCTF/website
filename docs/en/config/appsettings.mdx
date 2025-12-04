@@ -83,7 +83,6 @@ Here is a complete example of configuration:
     "PublicEntry": "ctf.example.com", // or "xxx.xxx.xxx.xxx"
     "DockerConfig": {
       // optional
-      "SwarmMode": false,
       "ChallengeNetwork": "",
       "Uri": "unix:///var/run/docker.sock",
       "UserName": "",
@@ -266,53 +265,74 @@ Some cloud service provider may block port 465, please try port 587.
 
 ### XorKey
 
-Here we can configure the encryption key for encrypting the private key of the competition in the database. It can string of any length.
+Configure the encryption key used to encrypt the competition private keys stored in the database. It can be any string of any length.
 
 ### ContainerProvider
 
-Heer we can configure the container backend which is required for creating containers dynamically during the game.
+Configure the container backend, which is required for creating containers dynamically during the game.
 
-- **Type:** Type of the container backend: `Docker` or `Kubernetes`。
-- **PublicEntry:** Public entry of the container backend, used to generate the address of the competition, and show to the participating teams.
-- **PortMappingType:** Port mapping type, can be `Default` or `PlatformProxy`。
-- **EnableTrafficCapture:** Enable/Disable traffic capture, only available when `PortMappingType` is configured as `PlatformProxy`. Captured traffic will be saved to `/app/files/capture`.
+- **Type:** Type of the container backend. Can be `Docker` or `Kubernetes`.
+- **PublicEntry:** Public entry of the container backend, used to generate the competition access address that is shown to participating teams.
+- **PortMappingType:** Port mapping type. Can be `Default` or `PlatformProxy`.
+- **EnableTrafficCapture:** Enable or disable traffic capture. Only available when `PortMappingType` is set to `PlatformProxy`. Captured traffic is saved to `/app/files/capture`.
 
 #### Docker
 
-- **SwarmMode:** Use Swarm mode, GZCTF will use Swarm API to manage the containers if this is enabled.
-
 :::warning
 
-Since Docker Swarm is no longer an active project, security features are far behind k8s, and it is not recommended.
+Docker Swarm is no longer supported since v1.8.0. Please use Kubernetes for better security and scalability.
 
 :::
 
 - **Uri:** Docker API Server Address
-  - If you use local docker, please leave Uri empty, and mount `/var/run/docker.sock` into the container.
-  - If you use external docker, please set Uri to the corresponding docker API Server, **external API authentication has not been implemented, this deployment method is not recommended**
+  - If you use local Docker, leave `Uri` empty and mount `/var/run/docker.sock` into the container.
+  - If you use external Docker, set `Uri` to the corresponding Docker API server. **External API authentication has not been implemented; this deployment method is not recommended.**
 
-- **ChallengeNetwork:** Specify the network where the challenge container is located. If not specified, the default network will be used.
+- **ChallengeNetwork:**
+
+  **Before v1.8.0**
+
+  Specify the network where the challenge container is located. If not specified, the default Docker network is used.
+
+  **After v1.8.0**
+
+  Treat this value as the **network prefix** for creating challenge networks. GZCTF automatically creates two networks for different network modes: `<ChallengeNetwork>-open` for open network mode and `<ChallengeNetwork>-isolated` for isolated network mode.
+
+  You can also manually create a `<ChallengeNetwork>-custom` network for custom network mode, and configure it according to your needs.
 
 - **UserName, Password:** Docker API Basic Auth username and password, optional.
 
 #### Kubernetes
 
-- **Namespace:** Kubernetes namespace, used to create the namespace of the challenge instance, the default is `gzctf-challenges`
-- **ConfigPath:** Kubernetes configuration file path, used to connect to the cluster, default value is `kube-config.yaml`
-- **AllowCIDR:** White list of CIDR that can access the Pod
-- **DNS:** custom DNS server list
+- **Namespace:** Kubernetes namespace used to create challenge instances. The default value is `gzctf-challenges`.
+- **ConfigPath:** Kubernetes configuration file path used to connect to the cluster. The default value is `kube-config.yaml`.
+- **AllowCIDR:** CIDR whitelist that is allowed to access Pods.
+- **DNS:** Custom DNS server list.
 
-To use the default behavior, please put the cluster connection configuration into the `kube-config.yaml` file and mount it to the `/app` directory. Do not change it if you don't understand the behavior of the experimental function.
+To use the default behavior, put the cluster connection configuration into the `kube-config.yaml` file and mount it to the `/app` directory. Do not change this configuration if you are not familiar with the behavior of the experimental features.
 
 :::info
 
-Please note that you need to change the `server` field in the `kube-config.yaml` file to point to the API Server address of the cluster. The default address of the cluster is generally `https://127.0.0.1:6443`, which needs to be changed to the actual address of the cluster.
+Make sure to change the `server` field in the `kube-config.yaml` file so that it points to the API server address of the cluster. The default address is usually `https://127.0.0.1:6443`, and it must be updated to the actual address of your cluster.
 
 :::
 
 :::info
 
-In order to meet the network policy, GZCTF will create a NetworkPolicy named `gzctf-policy` in the Namespace of the challenge to restrict access. GZCTF will automatically detect whether this NetworkPolicy already exists. If it exists, it will not be created again, so you can customize the network policy by creating or editing this NetworkPolicy.
+**Before v1.8.0**
+
+To enforce basic network isolation, GZCTF creates a NetworkPolicy named `gzctf-policy` in the challenge namespace to restrict access. GZCTF automatically detects whether this NetworkPolicy already exists. If it does, it will not be created again, so you can customize the network policy by creating or editing this NetworkPolicy.
+
+**After v1.8.0**
+
+GZCTF creates two NetworkPolicies named `gzctf-network-open` and `gzctf-network-isolated` in the challenge namespace to restrict access for open and isolated network modes respectively. GZCTF automatically maintains these NetworkPolicies, so do not modify or delete them manually.
+
+You can **customize the network policy** by creating additional NetworkPolicies in the same namespace. You can select target Pods by using the following labels:
+
+- `gzctf.gzti.me/TeamId`: Select specific teams
+- `gzctf.gzti.me/UserId`: Select specific users
+- `gzctf.gzti.me/ChallengeId`: Select specific challenges
+- `gzctf.gzti.me/NetworkMode`: Select specific network modes (`open`, `isolated`, `custom`)
 
 :::
 

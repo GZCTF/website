@@ -83,7 +83,6 @@
     "PublicEntry": "ctf.example.com", // or "xxx.xxx.xxx.xxx"
     "DockerConfig": {
       // optional
-      "SwarmMode": false,
       "ChallengeNetwork": "",
       "Uri": "unix:///var/run/docker.sock",
       "UserName": "",
@@ -295,19 +294,27 @@ GZCTF 支持测量和分布式追踪。您可以配置您想要使用的提供�
 
 #### Docker
 
-- **SwarmMode:** 是否为 Swarm 模式，若为 Swarm 模式，将会使用 Swarm API 进行管理。
-
 :::warning
 
-由于 Docker Swarm 已不是一个活跃的项目，相关安全性功能相较于 k8s 有很大距离，不推荐使用。
+自 v1.8.0 起，Docker Swarm 不再受支持。若需要编排能力，请使用 Kubernetes，以获得更好的安全性和可扩展性。
 
 :::
 
 - **Uri:** Docker API Server 地址
-  - 如需使用本地 docker，请将 Uri 置空，并将 `/var/run/docker.sock` 挂载入容器对应位置
-  - 如需使用外部 docker，请将 Uri 指向对应 docker API Server，**外部 API 鉴权尚未实现，不推荐此部署方式**
+  - 如需使用本地 Docker，请将 `Uri` 置空，并将 `/var/run/docker.sock` 挂载入容器对应位置
+  - 如需使用外部 Docker，请将 `Uri` 指向对应 Docker API Server，**外部 API 鉴权尚未实现，不推荐此部署方式**
 
-- **ChallengeNetwork:** 指定题目容器所在的网络，若不指定，将会使用默认网络。
+- **ChallengeNetwork：**
+
+  **v1.8.0 之前**
+
+  指定题目容器所在的网络，若不指定，将会使用默认 Docker 网络。
+
+  **v1.8.0 之后**
+
+  视为用于创建题目网络的**网络前缀**。GZCTF 会根据不同的网络模式自动创建两个网络：开放网络模式使用 `<ChallengeNetwork>-open`，隔离网络模式使用 `<ChallengeNetwork>-isolated`。
+
+  你也可以手动创建 `<ChallengeNetwork>-custom` 网络用于自定义网络模式，并根据需要自行配置。
 
 - **UserName, Password:** Docker API Basic Auth 用户名和密码，可选项。
 
@@ -328,7 +335,20 @@ GZCTF 支持测量和分布式追踪。您可以配置您想要使用的提供�
 
 :::info
 
-为了满足网络策略，GZCTF 会在题目的 Namespace 下创建名为 `gzctf-policy` 的 NetworkPolicy，以限制访问。GZCTF 会自动检测此 NetworkPolicy 是否已经存在，若存在则不会再次创建，因此你可以通过创建或编辑此 NetworkPolicy 来自定义网络策略。
+**v1.8.0 之前**
+
+为了满足基础的网络隔离要求，GZCTF 会在题目的 Namespace 下创建名为 `gzctf-policy` 的 NetworkPolicy 以限制访问。GZCTF 会自动检测此 NetworkPolicy 是否已经存在，若存在则不会再次创建，因此你可以通过创建或编辑此 NetworkPolicy 来自定义网络策略。
+
+**v1.8.0 之后**
+
+GZCTF 会在题目的 Namespace 下创建名为 `gzctf-network-open` 和 `gzctf-network-isolated` 的两个 NetworkPolicy，分别用于开放网络模式和隔离网络模式的访问控制。GZCTF 会自动维护这两个 NetworkPolicy，请不要手动修改或删除。
+
+你可以通过在同一 Namespace 下创建**额外的 NetworkPolicy** 来实现自定义网络策略。可以使用以下标签选择目标 Pod：
+
+- `gzctf.gzti.me/TeamId`：选择特定队伍
+- `gzctf.gzti.me/UserId`：选择特定用户
+- `gzctf.gzti.me/ChallengeId`：选择特定题目
+- `gzctf.gzti.me/NetworkMode`：选择特定网络模式（`open`、`isolated`、`custom`）
 
 :::
 

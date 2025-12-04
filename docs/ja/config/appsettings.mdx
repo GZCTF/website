@@ -83,7 +83,6 @@
     "PublicEntry": "ctf.example.com", // or "xxx.xxx.xxx.xxx"
     "DockerConfig": {
       // optional
-      "SwarmMode": false,
       "ChallengeNetwork": "",
       "Uri": "unix:///var/run/docker.sock",
       "UserName": "",
@@ -279,19 +278,27 @@ GZCTF はメトリクスと分散トレーシングをサポートしていま�
 
 #### Docker
 
-- **SwarmMode:** Swarm モードかどうか。Swarm モードの場合、Swarm API を使用して管理します。
-
 :::warning
 
-Docker Swarm はもはや活発なプロジェクトではなく、k8s と比較してセキュリティ機能に大きな差があるため、使用は推奨されません。
+Docker Swarm は v1.8.0 以降サポートされなくなりました。より高いセキュリティとスケーラビリティのため、Kubernetes の使用を推奨します。
 
 :::
 
 - **Uri:** Docker API Server のアドレス
-  - ローカルの docker を使用する場合は、Uri を空にし、`/var/run/docker.sock`をコンテナの対応する位置にマウントします。
-  - 外部の docker を使用する場合は、Uri を対応する docker API Server に指定します。**外部 API の認証はまだ実装されていませんので、このデプロイ方法は推奨されません。**
+  - ローカルの Docker を使用する場合は、`Uri` を空にし、`/var/run/docker.sock` をコンテナの対応する位置にマウントします。
+  - 外部の Docker を使用する場合は、`Uri` を対応する Docker API Server に指定します。**外部 API の認証はまだ実装されていないため、このデプロイ方法は推奨されません。**
 
-- **ChallengeNetwork:** チャレンジコンテナが所属するネットワークを指定します。指定しない場合は、デフォルトのネットワークを使用します。
+- **ChallengeNetwork：**
+
+  **v1.8.0 以前**
+
+  チャレンジコンテナが所属するネットワークを指定します。指定しない場合は、デフォルトの Docker ネットワークが使用されます。
+
+  **v1.8.0 以降**
+
+  チャレンジネットワークを作成するための**ネットワークプレフィックス**として扱われます。GZCTF はネットワークモードごとに 2 つのネットワークを自動的に作成します。オープンネットワークモードには `<ChallengeNetwork>-open`、隔離ネットワークモードには `<ChallengeNetwork>-isolated` が使用されます。
+
+  また、自分で `<ChallengeNetwork>-custom` ネットワークを作成してカスタムネットワークモードに利用することもできます。要件に合わせて自由に設定してください。
 
 - **UserName, Password:** Docker API Basic Auth のユーザー名とパスワード。オプションです。
 
@@ -312,7 +319,20 @@ Docker Swarm はもはや活発なプロジェクトではなく、k8s と比較
 
 :::info
 
-ネットワークポリシーを満たすために、GZCTF はチャレンジの Namespace に`gzctf-policy`という名前の NetworkPolicy を作成してアクセスを制限します。GZCTF はこの NetworkPolicy が既に存在するかどうかを自動的に検出し、存在する場合は再作成しません。そのため、ネットワークポリシーをカスタマイズするには、この NetworkPolicy を作成または編集してください。
+**v1.8.0 以前**
+
+基本的なネットワーク分離を実現するために、GZCTF はチャレンジの Namespace に `gzctf-policy` という名前の NetworkPolicy を作成してアクセスを制限します。GZCTF はこの NetworkPolicy が既に存在するかどうかを自動的に検出し、存在する場合は再作成しません。そのため、この NetworkPolicy を作成または編集することでネットワークポリシーをカスタマイズできます。
+
+**v1.8.0 以降**
+
+GZCTF はチャレンジの Namespace に `gzctf-network-open` と `gzctf-network-isolated` という 2 つの NetworkPolicy を作成し、それぞれオープンネットワークモードと隔離ネットワークモードのアクセス制御に使用します。GZCTF がこれらの NetworkPolicy を自動的に管理するため、手動で変更・削除しないでください。
+
+同じ Namespace 内に**追加の NetworkPolicy** を作成することで、独自のネットワークポリシーを定義できます。ターゲット Pod は次のラベルを使用して選択できます。
+
+- `gzctf.gzti.me/TeamId`: 特定のチームを選択
+- `gzctf.gzti.me/UserId`: 特定のユーザーを選択
+- `gzctf.gzti.me/ChallengeId`: 特定のチャレンジを選択
+- `gzctf.gzti.me/NetworkMode`: 特定のネットワークモードを選択（`open`、`isolated`、`custom`）
 
 :::
 
