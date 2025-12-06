@@ -125,8 +125,8 @@
     "ForwardLimit": 1,
     "ForwardedForHeaderName": "X-Forwarded-For",
     // use the following options to allow proxy
-    "TrustedNetworks": ["10.0.0.0/8"],
-    "TrustedProxies": ["10.0.0.1"]
+    "KnownIPNetworks": ["10.0.0.0/8"],
+    "KnownProxies": ["10.0.0.1"]
   },
   "Kestrel": {
     "Limits": {
@@ -445,8 +445,8 @@ Google Recaptcha v3 の関連情報を設定します。オプションです。
 - **ForwardedHeaders:** リバースプロキシが転送するヘッダーの列挙型。デフォルトは`7`を使用してください。詳細は [ForwardedHeaders 列挙型](https://learn.microsoft.com/ja-jp/dotnet/api/microsoft.aspnetcore.httpoverrides.forwardedheaders)を参照してください。
 - **ForwardLimit:** リバースプロキシの層数制限
 - **ForwardedForHeaderName:** リバースプロキシの IP アドレスヘッダー名
-- **TrustedNetworks:** リバースプロキシが信頼するネットワークのリスト。CIDR で表現します。
-- **TrustedProxies:** リバースプロキシが信頼するプロキシのリスト。IP アドレスまたはドメイン名で表現します。
+- **KnownIPNetworks:** リバースプロキシが信頼するネットワークのリスト。CIDR で表現します。
+- **KnownProxies:** リバースプロキシが信頼するプロキシのリスト。IP アドレスまたはドメイン名で表現します。
 
 :::info
 

@@ -125,8 +125,8 @@ Here is a complete example of configuration:
     "ForwardLimit": 1,
     "ForwardedForHeaderName": "X-Forwarded-For",
     // use the following options to allow proxy
-    "TrustedNetworks": ["10.0.0.0/8"],
-    "TrustedProxies": ["10.0.0.1"]
+    "KnownIPNetworks": ["10.0.0.0/8"],
+    "KnownProxies": ["10.0.0.1"]
   },
   "Kestrel": {
     "Limits": {
@@ -447,8 +447,8 @@ Here we can configure the reverse proxy, which is used to get the real IP addres
 - **ForwardedHeaders:** Enum for ForwardedHeaders in reverse proxy, please use `7` as the default value. For more details, see [ForwardedHeaders Enum](https://learn.microsoft.com/en-us/dotnet/api/microsoft.aspnetcore.httpoverrides.forwardedheaders)
 - **ForwardLimit:** Limit the number of proxy hops allowed, the default is `1`
 - **ForwardedForHeaderName:** The name of the reverse proxy IP address header
-- **TrustedNetworks:** List of trusted networks for reverse proxy, represented by CIDR.
-- **TrustedProxies:** List of trusted proxies for reverse proxy, represented by IP addresses or domain names.
+- **KnownIPNetworks:** List of trusted networks for reverse proxy, represented by CIDR.
+- **KnownProxies:** List of trusted proxies for reverse proxy, represented by IP addresses or domain names.
 
 :::info
 

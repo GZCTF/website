@@ -125,8 +125,8 @@
     "ForwardLimit": 1,
     "ForwardedForHeaderName": "X-Forwarded-For",
     // use the following options to allow proxy
-    "TrustedNetworks": ["10.0.0.0/8"],
-    "TrustedProxies": ["10.0.0.1"]
+    "KnownIPNetworks": ["10.0.0.0/8"],
+    "KnownProxies": ["10.0.0.1"]
   },
   "Kestrel": {
     "Limits": {
@@ -461,8 +461,8 @@ GZCTF 会在题目的 Namespace 下创建名为 `gzctf-network-open` 和 `gzctf-
 - **ForwardedHeaders:** 反向代理转发的标头枚举，默认请使用 `7`，详情请见 [ForwardedHeaders 枚举](https://learn.microsoft.com/zh-cn/dotnet/api/microsoft.aspnetcore.httpoverrides.forwardedheaders)
 - **ForwardLimit:** 反向代理层数限制
 - **ForwardedForHeaderName:** 反向代理 IP 地址头名称
-- **TrustedNetworks:** 反向代理信任的网络列表，使用 CIDR 表示
-- **TrustedProxies:** 反向代理信任的代理列表，使用 IP 地址或域名表示
+- **KnownIPNetworks:** 反向代理信任的网络列表，使用 CIDR 表示
+- **KnownProxies:** 反向代理信任的代理列表，使用 IP 地址或域名表示
 
 :::info
 
