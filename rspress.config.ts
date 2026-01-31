@@ -1,32 +1,28 @@
-import * as path from "path";
-import { defineConfig } from "rspress/config";
+import { defineConfig } from "@rspress/core";
 import pluginSitemap from "rspress-plugin-sitemap";
 import { pluginOpenGraph } from "rsbuild-plugin-open-graph";
-import katex from "rspress-plugin-katex";
+import katex from "./plugins/katex";
 
 const PUBLIC_URL = process.env.PUBLIC_URL || "https://gzctf.gzti.me";
 
 export default defineConfig({
-  root: path.join(__dirname, "docs"),
+  root: "docs",
   title: "GZ::CTF",
   lang: "en",
   description: "GZ::CTF Project Documentation",
   icon: "/favicon.webp",
+  llms: true,
   plugins: [
+    katex(),
     pluginSitemap({
       domain: PUBLIC_URL,
     }),
-    katex(),
   ],
   route: {
     cleanUrls: true,
   },
   search: {
     codeBlocks: true,
-  },
-  markdown: {
-    codeHighlighter: "prism",
-    mdxRs: false,
   },
   ssg: true,
   mediumZoom: true,
@@ -68,52 +64,6 @@ export default defineConfig({
       message: "© 2022 - present By GZTimeWalker. All Rights Reserved.",
     },
     hideNavbar: "auto",
-    locales: [
-      {
-        lang: "en",
-        label: "English",
-        outlineTitle: "Table of Contents",
-        prevPageText: "Previous",
-        nextPageText: "Next",
-        lastUpdatedText: "Last Updated",
-        searchPlaceholderText: "Search Docs",
-        searchNoResultsText: "No results for",
-        searchSuggestedQueryText: "Please try again with a different keyword",
-        editLink: {
-          text: "Edit this page on GitHub",
-          docRepoBaseUrl: "https://github.com/GZCTF/website/tree/main/docs",
-        },
-      },
-      {
-        lang: "zh",
-        label: "简体中文",
-        outlineTitle: "目录",
-        prevPageText: "上一页",
-        nextPageText: "下一页",
-        lastUpdatedText: "最后更新于",
-        searchPlaceholderText: "搜索文档",
-        searchNoResultsText: "没有找到有关内容",
-        searchSuggestedQueryText: "建议更换不同的关键字后重试",
-        editLink: {
-          text: "在 GitHub 上编辑此页",
-          docRepoBaseUrl: "https://github.com/GZCTF/website/tree/main/docs",
-        },
-      },
-      {
-        lang: "ja",
-        label: "日本語",
-        outlineTitle: "目次",
-        prevPageText: "前へ",
-        nextPageText: "次へ",
-        lastUpdatedText: "最終更新",
-        searchPlaceholderText: "ドキュメントを検索",
-        searchNoResultsText: "関連する結果がありません",
-        editLink: {
-          text: "GitHub でこのページを編集",
-          docRepoBaseUrl: "https://github.com/GZCTF/website/tree/main/docs",
-        },
-      },
-    ],
   },
   builderConfig: {
     plugins: [

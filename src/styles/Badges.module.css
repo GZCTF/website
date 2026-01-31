@@ -3,6 +3,21 @@
   flex-direction: column;
   align-items: flex-start;
   gap: 16px;
+
+  a {
+    all: revert;
+
+    &::after {
+      display: none !important;
+    }
+  }
+
+  img {
+    &::hover {
+      cursor: default !important;
+      text-decoration: none;
+    }
+  }
 }
 
 .row {
@@ -10,4 +25,12 @@
   justify-content: center;
   gap: 16px;
   flex-wrap: wrap;
+}
+
+.link {
+  &::hover {
+    cursor: default !important;
+    text-decoration: none;
+    border: none !important;
+  }
 }

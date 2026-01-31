@@ -1,7 +1,8 @@
 {
   "name": "gzctf-docs",
-  "version": "1.7.0",
+  "version": "1.8.1",
   "private": true,
+  "type": "module",
   "scripts": {
     "dev": "rspress dev",
     "build": "rspress build",
@@ -9,19 +10,23 @@
     "prettier": "prettier --write ."
   },
   "dependencies": {
-    "katex": "^0.16.25",
+    "@rspress/core": "2.0.1",
     "react-ga4": "^2.1.0",
-    "react-microsoft-clarity": "^2.0.0",
-    "rspress": "^1.46.2"
+    "react-microsoft-clarity": "^2.0.0"
   },
   "devDependencies": {
-    "@types/node": "^24.10.1",
-    "@types/react": "^19.2.7",
+    "@types/node": "^25.1.0",
+    "@types/react": "^19.2.10",
     "@types/react-dom": "^19.2.3",
-    "prettier": "^3.7.4",
-    "rsbuild-plugin-open-graph": "^1.1.0",
-    "rspress-plugin-katex": "^0.3.0",
-    "rspress-plugin-sitemap": "^1.2.1"
+    "katex": "^0.16.28",
+    "prettier": "^3.8.1",
+    "rehype-katex": "^7.0.1",
+    "remark-math": "^6.0.0",
+    "rsbuild-plugin-open-graph": "^1.1.2",
+    "rspress-plugin-devkit": "^1.0.0",
+    "rspress-plugin-sitemap": "^1.2.1",
+    "unified": "^11.0.5",
+    "unist-util-visit": "^5.1.0"
   },
   "pnpm": {
     "onlyBuiltDependencies": [

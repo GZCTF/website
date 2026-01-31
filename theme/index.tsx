@@ -1,5 +1,5 @@
 import { LogoHeader } from "@Components/LogoHeader";
-import Theme from "rspress/theme";
+import { Layout as BasicLayout } from "@rspress/core/theme-original";
 import ReactGA from "react-ga4";
 import { clarity } from "react-microsoft-clarity";
 
@@ -8,12 +8,8 @@ const setup = () => {
   clarity.init("oossz1i1h3");
 };
 
-const Layout = () => <Theme.Layout navTitle={<LogoHeader />} />;
+const Layout = () => <BasicLayout navTitle={<LogoHeader />} />;
 
-export default {
-  ...Theme,
-  setup,
-  Layout,
-};
+export { Layout, setup };
 
-export * from "rspress/theme";
+export * from "@rspress/core/theme-original";
