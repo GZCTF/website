@@ -9,8 +9,8 @@ importers:
   .:
     dependencies:
       '@rspress/core':
-        specifier: 2.0.1
-        version: 2.0.1(@module-federation/runtime-tools@0.22.0)(@types/react@19.2.10)(core-js@3.47.0)
+        specifier: ^2.0.2
+        version: 2.0.2(@module-federation/runtime-tools@0.22.0)(@types/react@19.2.10)(core-js@3.47.0)
       react-ga4:
         specifier: ^2.1.0
         version: 2.1.0
@@ -19,8 +19,8 @@ importers:
         version: 2.0.0
     devDependencies:
       '@types/node':
-        specifier: ^25.1.0
-        version: 25.1.0
+        specifier: ^25.2.0
+        version: 25.2.0
       '@types/react':
         specifier: ^19.2.10
         version: 19.2.10
@@ -41,10 +41,10 @@ importers:
         version: 6.0.0
       rsbuild-plugin-open-graph:
         specifier: ^1.1.2
-        version: 1.1.2(@rsbuild/core@2.0.0-beta.0(@module-federation/runtime-tools@0.22.0)(core-js@3.47.0))
+        version: 1.1.2(@rsbuild/core@2.0.0-beta.1(@module-federation/runtime-tools@0.22.0)(core-js@3.47.0))
       rspress-plugin-devkit:
         specifier: ^1.0.0
-        version: 1.0.0(@rspress/core@2.0.1(@module-federation/runtime-tools@0.22.0)(@types/react@19.2.10)(core-js@3.47.0))
+        version: 1.0.0(@rspress/core@2.0.2(@module-federation/runtime-tools@0.22.0)(@types/react@19.2.10)(core-js@3.47.0))
       rspress-plugin-sitemap:
         specifier: ^1.2.1
         version: 1.2.1
@@ -104,8 +104,8 @@ packages:
   '@napi-rs/wasm-runtime@1.0.7':
     resolution: {integrity: sha512-SeDnOO0Tk7Okiq6DbXmmBODgOAb9dp9gjlphokTUxmt8U3liIP1ZsozBahH69j/RJv+Rfs6IwUKHTgQYJ/HBAw==}
 
-  '@rsbuild/core@2.0.0-beta.0':
-    resolution: {integrity: sha512-TT9gR1fr1EWe6t5FewTqqkJtoVIFVJ/xnnYEMJARpPfuPB+Shi75OZmeLvNH1pHF6q/vyRT76MgvpBS7axcGIw==}
+  '@rsbuild/core@2.0.0-beta.1':
+    resolution: {integrity: sha512-m7L3oi4evTDODcY+Qk3cmY/p7GCaauSRe00D0AkXVohNvxFBt7F49uPwBSThS24I9d31zFuAED2jFqBeBlDqWw==}
     engines: {node: ^20.19.0 || >=22.12.0}
     hasBin: true
     peerDependencies:
@@ -114,8 +114,8 @@ packages:
       core-js:
         optional: true
 
-  '@rsbuild/plugin-react@1.4.4':
-    resolution: {integrity: sha512-tWOjyV4ZpUgwKT7sXHtGs24EYeyfY/THpTraLgikUUk0yLDeNHlDT5XPHOfLIbLIB3L8763AfgASFyhiqFw76g==}
+  '@rsbuild/plugin-react@1.4.5':
+    resolution: {integrity: sha512-eS2sXCedgGA/7bLu8yVtn48eE/GyPbXx4Q7OcutB01IQ1D2y8WSMBys4nwfrecy19utvw4NPn4gYDy52316+vg==}
     peerDependencies:
       '@rsbuild/core': ^1.0.0 || ^2.0.0-0
 
@@ -133,21 +133,25 @@ packages:
     resolution: {integrity: sha512-B7omNsPSsinOq2VRD4d4VFrLgHceMQobqlLg0txFUZ7PDjE307gpTcGViWQlUhNCbkZXMPzDeXBFa5ZlEmxgnA==}
     cpu: [arm64]
     os: [linux]
+    libc: [glibc]
 
   '@rspack/binding-linux-arm64-musl@2.0.0-alpha.1':
     resolution: {integrity: sha512-NCG401ofZcDKlTWD8VHv76Y+02Stmd9Nu5MRbVUBOCTVgXMj8Mgrm5XsGBWUjzd5J/Mvo2hstCKIZxNzmPd8uQ==}
     cpu: [arm64]
     os: [linux]
+    libc: [musl]
 
   '@rspack/binding-linux-x64-gnu@2.0.0-alpha.1':
     resolution: {integrity: sha512-Xgp8wJ5gjpPG8I3VMEsVAesfckWryQVUhJkHcxPfNi72QTv8UkMER7Jl+JrlQk7K7nMO5ltokx/VGl1c3tMx+w==}
     cpu: [x64]
     os: [linux]
+    libc: [glibc]
 
   '@rspack/binding-linux-x64-musl@2.0.0-alpha.1':
     resolution: {integrity: sha512-lrYKcOgsPA1UMswxzFAV37ofkznbtTLCcEas6lxtlT3Dr28P6VRzC8TgVbIiprkm10I0BlThQWDJ3aGzzLj9Kg==}
     cpu: [x64]
     os: [linux]
+    libc: [musl]
 
   '@rspack/binding-wasm32-wasi@2.0.0-alpha.1':
     resolution: {integrity: sha512-rppGiT7CtXlM8st+IgzBDqb7V//1xx5Oe0SY1sxxw0cfOGMpIQCwhJqx/uI6ioqJLZLGX/obt359+hPXyqGl4w==}
@@ -195,13 +199,13 @@ packages:
       webpack-hot-middleware:
         optional: true
 
-  '@rspress/core@2.0.1':
-    resolution: {integrity: sha512-Zaj74QJeaZe2ZprGCQumJPlmIM41MQQbfTkYjpcTp4BCxOw1thabcoCL/2QcquqNs2g3rRv5l0LghFxV1WmhYw==}
+  '@rspress/core@2.0.2':
+    resolution: {integrity: sha512-tU8rUVaPyC8o8k4ezgigRVQuZhBAC41KWdwZZ0BldN6o+QXSEIb722RnxCTpa9FGK2riqcwJgM+OqqcqXsFpmw==}
     engines: {node: ^20.19.0 || >=22.12.0}
     hasBin: true
 
-  '@rspress/shared@2.0.1':
-    resolution: {integrity: sha512-0t12G/WSPuoXbut5kX7jSHsv1YUlsGVVz6Lc9XirgbTSJ01/K5WEA2j3Me3x8+d2ICcbVQp2oeCo+iTtVCZQwg==}
+  '@rspress/shared@2.0.2':
+    resolution: {integrity: sha512-9+QC8UL1gV2KpRZx4n55vAl6bE38y7eDnGJhdFSHdJkpFbUCiJDk9ZcR6jD/Rrtq7vlT0gfumUk640pxpi3IDQ==}
 
   '@shikijs/core@3.22.0':
     resolution: {integrity: sha512-iAlTtSDDbJiRpvgL5ugKEATDtHdUVkqgHDm/gbD2ZS9c88mx7G1zSYjjOxp5Qa0eaW0MAQosFRmJSk354PRoQA==}
@@ -260,8 +264,8 @@ packages:
   '@types/ms@2.1.0':
     resolution: {integrity: sha512-GsCCIZDE/p3i96vtEqx+7dBUGXrc7zeSK3wwPHIaRThS+9OhWIXRqzs4d6k1SVU8g91DrNRWxWUGhp5KXQb2VA==}
 
-  '@types/node@25.1.0':
-    resolution: {integrity: sha512-t7frlewr6+cbx+9Ohpl0NOTKXZNV9xHRmNOvql47BFJKcEG1CxtxlPEEe+gR9uhVWM4DwhnvTF110mIL4yP9RA==}
+  '@types/node@25.2.0':
+    resolution: {integrity: sha512-DZ8VwRFUNzuqJ5khrvwMXHmvPe+zGayJhr2CDNiKB1WBE1ST8Djl00D0IC4vvNmHMdj6DlbYRIaFE7WHjlDl5w==}
 
   '@types/react-dom@19.2.3':
     resolution: {integrity: sha512-jp2L/eY6fn+KgVVQAOqYItbF0VY/YApe5Mz2F0aykSO8gx31bYCZyvSeYxCHKvzHG5eZjc+zyaS5BrBWya2+kQ==}
@@ -1208,10 +1212,9 @@ snapshots:
       '@tybys/wasm-util': 0.10.1
     optional: true
 
-  '@rsbuild/core@2.0.0-beta.0(@module-federation/runtime-tools@0.22.0)(core-js@3.47.0)':
+  '@rsbuild/core@2.0.0-beta.1(@module-federation/runtime-tools@0.22.0)(core-js@3.47.0)':
     dependencies:
       '@rspack/core': 2.0.0-alpha.1(@module-federation/runtime-tools@0.22.0)(@swc/helpers@0.5.18)
-      '@rspack/lite-tapable': 1.1.0
       '@swc/helpers': 0.5.18
       jiti: 2.6.1
     optionalDependencies:
@@ -1219,9 +1222,9 @@ snapshots:
     transitivePeerDependencies:
       - '@module-federation/runtime-tools'
 
-  '@rsbuild/plugin-react@1.4.4(@rsbuild/core@2.0.0-beta.0(@module-federation/runtime-tools@0.22.0)(core-js@3.47.0))':
+  '@rsbuild/plugin-react@1.4.5(@rsbuild/core@2.0.0-beta.1(@module-federation/runtime-tools@0.22.0)(core-js@3.47.0))':
     dependencies:
-      '@rsbuild/core': 2.0.0-beta.0(@module-federation/runtime-tools@0.22.0)(core-js@3.47.0)
+      '@rsbuild/core': 2.0.0-beta.1(@module-federation/runtime-tools@0.22.0)(core-js@3.47.0)
       '@rspack/plugin-react-refresh': 1.6.0(react-refresh@0.18.0)
       react-refresh: 0.18.0
     transitivePeerDependencies:
@@ -1288,13 +1291,13 @@ snapshots:
       html-entities: 2.6.0
       react-refresh: 0.18.0
 
-  '@rspress/core@2.0.1(@module-federation/runtime-tools@0.22.0)(@types/react@19.2.10)(core-js@3.47.0)':
+  '@rspress/core@2.0.2(@module-federation/runtime-tools@0.22.0)(@types/react@19.2.10)(core-js@3.47.0)':
     dependencies:
       '@mdx-js/mdx': 3.1.1
       '@mdx-js/react': 3.1.1(@types/react@19.2.10)(react@19.2.4)
-      '@rsbuild/core': 2.0.0-beta.0(@module-federation/runtime-tools@0.22.0)(core-js@3.47.0)
-      '@rsbuild/plugin-react': 1.4.4(@rsbuild/core@2.0.0-beta.0(@module-federation/runtime-tools@0.22.0)(core-js@3.47.0))
-      '@rspress/shared': 2.0.1(@module-federation/runtime-tools@0.22.0)(core-js@3.47.0)
+      '@rsbuild/core': 2.0.0-beta.1(@module-federation/runtime-tools@0.22.0)(core-js@3.47.0)
+      '@rsbuild/plugin-react': 1.4.5(@rsbuild/core@2.0.0-beta.1(@module-federation/runtime-tools@0.22.0)(core-js@3.47.0))
+      '@rspress/shared': 2.0.2(@module-federation/runtime-tools@0.22.0)(core-js@3.47.0)
       '@shikijs/rehype': 3.22.0
       '@types/unist': 3.0.3
       '@unhead/react': 2.1.2(react@19.2.4)
@@ -1339,9 +1342,9 @@ snapshots:
       - supports-color
       - webpack-hot-middleware
 
-  '@rspress/shared@2.0.1(@module-federation/runtime-tools@0.22.0)(core-js@3.47.0)':
+  '@rspress/shared@2.0.2(@module-federation/runtime-tools@0.22.0)(core-js@3.47.0)':
     dependencies:
-      '@rsbuild/core': 2.0.0-beta.0(@module-federation/runtime-tools@0.22.0)(core-js@3.47.0)
+      '@rsbuild/core': 2.0.0-beta.1(@module-federation/runtime-tools@0.22.0)(core-js@3.47.0)
       '@shikijs/rehype': 3.22.0
       gray-matter: 4.0.3
       lodash-es: 4.17.23
@@ -1431,7 +1434,7 @@ snapshots:
 
   '@types/ms@2.1.0': {}
 
-  '@types/node@25.1.0':
+  '@types/node@25.2.0':
     dependencies:
       undici-types: 7.16.0
 
@@ -2526,17 +2529,17 @@ snapshots:
       mdast-util-to-markdown: 2.1.2
       unified: 11.0.5
 
-  rsbuild-plugin-open-graph@1.1.2(@rsbuild/core@2.0.0-beta.0(@module-federation/runtime-tools@0.22.0)(core-js@3.47.0)):
+  rsbuild-plugin-open-graph@1.1.2(@rsbuild/core@2.0.0-beta.1(@module-federation/runtime-tools@0.22.0)(core-js@3.47.0)):
     optionalDependencies:
-      '@rsbuild/core': 2.0.0-beta.0(@module-federation/runtime-tools@0.22.0)(core-js@3.47.0)
+      '@rsbuild/core': 2.0.0-beta.1(@module-federation/runtime-tools@0.22.0)(core-js@3.47.0)
 
-  rspress-plugin-devkit@1.0.0(@rspress/core@2.0.1(@module-federation/runtime-tools@0.22.0)(@types/react@19.2.10)(core-js@3.47.0)):
+  rspress-plugin-devkit@1.0.0(@rspress/core@2.0.2(@module-federation/runtime-tools@0.22.0)(@types/react@19.2.10)(core-js@3.47.0)):
     dependencies:
-      '@rspress/core': 2.0.1(@module-federation/runtime-tools@0.22.0)(@types/react@19.2.10)(core-js@3.47.0)
+      '@rspress/core': 2.0.2(@module-federation/runtime-tools@0.22.0)(@types/react@19.2.10)(core-js@3.47.0)
       '@types/estree-jsx': 1.0.5
       '@types/hast': 3.0.4
       '@types/mdast': 4.0.4
-      '@types/node': 25.1.0
+      '@types/node': 25.2.0
       clsx: 2.1.1
       lodash-es: 4.17.23
       mdast-util-from-markdown: 2.0.2
