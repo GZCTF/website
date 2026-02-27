@@ -15,10 +15,10 @@
     "react-microsoft-clarity": "^2.0.0"
   },
   "devDependencies": {
-    "@types/node": "^25.2.3",
+    "@types/node": "^25.3.2",
     "@types/react": "^19.2.14",
     "@types/react-dom": "^19.2.3",
-    "katex": "^0.16.28",
+    "katex": "^0.16.33",
     "prettier": "^3.8.1",
     "rehype-katex": "^7.0.1",
     "remark-math": "^6.0.0",
