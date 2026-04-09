@@ -1,5 +1,5 @@
 {
-  "x-generator": "NSwag v14.6.2.0 (NJsonSchema v11.5.2.0 (Newtonsoft.Json v13.0.0.0))",
+  "x-generator": "NSwag v14.7.0.0 (NJsonSchema v11.6.0.0 (Newtonsoft.Json v13.0.0.0))",
   "openapi": "3.0.0",
   "info": {
     "title": "GZCTF Server API",
@@ -9319,8 +9319,7 @@
           "createdAt": {
             "type": "integer",
             "description": "The timestamp when the token was created.",
-            "format": "uint64",
-            "minLength": 1
+            "format": "uint64"
           },
           "expiresAt": {
             "type": "integer",
@@ -9489,8 +9488,7 @@
           "time": {
             "type": "integer",
             "description": "Publish time",
-            "format": "uint64",
-            "minLength": 1
+            "format": "uint64"
           }
         }
       },
@@ -9566,14 +9564,12 @@
           "start": {
             "type": "integer",
             "description": "Start time",
-            "format": "uint64",
-            "minLength": 1
+            "format": "uint64"
           },
           "end": {
             "type": "integer",
             "description": "End time",
-            "format": "uint64",
-            "minLength": 1
+            "format": "uint64"
           },
           "writeupDeadline": {
             "type": "integer",
@@ -9640,8 +9636,7 @@
               "time": {
                 "type": "integer",
                 "description": "Publish time",
-                "format": "uint64",
-                "minLength": 1
+                "format": "uint64"
               }
             }
           }
@@ -9905,10 +9900,6 @@
           "acceptedCount",
           "flags",
           "containerImage",
-          "memoryLimit",
-          "cpuCount",
-          "storageLimit",
-          "containerExposePort",
           "submissionLimit",
           "originalScore",
           "minScoreRate",
@@ -10005,22 +9996,35 @@
           "memoryLimit": {
             "type": "integer",
             "description": "Memory limit (MB)",
-            "format": "int32"
+            "format": "int32",
+            "nullable": true
           },
           "cpuCount": {
             "type": "integer",
             "description": "CPU limit (0.1 CPUs)",
-            "format": "int32"
+            "format": "int32",
+            "nullable": true
           },
           "storageLimit": {
             "type": "integer",
             "description": "Storage limit (MB)",
-            "format": "int32"
+            "format": "int32",
+            "nullable": true
           },
-          "containerExposePort": {
+          "exposePort": {
             "type": "integer",
             "description": "Container exposed port",
-            "format": "int32"
+            "format": "int32",
+            "nullable": true
+          },
+          "networkMode": {
+            "description": "Container network mode",
+            "nullable": true,
+            "oneOf": [
+              {
+                "$ref": "#/components/schemas/NetworkMode"
+              }
+            ]
           },
           "enableTrafficCapture": {
             "type": "boolean",
@@ -10192,6 +10196,20 @@
           }
         }
       },
+      "NetworkMode": {
+        "type": "string",
+        "description": "Container network mode",
+        "x-enumNames": [
+          "Open",
+          "Isolated",
+          "Custom"
+        ],
+        "enum": [
+          "Open",
+          "Isolated",
+          "Custom"
+        ]
+      },
       "ChallengeInfoModel": {
         "type": "object",
         "description": "Basic challenge information (Edit)",
@@ -10345,20 +10363,29 @@
             "minimum": 0.0,
             "nullable": true
           },
-          "containerExposePort": {
+          "exposePort": {
             "type": "integer",
             "description": "Container exposed port",
             "format": "int32",
             "nullable": true
           },
+          "networkMode": {
+            "description": "Container network mode",
+            "nullable": true,
+            "oneOf": [
+              {
+                "$ref": "#/components/schemas/NetworkMode"
+              }
+            ]
+          },
           "enableTrafficCapture": {
             "type": "boolean",
-            "description": "Is traffic capture enabled",
+            "description": "Is traffic capture enabled (disabled by default)",
             "nullable": true
           },
           "disableBloodBonus": {
             "type": "boolean",
-            "description": "Is blood bonus disabled",
+            "description": "Is blood bonus disabled (enable by default)",
             "nullable": true
           },
           "originalScore": {
@@ -10477,14 +10504,12 @@
           "start": {
             "type": "integer",
             "description": "Start time",
-            "format": "uint64",
-            "minLength": 1
+            "format": "uint64"
           },
           "end": {
             "type": "integer",
             "description": "End time",
-            "format": "uint64",
-            "minLength": 1
+            "format": "uint64"
           }
         }
       },
@@ -10709,8 +10734,7 @@
           "updateTimeUtc": {
             "type": "integer",
             "description": "Update time",
-            "format": "uint64",
-            "minLength": 1
+            "format": "uint64"
           },
           "bloodBonus": {
             "type": "integer",
@@ -10813,8 +10837,7 @@
           "time": {
             "type": "integer",
             "description": "Time",
-            "format": "uint64",
-            "minLength": 1
+            "format": "uint64"
           },
           "score": {
             "type": "integer",
@@ -10881,8 +10904,7 @@
           "lastSubmissionTime": {
             "type": "integer",
             "description": "Last submission time",
-            "format": "uint64",
-            "minLength": 1
+            "format": "uint64"
           },
           "solvedChallenges": {
             "type": "array",
@@ -10934,8 +10956,7 @@
           "time": {
             "type": "integer",
             "description": "Submission time for the challenge, used to calculate the timeline",
-            "format": "uint64",
-            "minLength": 1
+            "format": "uint64"
           }
         }
       },
@@ -11124,8 +11145,7 @@
               "time": {
                 "type": "integer",
                 "description": "Publish time",
-                "format": "uint64",
-                "minLength": 1
+                "format": "uint64"
               },
               "user": {
                 "type": "string",
@@ -11458,8 +11478,7 @@
           "writeupDeadline": {
             "type": "integer",
             "description": "Writeup submission deadline",
-            "format": "uint64",
-            "minLength": 1
+            "format": "uint64"
           }
         }
       },
@@ -11746,8 +11765,7 @@
           "time": {
             "type": "integer",
             "description": "Update time",
-            "format": "uint64",
-            "minLength": 1
+            "format": "uint64"
           }
         }
       },
