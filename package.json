@@ -1,6 +1,6 @@
 {
   "name": "gzctf-docs",
-  "version": "1.8.1",
+  "version": "1.8.5",
   "private": true,
   "type": "module",
   "scripts": {
@@ -10,7 +10,7 @@
     "prettier": "prettier --write ."
   },
   "dependencies": {
-    "@rspress/core": "^2.0.9",
+    "@rspress/core": "^2.0.10",
     "react-ga4": "^3.0.1",
     "react-microsoft-clarity": "^2.0.0"
   },
