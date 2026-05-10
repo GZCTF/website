@@ -337,7 +337,7 @@ This article focuses on deploying GZCTF in a Kubernetes cluster. For configurati
 
 5. Additional Configuration for Traefik
 
-In order to make GZCTF able to obtain the real IP address of users through XFF, Traefik needs to be able to add the XFF header correctly. Please note that the following content may not always be up-to-date and applicable to all versions of Traefik. This is an example of helm values, please search for the latest configuration method yourself.
+In order to make GZCTF able to obtain the real IP address of users through XFF, Traefik needs to be able to add the XFF header correctly. Please note that the following content may not always be up-to-date and applicable to all versions of Traefik. Please search for the latest configuration method yourself.
 
 ```yaml
 service:
@@ -354,6 +354,32 @@ additionalArguments:
   - "--entryPoints.websecure.proxyProtocol.insecure"
   - "--entryPoints.websecure.forwardedHeaders.insecure"
 ```
+
+
+## Deploying with Helm
+
+The [GZCTF Helm chart](https://github.com/GZCTF/helm) packages the same components (GZCTF, PostgreSQL, optional Redis-compatible cache, ingress, RBAC, PVCs) into a maintained install path. Chart documentation and the full values reference live in that repository; the chart is published to `https://gzctf.github.io/helm`.
+
+- **Single-command install** — Add the repo and run `helm install` for an all-in-one default stack (single replica, PostgreSQL StatefulSet, RWO PVC, default `appsettings`-style configuration).
+- **One values file** — Tune all settings in a single `values.yaml` (image tags, `appsettings`, env vars, persistence, ingress, subcharts, and optional components).
+- **Automatic configurations reloading** — The chart uses Helm checksum annotations on the pod template (for example `sha256sum` helm template function over the rendered Secret that carries `appsettings.json`) so the Deployment rolls when that configuration changes, without relying on a separate reloader operator.
+- **Defaults aligned with raw yaml manifests** — Out of the box, the chart is close to the manual YAML in this guide (resources, ports, Traefik-oriented ingress annotations for sticky sessions, and similar roles for the GZCTF ServiceAccount).
+- **Multi-instance (experimental)** — For scaling out, the chart can deploy **RustFS** for S3-compatible shared storage, plus **Garnet** or **redis-ha** for a shared cache, along with optional autoscaling. Multi-node setups are still considered experimental; see the chart README for caveats (S3 support in GZCTF, Bitnami legacy images for `postgresql-ha`, and testing expectations).
+
+Quick start:
+
+```bash
+helm repo add gzctf https://gzctf.github.io/helm
+helm repo update
+helm install gzctf gzctf/gzctf \
+  --set gzctf.env[0].name=GZCTF_ADMIN_PASSWORD \
+  --set gzctf.env[0].value=xxx
+```
+
+For anything beyond defaults (custom `appsettings`, passwords, Garnet, RustFS, redis-ha, external database or object storage), install with `-f values.yaml` as described in the chart README.
+
+The manual manifest walkthrough in the next section remains useful if you need to understand each object or maintain a fully custom layout. Notes in [Deployment Tips](#deployment-tips) (admin password, real client IP / Traefik, monitoring) still apply when using Helm.
+
 
 ## Deployment Tips
 
