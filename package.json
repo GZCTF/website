@@ -10,15 +10,15 @@
     "prettier": "prettier --write ."
   },
   "dependencies": {
-    "@rspress/core": "^2.0.10",
+    "@rspress/core": "^2.0.12",
     "react-ga4": "^3.0.1",
     "react-microsoft-clarity": "^2.0.0"
   },
   "devDependencies": {
-    "@types/node": "^25.6.0",
-    "@types/react": "^19.2.14",
+    "@types/node": "^25.9.1",
+    "@types/react": "^19.2.15",
     "@types/react-dom": "^19.2.3",
-    "katex": "^0.16.45",
+    "katex": "^0.16.47",
     "prettier": "^3.8.3",
     "rehype-katex": "^7.0.1",
     "remark-math": "^6.0.0",
