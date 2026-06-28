@@ -1,2 +1,2 @@
-allowBuilds:
-  core-js: false
+onlyBuiltDependencies:
+  - core-js
