@@ -10,16 +10,16 @@
     "prettier": "prettier --write ."
   },
   "dependencies": {
-    "@rspress/core": "^2.0.17",
+    "@rspress/core": "^2.0.19",
     "react-ga4": "^3.0.1",
     "react-microsoft-clarity": "^2.0.0"
   },
   "devDependencies": {
-    "@types/node": "^26.1.1",
-    "@types/react": "^19.2.17",
-    "@types/react-dom": "^19.2.3",
-    "katex": "^0.17.0",
-    "prettier": "^3.9.4",
+    "@types/node": "^26.1.2",
+    "@types/react": "^19.2.18",
+    "@types/react-dom": "^19.2.4",
+    "katex": "^0.18.1",
+    "prettier": "^3.9.6",
     "rehype-katex": "^7.0.1",
     "remark-math": "^6.0.0",
     "rsbuild-plugin-open-graph": "^1.1.3",
