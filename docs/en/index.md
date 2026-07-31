@@ -23,7 +23,7 @@ features:
   - title: High Performance
     details: Holds high-concurrency access with powerful system architecture and high-performance front-end design.
     icon: ⚡
-  - title: Rich features
+  - title: Rich Features
     details: Dynamic scoring, leaderboards, cheat detection, traffic logging, and write-up collections are all available.
     icon: 🛠️
   - title: Secure and Reliable

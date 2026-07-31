@@ -16,7 +16,7 @@
 
 k3s 是一个轻量级的 k8s 发行版，可以在单机和多机上快速部署 k8s 集群。官网文档地址：[https://docs.k3s.io/zh](https://docs.k3s.io/zh)
 
-:::warning{title="如果你只有一台机器？"}
+:::warning 如果你只有一台机器？
 
 如果你只有一台机器，我们强烈建议你使用其他的方式进行部署：
 
@@ -137,7 +137,7 @@ k3s 默认的 NodePort 端口范围为 30000-32767，这可能会与需求不太
 在 k3s control-panel 所在的机器上执行以下命令：
 
 - `sudo nano /etc/systemd/system/k3s.service`
-- 编辑如下设置中的 `ExecStart`，指定`service-node-port-range`
+- 编辑如下设置中的 `ExecStart`，指定 `service-node-port-range`
 
   ```bash
   ExecStart=/usr/local/bin/k3s \
@@ -154,7 +154,7 @@ k3s 默认的容器数量限制为 110，这可能不适用于比赛中的大量
 
 :::info
 
-Reference: [How do you increase maximum pods per node in K3S?](https://stackoverflow.com/questions/65894616/how-do-you-increase-maximum-pods-per-node-in-k3s)
+参考：[How do you increase maximum pods per node in K3S?](https://stackoverflow.com/questions/65894616/how-do-you-increase-maximum-pods-per-node-in-k3s)
 
 :::
 
@@ -181,11 +181,11 @@ Reference: [How do you increase maximum pods per node in K3S?](https://stackover
     - node-cidr-mask-size=22
   ```
 
-- 注意：将 `node-cidr-mask-size` 设得过小（如 `/16`）会为单节点分配过大的地址块，降低集群横向扩展 worker 的灵活性。
+- 注意：将 `node-cidr-mask-size` 设得过小（如 `/16`）会为单节点分配过大的地址块，降低集群横向扩展工作节点的能力。
 
 ## 添加容器镜像仓库
 
-直接使用外部的容器镜像仓库无法直接在 k3s 中使用，需要在 k3s 中添加镜像仓库。
+k3s 默认可以直接从公共镜像仓库拉取镜像。如果需要使用**私有**容器镜像仓库，可以在 k3s 中通过 `registries.yaml` 配置文件添加镜像仓库。
 
 在 k3s control-panel 所在的机器上执行以下命令：
 

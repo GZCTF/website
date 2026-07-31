@@ -1,5 +1,17 @@
 # Breaking Changes
 
+## v1.8.0
+
+**Breaking Changes**
+
+- **Docker Swarm support has been removed.** Please use Kubernetes for better security and scalability.
+
+- **`ChallengeNetwork` is now treated as a network prefix.** GZCTF automatically creates `<ChallengeNetwork>-open` and `<ChallengeNetwork>-isolated` networks (with `gzctf` as the default prefix). For the `custom` network mode, create a `<ChallengeNetwork>-custom` network yourself. For more details, see [appsettings](/config/appsettings).
+
+- **New `KnownIPNetworks` / `KnownProxies` options in `ForwardedOptions`.** The old `KnownNetworks`, `TrustedNetworks`, and `TrustedProxies` keys are kept for backward compatibility.
+
+- **Auto-managed NetworkPolicies.** GZCTF now creates and maintains `gzctf-network-open` and `gzctf-network-isolated` NetworkPolicies in the challenge namespace to restrict access for open and isolated network modes. Do not modify or delete them manually.
+
 ## v1.7.0
 
 **Storage System Redesign (⚠️ Configuration Update Required)**

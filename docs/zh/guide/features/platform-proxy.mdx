@@ -12,7 +12,7 @@ GZCTF 自带对于流量的 WebSocket-TCP 转发功能和对应的流量记录�
     "PortMappingType": "PlatformProxy",
     "EnableTrafficCapture": false,
     "DockerConfig": {
-      // optional, change it to the actual network if you use docker
+      // 可选，题目网络的前缀（Docker 后端）
       "ChallengeNetwork": "challenges"
     }
   }
@@ -27,23 +27,14 @@ GZCTF 自带对于流量的 WebSocket-TCP 转发功能和对应的流量记录�
 
 ## 注意事项
 
-采用 `Docker` 单机作为后端且使用 `PlatformProxy` 端口映射类型时，为了使得 GZCTF 顺利访问题目容器，需要额外手动创建一个网络：
+采用 `Docker` 单机作为后端且使用 `PlatformProxy` 端口映射类型时，GZCTF 需要通过网络访问题目容器。
+
+自 **v1.8.0** 起，`ChallengeNetwork` 的值被视为**网络前缀**。GZCTF 会自动创建 `<ChallengeNetwork>-open` 和 `<ChallengeNetwork>-isolated` 网络（默认前缀为 `gzctf`），并将自身接入这些网络，因此默认（`open` / `isolated`）网络模式无需手动创建网络。
+
+如果使用 `custom` 网络模式，需要在启动题目容器之前自行创建 `<ChallengeNetwork>-custom` 网络，例如：
 
 ```bash
-docker network create challenges -d bridge --subnet 192.168.133.0/24
+docker network create challenges-custom -d bridge --subnet 192.168.133.0/24
 ```
 
-设置配置项 **ChallengeNetwork** 为对应的网络名称，并需要在 `compose.yml` 中桥接外部网络，例如：
-
-```yaml
-services:
-  gzctf:
-    ...
-    networks:
-    - default
-    - challenges
-
-networks:
-  challenges:
-    external: true
-```
+并将配置项 **ChallengeNetwork** 设置为对应的前缀，例如 `challenges`。

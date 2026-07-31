@@ -16,11 +16,11 @@ You can find the installation instructions on the [Docker official website](http
 
 K3s is a lightweight k8s distribution that can be quickly deployed on single and multiple machines. Official documentation: [https://docs.k3s.io/](https://docs.k3s.io/)
 
-:::warning{title="If you only have one machine?"}
+:::warning If you only have one machine?
 
 If you only have one machine, we strongly recommend using other methods for deployment:
 
-- For **private intranet competitions with less than 200 teams and 30 challenges**, you can directly use Docker for deployment without using k8s.
+- For **private intranet competitions with fewer than 200 teams and 30 challenges**, you can directly use Docker for deployment without using k8s.
 - For **public or larger competitions**, it is strongly recommended to use k3s for integrated deployment, **do not use Docker**.
 
 ---
@@ -185,7 +185,7 @@ On the machine where the k3s control-panel is located, use the built-in config f
 
 ## Add Container Image Registry
 
-Using an external container image registry directly is not supported in k3s. You need to add the image registry to k3s.
+k3s can pull images from public registries out of the box. If you need to use a **private** container image registry, you can add it to k3s via the `registries.yaml` configuration file.
 
 Run the following commands on the machine where the k3s control-panel is located:
 

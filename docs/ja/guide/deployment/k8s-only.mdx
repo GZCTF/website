@@ -14,11 +14,11 @@
 2. マルチインスタンスデプロイメントの場合、すべてのインスタンスはファイルの一貫性と書き込みの同時実行性を確保するためにS3/Object Storageを使用する必要があります（[#365](https://github.com/GZTimeWalker/GZCTF/issues/365)を参照してください）。さらに、マルチインスタンス間のキャッシュの一貫性を確保するためにRedisをデプロイする必要があります。両方を設定するには、[appsettings](/config/appsettings) を参照してください。Azure / AWS / Minio などの複数のストレージプロバイダーがサポートされています。
 3. 複数のインスタンスをデプロイする場合、ロードバランサーはsticky sessionを設定する必要があります。そうしないと、websocketを使用してリアルタイムデータを取得することができません。
 4. **もし面倒なら、単一インスタンスをデプロイしましょう！**
-5. クラスタ内でGZCTFをデプロイすることを選択した場合、一定の程度のPod数が必要であることに注意してください。
-   - インストール時に `--kube-controller-manager-arg=node-cidr-mask-size=16` を指定してください。デフォルトのCIDRは `/24` で、最大255個のPodをサポートします。**インストール後にこの設定を変更することはできません**。
+5. クラスタ内でGZCTFをデプロイすることを選択した場合、より多くのPod数が必要であることに注意してください。
+   - インストール時に `--kube-controller-manager-arg=node-cidr-mask-size=22` を指定してください。デフォルトのCIDRは `/24` で、各ノード最大255個のPodをサポートします。推奨は `/22`（各ノード約 1024 Pod）、必要に応じて `/20`（各ノード約 4096 Pod）を使用してください。より小さいマスク（例: `/16`）は各ノードに過大なアドレスブロックを確保するだけで、クラスタのワーカーの水平スケーリング能力を低下させます。**インストール後にこの設定を変更することはできません**。
 
      ```bash
-     INSTALL_K3S_EXEC="--kube-controller-manager-arg=node-cidr-mask-size=16"
+     INSTALL_K3S_EXEC="--kube-controller-manager-arg=node-cidr-mask-size=22"
      ```
 
    - `maxPods`の値を適切に調整してください。そうしないと、Podの数が上限に達してスケジュールできなくなる可能性があります。
@@ -31,7 +31,7 @@
 
 ## GZCTFのデプロイ
 
-1. ネームスペースと設定ファイルの作成
+1. ネームスペースと設定ファイルの作成。詳細は [appsettings](/config/appsettings) を参照してください。
 
    ```yaml
    apiVersion: v1
@@ -50,10 +50,10 @@
         "ConnectionStrings": {
           "Database": "Host=gzctf-db:5432;Database=ctf;Username=postgres;Password=...",
           "RedisCache": "gzctf-garnet:6379,abortConnect=false",
-          "Storage": "minio.s3://serviceUrl=...;key=...;bucket=..."
+          "Storage": "minio.s3://accessKey=...;secretKey=...;bucket=...;endpoint=...;forcePathStyle=true"
         },
         ...
-       } # appsettings.json の内容
+       }
    ---
    apiVersion: v1
    kind: ServiceAccount
@@ -356,7 +356,7 @@
      kind: DaemonSet
    ports:
      web:
-     redirectTo: websecure # HTTPをHTTPSにリダイレクト
+       redirectTo: websecure # HTTPをHTTPSにリダイレクト
    additionalArguments:
      - "--entryPoints.web.proxyProtocol.insecure"
      - "--entryPoints.web.forwardedHeaders.insecure"

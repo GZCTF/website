@@ -57,7 +57,7 @@ When enabling complex Leet strings, please pay attention to character injection 
 +-------------+----------------+-------------+----------------+-------------+----------------+
 | Characters  | Replaced with  | Characters  | Replaced with  | Characters  | Replaced with  |
 +-------------+----------------+-------------+----------------+-------------+----------------+
-|     A       |     Aa4@       |      B      |      Bb68      |      C      |      Cc(       |
+|     A       |     Aa4@       |      B      |      Bb6&      |      C      |      Cc(       |
 |     D       |     Dd         |      E      |      Ee3       |      F      |      Ff1       |
 |     G       |     Gg69       |      H      |      Hh        |      I      |      Ii1l!     |
 |     J       |     Jj         |      K      |      Kk        |      L      |      Ll1I!     |
@@ -66,7 +66,7 @@ When enabling complex Leet strings, please pay attention to character injection 
 |     S       |     Ss5$       |      T      |      Tt7       |      U      |      Uu        |
 |     V       |     Vv         |      W      |      Ww        |      X      |      Xx        |
 |     Y       |     Yy         |      Z      |      Zz2?      |      0      |      0oO#      |
-|     1       |     1lI        |      2      |      2zZ?      |      3      |      3eE       |
+|     1       |     1lI|       |      2      |      2zZ?      |      3      |      3eE       |
 |     4       |     4aA        |      5      |      5Ss       |      6      |      6Gb       |
 |     7       |     7T         |      8      |      8B&       |      9      |      9g        |
 +-------------+----------------+-------------+----------------+-------------+----------------+
@@ -132,7 +132,7 @@ The game hash salt `game_salt` can be obtained by accessing the `/api/edit/games
 
 ### How to use Team Hash properly
 
-One main use case of team hash is for external challenges (challenges where the final container accessed by the players which is not instanced by GZCTF). For example, in cases where deploying and managing complicate web challenges is difficult and complex, there might be only one external instance of the challenge instead of a separate instance for each team.
+One main use case of team hash is for external challenges (challenges where the container accessed by the players is not instanced by GZCTF). For example, in cases where deploying and managing complicate web challenges is difficult and complex, there might be only one external instance of the challenge instead of a separate instance for each team.
 In this case, we can verify the team token and generate a dynamic flag based on the team token, ensuring that each team has a unique dynamic flag.
 
 ### Team Signature Verification

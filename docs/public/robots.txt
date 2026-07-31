@@ -1,2 +1,4 @@
 User-agent: *
 Disallow:
+
+Sitemap: https://gzctf.gzti.me/sitemap.xml

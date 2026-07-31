@@ -10,7 +10,7 @@ However, the content inside the static container is the same and there will be n
 
 ### What is the current teaming logic?
 
-A user can participate in multiple teams. Each team member needs to enroll independently for each competition. The same player can participate in multiple contests with different team identities. When enrolling, player need to choose which team to participate with.
+A user can participate in multiple teams. Each team member needs to enroll independently for each competition. The same player can participate in multiple contests with different team identities. When enrolling, players need to choose which team to participate in.
 
 During the enrolling process, you can withdraw the enrolling while waiting for approval or if it is rejected. Once the registration is approved or banned, it cannot be withdrawn and the team cannot be changed, the team will be locked.
 
@@ -52,15 +52,15 @@ When writing challenge description on GZCTF, please pay attention to adding spac
 
 For users who want deploy to multi-node cluster, we recommend using K3s as the distribution of K8s, which can provide all the required features for deployment and is easy to install.
 
-The most convenient deployment method in general is Docker + K3s separate deployment. You only need to execute `docker-compose` to complete the deployment of the GZCTF platform, and the deployment of K3s only requires exporting the kubeconfig after installation and mounting it to GZCTF.
+The most convenient deployment method in general is Docker + K3s separate deployment. You only need to execute `docker compose` to complete the deployment of the GZCTF platform, and the deployment of K3s only requires exporting the kubeconfig after installation and mounting it to GZCTF.
 
-If you need to deploy internally in a K3s cluster, you need to provide two PVCs (for the database and attachment storage), one ConfigMap (for storing appsettings.json), and one Secret (for storing the kube-config.yaml pointing to your own cluster). You can deploy the database and Redis as needed. If you are running only one GZCTF instance, you can choose not to deploy Redis.
+If you need to deploy internally in a K3s cluster, you need to provide two PVCs (for the database and attachment storage), one ConfigMap (for storing appsettings.json), and one Secret (for the TLS certificate of your domain). You can deploy the database and Redis as needed. If you are running only one GZCTF instance, you can choose not to deploy Redis.
 
 **After testing, due to database performance considerations, it is not recommended to use multi-instance distributed deployment. A single instance is sufficient to support most competitions.**
 
 ### Anything worth noting when deploying to a multi-node cluster?
 
-GZCTF supports running multiple instances simultaneously, but requires the same database instance and Redis instance (multiple instances are mandatory) and shared object storage (such as S3), see [appsettings](/config/appsettings).
+GZCTF supports running multiple instances simultaneously, but they must share the same database instance and Redis instance (Redis is mandatory when running multiple instances) and use shared object storage (such as S3), see [appsettings](/config/appsettings).
 
 The database instance and shared storage are used to ensure data consistency, and the Redis instance is used for caching synchronization of backend data and Scale-Out broadcasting of SignalR.
 
@@ -82,4 +82,4 @@ As a free and open-source project, GZCTF will not support AWDP.
 
 Although the compatibility of the current envisioned solution is high enough to support it and it is not impossible to do, implementing it would require a significant amount of time and would likely require three additional projects. It is not acceptable to invest such a large amount of time and effort without any revenue. Additionally, if it were to be implemented, it could potentially impact the profit channels of some companies, which would not be ideal.
 
-The Jeopardy mode itself is already capable of training, and fixing/patching can be achieved through direct teaching and distributing local experiment images. The original intention of GZCTF is to **help universities better train their CTF teams**, rather than hosting formal competitions. From an educational perspective, building an AWD platform is not that necessary. If you want to train AWD / AWD skills, it is better to participate in an onsite competition, which is another aspect of our consideration.
+The Jeopardy mode itself is already capable of training, and fixing/patching can be achieved through direct teaching and distributing local experiment images. The original intention of GZCTF is to **help universities better train their CTF teams**, rather than hosting formal competitions. From an educational perspective, building an AWD platform is not that necessary. If you want to train AWD / AWDP skills, it is better to participate in an onsite competition, which is another aspect of our consideration.

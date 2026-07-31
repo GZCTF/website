@@ -11,14 +11,14 @@ This article focuses on deploying GZCTF in a Kubernetes cluster. For configurati
 ## Deployment Notes
 
 1. GZCTF supports multi-instance deployment, but based on testing, currently the most stable deployment method is a single-instance deployment with the database on the same node. Therefore, this article will focus on single-instance deployment as an example.
-2. For multi-instance deployment, all instances need to use S3/Object Storage to ensure file consistency and write concurenncy (See [#365](https://github.com/GZTimeWalker/GZCTF/issues/365)). Additionally, Redis needs to be deployed to ensure cache consistency among multiple instances. Refer to [appsettings](/config/appsettings) documentation to configure both. Multiple providers are supported such as Azure/AWS/Minio.
+2. For multi-instance deployment, all instances need to use S3/Object Storage to ensure file consistency and write concurrency (See [#365](https://github.com/GZTimeWalker/GZCTF/issues/365)). Additionally, Redis needs to be deployed to ensure cache consistency among multiple instances. Refer to [appsettings](/config/appsettings) documentation to configure both. Multiple providers are supported such as Azure/AWS/Minio.
 3. For multi-instance deployment, the load balancer needs to be configured with sticky sessions to enable real-time data retrieval using websockets.
 4. **If you prefer a simpler deployment, go for a single-instance deployment!**
 5. Since you have chosen to deploy with Kubernetes, it implies that you need a larger number of Pods. Please pay attention to the following configuration:
-   - Specify `--kube-controller-manager-arg=node-cidr-mask-size=16` during installation. The default CIDR is `/24`, supporting a maximum of 255 Pods. **This cannot be changed after installation.**
+   - Specify `--kube-controller-manager-arg=node-cidr-mask-size=22` during installation. The default is `/24`, supporting up to 255 Pods per node. We recommend `/22` (about 1024 Pods per node), or `/20` (about 4096 Pods per node) if needed. Using a smaller mask (e.g. `/16`) only reserves an oversized address block per node and reduces the cluster's ability to scale out workers. **This cannot be changed after installation.**
 
      ```bash
-     INSTALL_K3S_EXEC="--kube-controller-manager-arg=node-cidr-mask-size=16"
+     INSTALL_K3S_EXEC="--kube-controller-manager-arg=node-cidr-mask-size=22"
      ```
 
    - Adjust the value of `maxPods` accordingly, otherwise you may reach the Pod limit and be unable to schedule more Pods.
@@ -50,10 +50,10 @@ This article focuses on deploying GZCTF in a Kubernetes cluster. For configurati
         "ConnectionStrings": {
           "Database": "Host=gzctf-db:5432;Database=ctf;Username=postgres;Password=...",
           "RedisCache": "gzctf-garnet:6379,abortConnect=false",
-          "Storage": "minio.s3://serviceUrl=...;key=...;bucket=..."
+          "Storage": "minio.s3://accessKey=...;secretKey=...;bucket=...;endpoint=...;forcePathStyle=true"
         },
         ...
-       } # content of appsettings.json
+       }
    ---
    apiVersion: v1
    kind: ServiceAccount
@@ -95,7 +95,7 @@ This article focuses on deploying GZCTF in a Kubernetes cluster. For configurati
      namespace: gzctf-server
    spec:
      capacity:
-       storage: 2Gi # If you configured S3 storage then this PV will be used for storing logs only  so 2Gi is too much
+       storage: 2Gi # If you configured S3 storage then this PV will be used for storing logs only, so 2Gi is too much
      accessModes:
        - ReadWriteOnce
      hostPath:
@@ -124,7 +124,7 @@ This article focuses on deploying GZCTF in a Kubernetes cluster. For configurati
        - ReadWriteOnce
      resources:
        requests:
-         storage: 2Gi # If you configured S3 storage then this PV will be used for storing logs only so 2Gi is too much
+         storage: 2Gi # If you configured S3 storage then this PV will be used for storing logs only, so 2Gi is too much
      volumeName: gzctf-files-pv
    ---
    apiVersion: v1
@@ -356,7 +356,7 @@ deployment:
   kind: DaemonSet
 ports:
   web:
-  redirectTo: websecure # Redirect HTTP to HTTPS
+    redirectTo: websecure # Redirect HTTP to HTTPS
 additionalArguments:
   - "--entryPoints.web.proxyProtocol.insecure"
   - "--entryPoints.web.forwardedHeaders.insecure"
@@ -368,6 +368,6 @@ additionalArguments:
 
 1. If you want GZCTF to automatically create an admin account during initialization, make sure to pass the `GZCTF_ADMIN_PASSWORD` environment variable. Otherwise, you will need to manually create the admin account.
 2. Please debug and verify if GZCTF can correctly retrieve the real IP address of users on the system log page. If not, check if the Traefik configuration is correct.
-3. If you want to monitor the resource usage, please deploy Prometheus and Grafana on your own, enable Prometheus support in Traefik, and monitor the resource usage of the challenge containers using node exporter.
+3. If you want to monitor resource usage, please deploy Prometheus and Grafana yourself, enable Prometheus support in Traefik, and use node exporter to monitor the resource usage of challenge containers.
 4. If you need to automatically update the deployment of GZCTF based on the configuration file, please refer to [Reloader](https://github.com/stakater/Reloader).
 5. Inside the cluster, you can use `https://kubernetes.default.svc.cluster.local:443` as the `server` field in the cluster configuration file.

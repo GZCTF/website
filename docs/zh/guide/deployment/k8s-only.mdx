@@ -15,10 +15,10 @@
 3. 多实例部署时，负载均衡器需要配置 sticky session，否则无法使用 websocket 来获取实时数据。
 4. **如果你不想那么麻烦，那就部署单实例吧！**
 5. 既然选择使用 K8s 进行部署，一定程度上说明你需要更大的 Pod 数量，请务必注意如下配置项：
-   - 在安装时指定 `--kube-controller-manager-arg=node-cidr-mask-size=16`，默认的 CIDR 为 `/24`，最多支持 255 个 Pod。**此配置项在安装后无法更改**。
+   - 在安装时指定 `--kube-controller-manager-arg=node-cidr-mask-size=22`，默认的 CIDR 为 `/24`，每个节点最多支持 255 个 Pod。我们推荐使用 `/22`（每个节点约 1024 个 Pod），如有需要可使用 `/20`（每个节点约 4096 个 Pod）。使用更小的掩码（例如 `/16`）只会为每个节点保留过大的地址块，并降低集群横向扩展工作节点的能力。**此配置项在安装后无法更改**。
 
      ```bash
-     INSTALL_K3S_EXEC="--kube-controller-manager-arg=node-cidr-mask-size=16"
+     INSTALL_K3S_EXEC="--kube-controller-manager-arg=node-cidr-mask-size=22"
      ```
 
    - 请自行调整 `maxPods` 的值，否则可能会导致 Pod 数量达到上限而无法调度。
@@ -31,7 +31,7 @@
 
 ## 部署 GZCTF
 
-1. 创建命名空间及配置文件
+1. 创建命名空间及配置文件，参见 [appsettings](/config/appsettings)
 
    ```yaml
    apiVersion: v1
@@ -50,10 +50,10 @@
         "ConnectionStrings": {
           "Database": "Host=gzctf-db:5432;Database=ctf;Username=postgres;Password=...",
           "RedisCache": "gzctf-garnet:6379,abortConnect=false",
-          "Storage": "minio.s3://serviceUrl=...;key=...;bucket=..."
+          "Storage": "minio.s3://accessKey=...;secretKey=...;bucket=...;endpoint=...;forcePathStyle=true"
         },
         ...
-       } # appsettings.json 中的内容
+       }
    ---
    apiVersion: v1
    kind: ServiceAccount
@@ -356,7 +356,7 @@
      kind: DaemonSet
    ports:
      web:
-     redirectTo: websecure # 重定向 HTTP 到 HTTPS
+       redirectTo: websecure # 重定向 HTTP 到 HTTPS
    additionalArguments:
      - "--entryPoints.web.proxyProtocol.insecure"
      - "--entryPoints.web.forwardedHeaders.insecure"

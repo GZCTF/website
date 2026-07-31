@@ -58,12 +58,9 @@ export default defineConfig({
     ],
     lastUpdated: true,
     enableScrollToTop: true,
-    enableContentAnimation: true,
-    enableAppearanceAnimation: false,
     footer: {
       message: "© 2022 - present By GZTimeWalker. All Rights Reserved.",
     },
-    hideNavbar: "auto",
   },
   builderConfig: {
     plugins: [
@@ -78,13 +75,6 @@ export default defineConfig({
     ],
     html: {
       tags: [
-        {
-          tag: "meta",
-          attrs: {
-            property: "og:image",
-            content: "/favicon.webp",
-          },
-        },
         {
           tag: "meta",
           attrs: {

@@ -12,7 +12,7 @@ In `appsettings.json`, locate the `ContainerProvider` section and configure it a
     "PortMappingType": "PlatformProxy",
     "EnableTrafficCapture": false,
     "DockerConfig": {
-      // optional, change it to the actual network if you use docker
+      // optional, the prefix of the challenge networks (Docker backend)
       "ChallengeNetwork": "challenges"
     }
   }
@@ -27,23 +27,14 @@ You can connect using any applications that support this function, or use the re
 
 ## Notes
 
-When using Docker as the backend and using the PlatformProxy port mapping configuration, in order to ensure smooth access to the challenge container in GZCTF, you need to manually create an additional network.
+When using Docker as the backend with the PlatformProxy port mapping, GZCTF needs to access the challenge containers over the challenge network.
+
+Since **v1.8.0**, the `ChallengeNetwork` value is treated as a **network prefix**. GZCTF automatically creates the `<ChallengeNetwork>-open` and `<ChallengeNetwork>-isolated` networks (with `gzctf` as the default prefix) and attaches itself to them, so no manual network creation is required for the default (`open` / `isolated`) network modes.
+
+If you use the `custom` network mode, you need to create the `<ChallengeNetwork>-custom` network yourself before starting the challenge containers, for example:
 
 ```bash
-docker network create challenges -d bridge --subnet 192.168.133.0/24
+docker network create challenges-custom -d bridge --subnet 192.168.133.0/24
 ```
 
-Set the configuration item **ChallengeNetwork** to the corresponding network name, and bridge the external network in the `compose.yml` file, for example:
-
-```yaml
-services:
-  gzctf:
-    ...
-    networks:
-    - default
-    - challenges
-
-networks:
-  challenges:
-    external: true
-```
+And set the configuration item **ChallengeNetwork** to the corresponding prefix, for example `challenges`.

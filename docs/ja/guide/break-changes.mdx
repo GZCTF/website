@@ -1,4 +1,16 @@
-# リリースノート
+# 破壊的変更
+
+## v1.8.0
+
+**破壊的変更**
+
+- **Docker Swarm サポートが削除されました。** セキュリティとスケーラビリティを向上させるために、Kubernetes を使用してください。
+
+- **`ChallengeNetwork` はネットワークプレフィックスとして扱われます。** GZCTF は `<ChallengeNetwork>-open` と `<ChallengeNetwork>-isolated` ネットワークを自動的に作成します（デフォルトのプレフィックスは `gzctf`）。`custom` ネットワークモードでは、`<ChallengeNetwork>-custom` ネットワークを自分で作成してください。詳細は [appsettings](/config/appsettings) を参照してください。
+
+- **`ForwardedOptions` に新しい `KnownIPNetworks` / `KnownProxies` オプションが追加されました。** 旧 `KnownNetworks`、`TrustedNetworks`、`TrustedProxies` キーは後方互換性のために引き続き使用できます。
+
+- **自動管理される NetworkPolicy。** GZCTF は、チャレンジの名前空間で open および isolated ネットワークモードのアクセス制御のため、`gzctf-network-open` と `gzctf-network-isolated` の NetworkPolicy を自動的に作成・管理します。手動で変更・削除しないでください。
 
 ## v1.7.0
 
@@ -54,7 +66,7 @@ Azure Blob Storage はサポートされなくなりました。AWS S3 または
 
 ## v1.2.2
 
-**Breaking Changes**
+**破壊的変更**
 
 - `Google ReCaptcha` の検証コード設定項目が削除されました
 
@@ -62,7 +74,7 @@ Azure Blob Storage はサポートされなくなりました。AWS S3 または
 
 ## v0.24
 
-**Breaking Changes**
+**破壊的変更**
 
 - **`SendMailAddress` が `SenderAddress` に名前が変更されました**
 
@@ -72,9 +84,9 @@ Azure Blob Storage はサポートされなくなりました。AWS S3 または
 
 - **新機能**：多言語対応。今は英語、日本語と中国語を対応しています。
 
-**Break Changes**
+**破壊的変更**
 
-- **データベースは以前のバージョンとの互換性がありません。データベースを新規セットアープ必要があります。元のデータベースを引き続き利用する場合は `v0.17` を使用してください。**
+- **データベースは以前のバージョンとの互換性がありません。データベースを新規セットアップする必要があります。元のデータベースを引き続き利用する場合は `v0.17` を使用してください。**
 
   更新手順：元のデータベースを削除し、再初期化します。
 
@@ -86,7 +98,7 @@ Azure Blob Storage はサポートされなくなりました。AWS S3 または
 
 ## v0.17
 
-**Break Changes**
+**破壊的変更**
 
 - **元の `uploads` ディレクトリを `files/uploads` に移動し、このディレクトリの設定項目を削除し、ログの保存場所を変更しました。**
 

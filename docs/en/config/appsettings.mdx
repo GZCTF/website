@@ -155,13 +155,13 @@ Here is a complete example of configuration:
 
 ### ConnectionStrings
 
-Here we can the configure the connection of the database.
+Here we can configure the connection of the database.
 
 #### `Database`
 
 This field is required.
 
-GZCTF uses PostgreSQL as the backend database and data persistence
+GZCTF uses PostgreSQL as the backend database and data persistence.
 
 :::info
 
@@ -212,7 +212,7 @@ For more information, see the following links:
 
 ### Logging
 
-You can configure the logging level and scopes, besides, GZCTF also supports sending logs to Loki server.
+You can configure the logging level and scopes. In addition, GZCTF also supports sending logs to Loki server.
 
 - **LogLevel**: The minimal logging level per namespace.
 - **Loki**: The configuration of Loki server.
@@ -259,7 +259,7 @@ Here we can configure the information of email sending server. If you use email 
 
 :::info
 
-Some cloud service provider may block port 465, please try port 587.
+Some cloud service providers may block port 465, please try port 587.
 
 :::
 
@@ -352,7 +352,7 @@ Enable/Disable request rate limit, if enabled, the request rate of each IP and A
 
 :::danger
 
-**This feature is the fundamental to the security of GZCTF, take your own risk when disabling it.**
+**This feature is fundamental to the security of GZCTF, take your own risk when disabling it.**
 
 In most cases, there is no situation where users can reach the rate limit. If you encounter frequent triggering of the rate limit and abnormal IP information in the backend logs (such as a large number of requests from the same IP), please check the **trusted proxy configurations**.
 
@@ -362,9 +362,9 @@ With this configuration enabled, GZCTF can use minimal resources to block malici
 
 ### RegistryConfig
 
-::: warning
+:::warning
 
-**This configuration item is about to be deprecated, please use the `Registries` field to define it.**
+**This configuration item is deprecated, please use the `Registries` field instead.**
 
 :::
 
@@ -427,18 +427,13 @@ Configure the HashPow captcha related information, optional.
 
 #### GoogleRecaptcha
 
-:::danger DEPRECATED
+:::warning
 
-This feature is deprecated and will be removed in `v1.2.2` due to the lack of maintenance of upstream dependency.
+**Removed in v1.2.2.** The Google ReCaptcha support was removed due to the lack of maintenance of the upstream dependency.
 
 Please use the `CloudflareTurnstile` CAPTCHA provider instead.
 
 :::
-
-Configure the Google Recaptcha v3 related information, optional.
-
-- **VerifyAPIAddress:** Google Recaptcha verify API address
-- **RecaptchaThreshold:** Google Recaptcha threshold, used to determine whether the captcha is effective
 
 ### ForwardedOptions
 
@@ -456,16 +451,16 @@ If you want to ignore the trust list of reverse proxies and allow any IP address
 
 :::
 
-For other fields, please refer to the official documentation: [Configure ASP.NET Core to work with proxy servers and load balancers](https://docs.microsoft.com/en-us/aspnet/core/host-and-deploy/proxy-load-balancer) and [ForwardedHeadersOptions class](https://docs.microsoft.com/en-us/dotnet/api/microsoft.aspnetcore.builder.forwardedheadersoptions)
+For other fields, please refer to the official documentation: [Configure ASP.NET Core to work with proxy servers and load balancers](https://learn.microsoft.com/en-us/aspnet/core/host-and-deploy/proxy-load-balancer) and [ForwardedHeadersOptions class](https://learn.microsoft.com/en-us/dotnet/api/microsoft.aspnetcore.builder.forwardedheadersoptions)
 
 ### Kestrel
 
-::: warning In most cases, you don't need to modify the Kestrel configuration.
+:::warning In most cases, you don't need to modify the Kestrel configuration.
 
 Kestrel is the built-in web server used by GZCTF.
 
 With this configuration, you can control the behavior of Kestrel, such as specifying the HTTP protocol, modifying the request size limit, and more.
 
-For other configurable fields, please refer to the properties of the `KestrelServerOptions` class in the official documentation: [KestrelServerOptions class](https://docs.microsoft.com/en-us/dotnet/api/microsoft.aspnetcore.server.kestrel.core.kestrelserveroptions)
+For other configurable fields, please refer to the properties of the `KestrelServerOptions` class in the official documentation: [KestrelServerOptions class](https://learn.microsoft.com/en-us/dotnet/api/microsoft.aspnetcore.server.kestrel.core.kestrelserveroptions)
 
 :::

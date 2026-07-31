@@ -1,6 +1,6 @@
 # Quick Start
 
-GZCTF is distributed as a Docker image, you can deploy a fully functional CTF platform with docker-compose. Please note that this is not the only way to deploy GZCTF, we recommend using Kubernetes to deploy. Please refer to for related deployment methods.
+GZCTF is distributed as a Docker image, you can deploy a fully functional CTF platform with docker-compose. Please note that this is not the only way to deploy GZCTF, we recommend using Kubernetes to deploy. Please refer to the [deployment methods](/guide/deployment/options) chapter for related deployment methods.
 
 :::warning
 
@@ -61,14 +61,14 @@ You will need to install Docker and docker-compose to get started with GZCTF. Yo
      "ForwardedOptions": {
        "ForwardedHeaders": 7,
        "ForwardLimit": 1,
-       "KnownIPNetworks": ["192.168.12.0/8"]
+       "KnownIPNetworks": ["192.168.12.0/24"]
      }
    }
    ```
 
 3. Save the following content as the `compose.yml` file, **and replace with your initialization parameters**. Available backend languages are `en-US`, `zh-CN`, `zh-TW`, `ja-JP`, `id-ID`, `ko-KR`, `ru-RU`, `de-DE`, `fr-FR`, `es-ES`, `vi-VN`.
 
-   ```yml
+   ```yaml
    services:
      gzctf:
        image: gztime/gzctf:latest

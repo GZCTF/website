@@ -4,7 +4,7 @@
 
 :::info
 
-`appsettings.json` の更新は、GZCTF サービスを再起動するたびに反応されます。
+`appsettings.json` の更新は、GZCTF サービスを再起動するたびに反映されます。
 
 :::
 
@@ -173,7 +173,7 @@ GZCTF はデータベースとして PostgreSQL のみをサポートしてお�
 
 このフィールドはオプションです。
 
-GZCTFはRedis をキャッシュおよびメッセージキューとして使用します。単一インスタンスのデプロイでは Redis は必須ではなく、GZCTF のメモリキャッシュを直接使用できます。複数インスタンスのデプロイでは、Redis は必須であり、共有キャッシュおよび SignalR の Scale-Out ブロードキャストとして使用されます。
+GZCTF は Redis をキャッシュおよびメッセージキューとして使用します。単一インスタンスのデプロイでは Redis は必須ではなく、GZCTF のメモリキャッシュを直接使用できます。複数インスタンスのデプロイでは、Redis は必須であり、共有キャッシュおよび SignalR の Scale-Out ブロードキャストとして使用されます。
 
 v1.0以降、GZCTFは[ガーネット](https://github.com/microsoft/garnet)をキャッシュサービスとして使用することをサポートしています。
 
@@ -237,7 +237,7 @@ GZCTF はメトリクスと分散トレーシングをサポートしていま�
 - **OpenTelemetry**: メトリクスとトレーシングデータを OpenTelemetry にエクスポートします。
   - **Enable**: 有効にするかどうか。
   - **Protocol**: `Grpc` または `HttpProtobuf`。
-  - **EndpointUri**: テレメトリーデーターがプッシュされる OpenTelemetry エンドポイント URI。
+  - **EndpointUri**: テレメトリーデータがプッシュされる OpenTelemetry エンドポイント URI。
 
 - **AzureMonitor**: メトリクスとトレーシングデータを ApplicationInsights にエクスポートします。
   - **Enable**: 有効にするかどうか。
@@ -288,7 +288,7 @@ Docker Swarm は v1.8.0 以降サポートされなくなりました。より�
   - ローカルの Docker を使用する場合は、`Uri` を空にし、`/var/run/docker.sock` をコンテナの対応する位置にマウントします。
   - 外部の Docker を使用する場合は、`Uri` を対応する Docker API Server に指定します。**API 認証を使用することを推奨します。**
 
-- **ChallengeNetwork：**
+- **ChallengeNetwork:**
 
   **v1.8.0 以前**
 
@@ -309,7 +309,7 @@ Docker Swarm は v1.8.0 以降サポートされなくなりました。より�
 - **AllowCIDR:** Pod へのアクセスを許可する CIDR ホワイトリスト。
 - **DNS:** クラスタ DNS を避けるためのカスタム DNS サーバーリスト。
 
-デフォルトの動作は、クラスタ接続設定を`kube-config.yaml`ファイルに入れ、それを`/app`ディレクトリにマウントすることです。実験的な機能は、行動を理解していない限り、変更しないでください。
+デフォルトの動作は、クラスタ接続設定を`kube-config.yaml`ファイルに入れ、それを`/app`ディレクトリにマウントすることです。実験的な機能は、動作を理解していない限り、変更しないでください。
 
 :::info
 
@@ -362,7 +362,7 @@ GZCTF はチャレンジの Namespace に `gzctf-network-open` と `gzctf-networ
 
 ### RegistryConfig
 
-::: warning
+:::warning
 
 **この設定項目は非推奨となり、`Registries` フィールドを使用して定義してください。**
 
@@ -388,6 +388,8 @@ GZCTF はチャレンジの Namespace に `gzctf-network-open` と `gzctf-networ
   }
 }
 ```
+
+上記の形式に従って、他のレジストリの設定をカスタマイズできます。`UserName` と `Password` フィールドは必須です。
 
 :::info
 
@@ -417,7 +419,7 @@ HashPow キャプチャの関連情報を設定します。オプションです
 
 :::info
 
-**安全なコンテキスト用**: この機能は一部またはすべての[対応しているブラウザー](https://developer.mozilla.org/en-US/docs/Web/Security/Secure_Contexts)において、安全なコンテキスト (HTTPS) でのみ利用できます。
+**安全なコンテキスト**: この機能は[安全なコンテキスト](https://developer.mozilla.org/en-US/docs/Web/Security/Secure_Contexts)（HTTPS）でのみ利用できます。
 
 :::
 
@@ -425,18 +427,13 @@ HashPow キャプチャの関連情報を設定します。オプションです
 
 #### GoogleRecaptcha
 
-:::danger DEPRECATED
+:::warning
 
-この機能は非推奨となり、v1.2.2以降で削除されます。これは上流依存関係のメンテナンス不足によるものです。
+**v1.2.2 で削除されました。** 上流依存関係のメンテナンス不足のため、Google ReCaptcha のサポートは削除されました。
 
-代わりに `CloudflareTurnstile` CAPTCHAプロバイダをご利用ください。
+代わりに `CloudflareTurnstile` CAPTCHA プロバイダをご利用ください。
 
 :::
-
-Google Recaptcha v3 の関連情報を設定します。オプションです。
-
-- **VerifyAPIAddress:** Google Recaptcha の検証 API アドレス
-- **RecaptchaThreshold:** Google Recaptcha の閾値。キャプチャが有効かどうかを判断するために使用します。
 
 ### ForwardedOptions
 
@@ -458,7 +455,7 @@ Google Recaptcha v3 の関連情報を設定します。オプションです。
 
 ### Kestrel
 
-::: warning ほとんどの場合、Kestrel の設定を変更する必要はありません。
+:::warning ほとんどの場合、Kestrel の設定を変更する必要はありません。
 
 Kestrel は GZCTF が内蔵して使用している Web サーバーです。
 

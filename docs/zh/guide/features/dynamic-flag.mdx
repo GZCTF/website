@@ -15,9 +15,9 @@ GZCTF 自带对于动态 flag 分发的支持，将会在容器启用时采用 `
 1. 留空以生成随机 `GUID` 作为 flag
 2. 指定 `[GUID]` 则会 **仅** 替换此处的占位符为随机 GUID
 3. 若指定 `[TEAM_HASH]` 则它将会被替换为队伍 Token 与相关信息所生成的哈希值
-4. 若未指定 `[TEAM_HASH]` 则将启用 Leet 字符串功能，将会基于模版对花括号内字符串进行变换，需要确保 flag 模版字符串的熵足够高
-5. 若需要在指定 `[TEAM_HASH]` 的情况下启用 Leet 字符串功能，请在 flag 模版字符串之前添加 `[LEET]` 标记，此时不会检查 flag 模版字符串的熵
-6. 若需要在 Leet 字符串时启用特殊字符（可能会导致注入问题），请在 flag 模版字符串之前添加 `[CLEET]` 标记
+4. 若未指定 `[TEAM_HASH]` 则将启用 Leet 字符串功能，将会基于模板对花括号内字符串进行变换，需要确保 flag 模板字符串的熵足够高
+5. 若需要在指定 `[TEAM_HASH]` 的情况下启用 Leet 字符串功能，请在 flag 模板字符串之前添加 `[LEET]` 标记，此时不会检查 flag 模板字符串的熵
+6. 若需要在 Leet 字符串时启用特殊字符（可能会导致注入问题），请在 flag 模板字符串之前添加 `[CLEET]` 标记
 
 ## 规则示例
 
@@ -57,7 +57,7 @@ Leet 字符串是一种将字符串中的字符替换为数字或符号的方法
 +-------------+----------------+-------------+----------------+-------------+----------------+
 | Characters  | Replaced with  | Characters  | Replaced with  | Characters  | Replaced with  |
 +-------------+----------------+-------------+----------------+-------------+----------------+
-|     A       |     Aa4@       |      B      |      Bb68      |      C      |      Cc(       |
+|     A       |     Aa4@       |      B      |      Bb6&      |      C      |      Cc(       |
 |     D       |     Dd         |      E      |      Ee3       |      F      |      Ff1       |
 |     G       |     Gg69       |      H      |      Hh        |      I      |      Ii1l!     |
 |     J       |     Jj         |      K      |      Kk        |      L      |      Ll1I!     |
@@ -66,7 +66,7 @@ Leet 字符串是一种将字符串中的字符替换为数字或符号的方法
 |     S       |     Ss5$       |      T      |      Tt7       |      U      |      Uu        |
 |     V       |     Vv         |      W      |      Ww        |      X      |      Xx        |
 |     Y       |     Yy         |      Z      |      Zz2?      |      0      |      0oO#      |
-|     1       |     1lI        |      2      |      2zZ?      |      3      |      3eE       |
+|     1       |     1lI|       |      2      |      2zZ?      |      3      |      3eE       |
 |     4       |     4aA        |      5      |      5Ss       |      6      |      6Gb       |
 |     7       |     7T         |      8      |      8B&       |      9      |      9g        |
 +-------------+----------------+-------------+----------------+-------------+----------------+
@@ -92,15 +92,15 @@ m_i &= \begin{cases}
 
 队伍哈希是一种将队伍 Token 与相关信息进行哈希的方法，它将会被用于动态 flag 的生成，以保证每一个队伍都有唯一的 flag。
 
-在 GZCTF 中，队伍哈希为 SHA256 哈希的中部 12 位，例如 `5418ce4d815c`，它将会被用于替换 flag 模版中的 `[TEAM_HASH]` 占位符。
+在 GZCTF 中，队伍哈希为 SHA256 哈希的中部 12 位，例如 `5418ce4d815c`，它将会被用于替换 flag 模板中的 `[TEAM_HASH]` 占位符。
 
 队伍哈希的计算采用了三个参数：
 
-- 队伍 Token：在队伍注册时由系统生成、签发的、可被公钥验证的 ed25519 签名
+- 队伍 Token：在队伍注册时由系统生成并签发、可被公钥验证的 ed25519 签名
 - 题目 ID：题目的唯一标识符
 - 比赛哈希盐：加密后的比赛签名私钥加盐之后的 SHA256 哈希
 
-生成 Team Hash 的类 python 代码如下：
+生成 Team Hash 的 Python 代码如下：
 
 ```python
 from hashlib import sha256
@@ -126,13 +126,13 @@ team_hash = str_sha256(f"{chal_salt}::{team_token}")[12:24]
 ### 安全性
 
 - 队伍 Token 由 GZCTF 签发，它是一个 ed25519 签名，**可以被公钥验证，因此不会被伪造**
-- 比赛哈希盐是一个比赛特异的值，源自比赛签名私钥的哈希，**需要管理员保证其安全性**
+- 比赛哈希盐是一个比赛特异的值，源自比赛签名私钥的哈希，**管理员需确保其保密性**
 - 题目 ID 是一个整数，在创建题目时由系统生成，**由管理员结合比赛哈希盐来计算题目哈希盐**
 - 题目哈希盐是一个题目特异的值，应当被用于最终的 Team Hash 计算，**其泄漏不会影响其他题目的安全性**
 
 ### 正确使用
 
-队伍哈希的一个核心的使用场景是外部题目（队伍所访问的最终容器并非 GZCTF 所启动的容器），例如某些 Web 题目的部署难度高、依赖复杂的情况下，题目可能只有一个外部实例，而不是每一个队伍都有一个独立的实例。
+队伍哈希的核心使用场景之一是外部题目（队伍所访问的最终容器并非 GZCTF 所启动的容器），例如某些 Web 题目的部署难度高、依赖复杂的情况下，题目可能只有一个外部实例，而不是每一个队伍都有一个独立的实例。
 
 在这种情况下，我们可以通过校验队伍 Token 并根据队伍 Token 来独立生成 flag，从而保证每一个队伍都有唯一的动态 flag。
 
@@ -150,7 +150,7 @@ s2r5WQUClYNsldJrRKanrKivBUtyN+3MjeOiKNL3znI=
 1201:HCdjp352NcQoL/4gS8RP3xRt5B9xX2V4m2UeoqfM2dxcLrI5FiYQ7HC9pqreG+tudWjYJf0atzQhhAKyYDKsCg==
 ```
 
-可以使用以下代码来校验队伍 Token，其中 `base64` 和 `nacl` 为 python 库：
+可以使用以下代码来校验队伍 Token，其中 `base64` 和 `nacl` 为 Python 库：
 
 ```python
 from base64 import b64decode
@@ -167,6 +167,6 @@ except:
     print("Invalid token")
 ```
 
-PyNaCl 是 libsodium 的 python 封装，在常见的系统中大概率已经预装了 libsodium，详情参考： [PyNaCl](https://pynacl.readthedocs.io/en/latest/)。
+PyNaCl 是 libsodium 的 Python 封装，在常见的系统中大概率已经预装了 libsodium，详情参考： [PyNaCl](https://pynacl.readthedocs.io/en/latest/)。
 
 你也可以使用任何其他语言的 ed25519 签名校验库来校验队伍 Token 是否为平台所签发的有效签名，并为下发 flag 的安全性做密码学保证。

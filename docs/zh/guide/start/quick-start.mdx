@@ -61,7 +61,7 @@ GZCTF 的安全性和前端功能（如操作剪贴板）依赖于 HTTPS，此�
      "ForwardedOptions": {
        "ForwardedHeaders": 7,
        "ForwardLimit": 1,
-       "KnownIPNetworks": ["192.168.12.0/8"]
+       "KnownIPNetworks": ["192.168.12.0/24"]
      }
    }
    ```
@@ -71,7 +71,7 @@ GZCTF 的安全性和前端功能（如操作剪贴板）依赖于 HTTPS，此�
    ```yaml
    services:
      gzctf:
-       image: registry.cn-shanghai.aliyuncs.com/gztime/gzctf:develop
+        image: registry.cn-shanghai.aliyuncs.com/gztime/gzctf:latest
        restart: always
        environment:
          - "GZCTF_ADMIN_PASSWORD=<Your GZCTF_ADMIN_PASSWORD>"
@@ -98,7 +98,7 @@ GZCTF 的安全性和前端功能（如操作剪贴板）依赖于 HTTPS，此�
 
 :::info
 
-你有可能遇到网段冲突的情况，请参考相关更改 `compose.yml`
+你有可能遇到网段冲突的情况，请参考 `compose.yml`
 中的子网配置或 `/etc/docker/daemon.json` 中的网段配置。
 
 ```yaml
@@ -141,7 +141,7 @@ gzctf=# #do your sql query
 
 ## 使用 Garnet/Redis 作为缓存
 
-如果你想使用 Garnet/Redis 作为缓存，获得更无缝的版本切换、服务端重启体验，可以在上述到配置中添加如下内容：
+如果你想使用 Garnet/Redis 作为缓存，获得更无缝的版本切换、服务端重启体验，可以在上述配置中添加如下内容：
 
 1. `compose.yml` 文件
 
@@ -205,8 +205,8 @@ registry.cn-shanghai.aliyuncs.com/gztime/gzctf:latest
 
 题目配置和题目示例请见 [GZCTF-Challenges](https://github.com/GZTimeWalker/GZCTF-Challenges) 仓库。
 
-也可以参考和借鉴 [W4terCTF 2023](https://github.com/W4terDr0p/W4terCTF-2023) 的公开题目仓库，此内的题目均在题目正常工作的情况下尽量保证 Docker Image 的体积足够小，以便于在比赛中快速部署。
+也可以参考和借鉴 [W4terCTF 2023](https://github.com/W4terDr0p/W4terCTF-2023) 的公开题目仓库，这个仓库中的题目在保证题目正常工作的情况下，尽量将 Docker Image 的体积做得足够小，以便于在比赛中快速部署。
 
-建议使用 [GZCTF Challenge Base](https://github.com/GZCTF/challenge-base) 镜像作为题目容器的基础镜像，我们尽可能最小化了这些基础镜像，并定期更新；利用他们可以确保题目容器最大限度共享镜像层，减少存储空间占用和镜像拉取时间。
+建议使用 [GZCTF Challenge Base](https://github.com/GZCTF/challenge-base) 镜像作为题目容器的基础镜像，我们尽可能最小化了这些基础镜像，并定期更新；利用它们可以确保题目容器最大限度共享镜像层，减少存储空间占用和镜像拉取时间。
 
-GZCTF 通过将 `GZCTF_FLAG` 环境变量注入到容器中来实现动态 flag 的分发，因此请确保题目**的容器初始化脚本**中将这个环境变量中的文本放入到合适的位置。请注意，这一环境变量的初始化是在容器启动时进行的，而非容器镜像构建时。
+GZCTF 通过将 `GZCTF_FLAG` 环境变量注入到容器中来实现动态 flag 的分发，因此请确保题目的**容器初始化脚本**中将这个环境变量中的文本放入到合适的位置。请注意，这一环境变量的初始化是在容器启动时进行的，而非容器镜像构建时。

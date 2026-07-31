@@ -12,7 +12,7 @@ GZCTFには、WebSocket-TCPの転送機能と対応するトラフィック記�
     "PortMappingType": "PlatformProxy",
     "EnableTrafficCapture": false,
     "DockerConfig": {
-      // optional, change it to the actual network if you use docker
+      // オプション、チャレンジネットワークのプレフィックス（Docker バックエンド）
       "ChallengeNetwork": "challenges"
     }
   }
@@ -21,29 +21,20 @@ GZCTFには、WebSocket-TCPの転送機能と対応するトラフィック記�
 
 ## 使用方法
 
-プラットフォームプロキシが有効になった後、プラットフォームの `/api/proxy/{guid}` ンターフェースを使用して、TCP over WebSocketのトラフィック転送を行うことができます。
+プラットフォームプロキシが有効になった後、プラットフォームの `/api/proxy/{guid}` インターフェースを使用して、TCP over WebSocketのトラフィック転送を行うことができます。
 
-任意のこの方式をサポートするプログラムを接続することができます。また、推奨クライアント：[WebSocketReflectorX](https://github.com/XDSEC/WebSocketReflectorX)を使用してローカルポートプロキシを行い、無感覚なインタラクションを行うことができます。
+任意のこの方式をサポートするプログラムを接続することができます。また、推奨クライアント：[WebSocketReflectorX](https://github.com/XDSEC/WebSocketReflectorX)を使用してローカルポートプロキシを行い、シームレスなインタラクションを行うことができます。
 
 ## 注意事項
 
-`Docker` をバックエンドとして単体で使用し、`PlatformProxy` ポートマッピングタイプを使用する場合、GZCTFがチャレンジのコンテナにスムーズにアクセスできるように、追加で手動でネットワークを作成する必要があります：
+`Docker` をバックエンドとして単体で使用し、`PlatformProxy` ポートマッピングタイプを使用する場合、GZCTFはチャレンジコンテナにアクセスするためにネットワークを経由する必要があります。
+
+**v1.8.0 以降、**`ChallengeNetwork` の値は**ネットワークプレフィックス**として扱われます。GZCTF は `<ChallengeNetwork>-open` と `<ChallengeNetwork>-isolated` ネットワークを自動的に作成し（デフォルトのプレフィックスは `gzctf`）、自身もこれらのネットワークに自動的に接続するため、デフォルト（`open` / `isolated`）ネットワークモードではネットワークを手動で作成する必要はありません。
+
+`custom` ネットワークモードを使用する場合は、チャレンジコンテナを起動する前に `<ChallengeNetwork>-custom` ネットワークを自分で作成する必要があります。例えば：
 
 ```bash
-docker network create challenges -d bridge --subnet 192.168.133.0/24
+docker network create challenges-custom -d bridge --subnet 192.168.133.0/24
 ```
 
-設定項目 **ChallengeNetwork** を対応するネットワーク名に設定し、`compose.yml` で外部ネットワークをブリッジする必要があります。例えば：
-
-```yaml
-services:
-  gzctf:
-    ...
-    networks:
-    - default
-    - challenges
-
-networks:
-  challenges:
-    external: true
-```
+設定項目 **ChallengeNetwork** を対応するプレフィックス（例：`challenges`）に設定してください。

@@ -1,44 +1,76 @@
 # 破坏性变更
 
+## v1.8.0
+
+**破坏性变更**
+
+- **已移除 Docker Swarm 支持**，请使用 Kubernetes 以获得更好的安全性和可扩展性。
+
+- **`ChallengeNetwork` 现在被视为网络前缀。** GZCTF 会自动创建 `<ChallengeNetwork>-open` 和 `<ChallengeNetwork>-isolated` 网络（默认前缀为 `gzctf`）。对于 `custom` 网络模式，请自行创建 `<ChallengeNetwork>-custom` 网络。更多细节参见 [appsettings](/config/appsettings)。
+
+- **`ForwardedOptions` 新增 `KnownIPNetworks` / `KnownProxies` 配置项。** 旧的 `KnownNetworks`、`TrustedNetworks` 和 `TrustedProxies` 键仍保留用于向后兼容。
+
+- **自动管理的 NetworkPolicy。** GZCTF 现在会在题目命名空间中创建并维护 `gzctf-network-open` 和 `gzctf-network-isolated` NetworkPolicy，分别用于 open 和 isolated 网络模式的访问控制。请勿手动修改或删除它们。
+
 ## v1.7.0
 
 **存储系统重构 - 参数名变更 (⚠️ 需要更新配置)**
 
-| 存储类型   | v1.6.2                     | v1.7.0                             | 状态          |
-| ---------- | -------------------------- | ---------------------------------- | ------------- |
-| AWS S3     | `keyId`/`key`              | `accessKey`/`secretKey`            | ❌ 参数名变更 |
-| MinIO      | `keyId`/`key`/`serviceUrl` | `accessKey`/`secretKey`/`endpoint` | ❌ 参数名变更 |
-| Azure Blob | `account`/`key`            | ❌ **不再支持**                    | ❌ **已移除** |
+### 存储连接字符串变更
 
-**AWS S3 示例:**
+| 存储类型   | 旧格式              | 新格式                        | 状态          |
+| ---------- | ------------------- | ----------------------------- | ------------- |
+| 本地磁盘   | `disk://path=...`   | `disk://path=...`             | ✅ 无变化     |
+| AWS S3     | `keyId=...;key=...` | `accessKey=...;secretKey=...` | ❌ 参数名变更 |
+| MinIO S3   | `keyId=...;key=...` | `accessKey=...;secretKey=...` | ❌ 参数名变更 |
+| Azure Blob | `azure.blobs://...` | ❌ 不再支持                   | ❌ 已移除     |
+
+### ⚠️ 必须更新
+
+**AWS S3 / MinIO 用户：**
+
+更新 `ConnectionStrings:Storage`：
 
 ```
-# v1.6.2
+# 旧格式
 aws.s3://keyId=AKIA...;key=secret...;bucket=my-bucket;region=us-east-1
-
-# v1.7.0
+# 新格式
 aws.s3://accessKey=AKIA...;secretKey=secret...;bucket=my-bucket;region=us-east-1
-```
 
-**MinIO 示例:**
-
-```
-# v1.6.2
+# 旧格式
 minio.s3://keyId=admin;key=admin;bucket=gzctf;serviceUrl=http://minio:9000
-
-# v1.7.0
+# 新格式
 minio.s3://accessKey=admin;secretKey=admin;bucket=gzctf;endpoint=http://minio:9000;forcePathStyle=true
 ```
 
-⚠️ **Azure Blob Storage 已移除** - 迁移到 MinIO (自托管) 或 AWS S3
+**Azure Blob 用户：**
 
-**S3 参数:** `accessKey`, `secretKey` (必需\*), `bucket`, `region`, `endpoint` (可选), `useHttp`, `forcePathStyle`, `sessionToken`
+Azure Blob 存储不再受支持，请迁移到 AWS S3 或 MinIO：
 
-⚠️ **数据库自动升级，不支持降级**
+1. 选择替代存储
+2. 迁移文件数据
+3. 更新 GZCTF 配置
+4. 重启 GZCTF
+
+### S3 参数
+
+- `accessKey`（必需\*）：AWS Access Key ID
+- `secretKey`（必需\*）：AWS Secret Access Key
+- `bucket`（必需）：存储桶名称
+- `region`（必需\*\*）：AWS 区域
+- `endpoint`（可选）：MinIO 的自定义 URL
+- `useHttp`（可选）：使用 HTTP（默认：false）
+- `forcePathStyle`（可选）：使用路径样式 URL（默认：false）
+- `sessionToken`（可选）：临时凭据
+
+\* 如果省略，则使用 AWS 默认凭据链
+\*\* 必须指定 `region` 或 `endpoint` 其中之一
+
+⚠️ **数据库自动升级，不支持降级。**
 
 ## v1.2.2
 
-**Breaking Changes**
+**破坏性变更**
 
 - 移除 `Google ReCaptcha` 验证码配置项
 
@@ -46,7 +78,7 @@ minio.s3://accessKey=admin;secretKey=admin;bucket=gzctf;endpoint=http://minio:90
 
 ## v0.24
 
-**Breaking Changes**
+**破坏性变更**
 
 - **配置项 `SendMailAddress` 已更名为 `SenderAddress`**
 
@@ -56,7 +88,7 @@ minio.s3://accessKey=admin;secretKey=admin;bucket=gzctf;endpoint=http://minio:90
 
 - **新增**：初步支持了 i18n 多语言支持，目前支持中文、日文、英文
 
-**Break Changes**
+**破坏性变更**
 
 - **数据库结构不再与之前兼容，需要重新初始化数据库，如需保持数据请使用 `v0.17` 版本**
 
@@ -70,7 +102,7 @@ minio.s3://accessKey=admin;secretKey=admin;bucket=gzctf;endpoint=http://minio:90
 
 ## v0.17
 
-**Break Changes**
+**破坏性变更**
 
 - **将原有 `uploads` 目录移动至 `files/uploads`，移除了此目录的配置项，更改了日志存储位置**
 

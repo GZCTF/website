@@ -1,6 +1,6 @@
 # appsettings.json 配置
 
-`appsettings.json` 文件是 GZCTF 的核心配置文件，通过挂载入容器内的方式进行配置。本篇将介绍配置文件的各个字段的含义。
+`appsettings.json` 文件是 GZCTF 的核心配置文件，通过将文件挂载到容器内的方式进行配置。本篇将介绍配置文件的各个字段的含义。
 
 :::info
 
@@ -169,7 +169,7 @@ GZCTF 使用 PostgreSQL 作为后端数据库和数据持久化。
 Host=db:5432;Database=gzctf;Username=postgres;Password=<Database Password>
 ```
 
-请将 `<Database Password>` 替换为你的 PostgreSQL 数据库密码 (通常是通过 `POSTGRES_PASSWORD` 环境变量设置)
+请将 `<Database Password>` 替换为你的 PostgreSQL 数据库密码 (通常是通过 `POSTGRES_PASSWORD` 环境变量设置的)
 
 更多参数可以参考 [Npgsql 连接字符串参数文档](https://www.npgsql.org/doc/connection-string-parameters.html)
 
@@ -189,7 +189,7 @@ GZCTF 仅支持 PostgreSQL 作为数据库，不支持 MySQL 等其他数据库�
 
 可选参数。
 
-GZCTF 使用 Redis 作为缓存和消息队列。单实例部署的情况下 Redis 不是必须的，可以直接采用 GZCTF 的内存缓存；多实例部署的情况下，Redis 是必须的，用作共享缓存和 SignalR 的 Scale-Out 广播。
+GZCTF 使用 Redis 作为缓存和消息队列。单实例部署的情况下 Redis 不是必需的，可以直接采用 GZCTF 的内存缓存；多实例部署的情况下，Redis 是必需的，用作共享缓存和 SignalR 的 Scale-Out 广播。
 
 在 v1.0 后支持使用 [Garnet](https://github.com/microsoft/garnet) 作为缓存服务。
 
@@ -244,18 +244,18 @@ GZCTF 支持两种类型的存储提供商：
 
 ### Telemetry
 
-GZCTF 支持测量和分布式追踪。您可以配置您想要使用的提供商。
+GZCTF 支持指标和分布式追踪。您可以配置您想要使用的提供商。
 
 - **Prometheus**: Prometheus 支持。
   - **Enable**: 是否启用。
   - **TotalNameSuffixForCounters**: 可选。是否在计数器中包含 `_total` 后缀。
 
-- **OpenTelemetry**：将测量和追踪数据导出到 OpenTelemetry。
+- **OpenTelemetry**：将指标和追踪数据导出到 OpenTelemetry。
   - **Enable**：是否启用。
   - **Protocol**：`Grpc` 或 `HttpProtobuf`。
   - **EndpointUri**：将数据推送到的 OpenTelemetry 地址。
 
-- **AzureMonitor**：将测量和追踪数据导出到 ApplicationInsights。
+- **AzureMonitor**：将指标和追踪数据导出到 ApplicationInsights。
   - **Enable**：是否启用。
   - **ConnectionString**：连接字符串。
 
@@ -290,7 +290,7 @@ GZCTF 支持测量和分布式追踪。您可以配置您想要使用的提供�
 - **Type:** 容器后端类型，可选 `Docker` 或 `Kubernetes`。
 - **PublicEntry:** 容器后端的公网地址，用于生成比赛的访问地址，展示给参赛队伍。
 - **PortMappingType:** 端口映射类型，可选 `Default` 或 `PlatformProxy`。
-- **EnableTrafficCapture:** 是否开启流量捕获，仅在 `PortMappingType` 设置为 `PlatformProxy` 时可用。若开启，将会记录流量于 `/app/files/capture` 目录下。
+- **EnableTrafficCapture:** 是否开启流量捕获，仅在 `PortMappingType` 设置为 `PlatformProxy` 时可用。若开启，将会在 `/app/files/capture` 目录下记录流量。
 
 #### Docker
 
@@ -304,7 +304,7 @@ GZCTF 支持测量和分布式追踪。您可以配置您想要使用的提供�
   - 如需使用本地 Docker，请将 `Uri` 置空，并将 `/var/run/docker.sock` 挂载入容器对应位置
   - 如需使用外部 Docker，请将 `Uri` 指向对应 Docker API Server，**建议配置鉴权**
 
-- **ChallengeNetwork：**
+- **ChallengeNetwork:**
 
   **v1.8.0 之前**
 
@@ -325,7 +325,7 @@ GZCTF 支持测量和分布式追踪。您可以配置您想要使用的提供�
 - **AllowCIDR:** 允许访问 Pod 的 CIDR 白名单
 - **DNS:** 避免使用集群 DNS 的自定义 DNS 服务器列表
 
-默认行为请将集群连接配置放入 `kube-config.yaml` 文件中，并将其挂载到 `/app` 目录下。实验功能若非了解行为请勿更改。
+默认行为请将集群连接配置放入 `kube-config.yaml` 文件中，并将其挂载到 `/app` 目录下。这些实验性功能若不了解其行为，请勿更改。
 
 :::info
 
@@ -378,7 +378,7 @@ GZCTF 会在题目的 Namespace 下创建名为 `gzctf-network-open` 和 `gzctf-
 
 ### RegistryConfig
 
-::: warning
+:::warning
 
 **此配置项即将被弃用，请使用 `Registries` 配置项进行配置。**
 
@@ -433,7 +433,7 @@ GZCTF 会在题目的 Namespace 下创建名为 `gzctf-network-open` 和 `gzctf-
 
 :::info
 
-**安全上下文**: 此项功能仅在一些支持的浏览器的[安全上下文](https://developer.mozilla.org/en-US/docs/Web/Security/Secure_Contexts)（HTTPS）中可用。
+**安全上下文**: 此项功能仅在[安全上下文](https://developer.mozilla.org/zh-CN/docs/Web/Security/Secure_Contexts)（HTTPS）中可用。
 
 :::
 
@@ -441,18 +441,13 @@ GZCTF 会在题目的 Namespace 下创建名为 `gzctf-network-open` 和 `gzctf-
 
 #### GoogleRecaptcha
 
-:::danger DEPRECATED
+:::warning
 
-由于上游依赖缺少维护，此功能已弃用，并将从 `v1.2.2` 开始删除。
+**已于 v1.2.2 移除。** 由于上游依赖缺少维护，Google ReCaptcha 的支持已被移除。
 
 请使用 `CloudflareTurnstile` 作为验证码提供商。
 
 :::
-
-配置 Google Recaptcha v3 的相关信息，可选项。
-
-- **VerifyAPIAddress:** Google Recaptcha 验证 API 地址
-- **RecaptchaThreshold:** Google Recaptcha 阈值，用于判断验证码是否有效
 
 ### ForwardedOptions
 
@@ -474,7 +469,7 @@ GZCTF 会在题目的 Namespace 下创建名为 `gzctf-network-open` 和 `gzctf-
 
 ### Kestrel
 
-::: warning 在绝大多数情况下，你不需要修改此配置。
+:::warning 在绝大多数情况下，你不需要修改此配置。
 
 Kestrel 为 GZCTF 自带并使用的 Web 服务器。
 

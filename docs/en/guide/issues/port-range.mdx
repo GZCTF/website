@@ -22,7 +22,7 @@ net.ipv4.ip_local_port_range = 20000 50000
 ```
 ExecStart=/usr/local/bin/k3s \
     server \
-    --kube-apiserver-arg service-node-port-range=20000-50000
+    --kube-apiserver-arg=service-node-port-range=20000-50000
 ```
 
 - `sudo systemctl daemon-reload`
@@ -38,6 +38,6 @@ The default range is `30000-32767`. If adjustments are needed, please refer to t
 - If there are multiple master nodes, please ensure that all master nodes are modified.
 - If deployed as a binary, modify the `kube-apiserver` configuration file, use the same parameters as above, and restart the service.
 
-## Docker Swarm Deployment:
+## Docker Swarm Deployment
 
 We have not tried it yet. If anyone has succeeded, please feel free to submit a PR to add it.
