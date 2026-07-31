@@ -2,6 +2,7 @@ import remarkMath from "remark-math";
 import type { Options as RemarkMathOptions } from "remark-math";
 import rehypeKatex from "rehype-katex";
 import type { Options as RehypeKatexOptions } from "rehype-katex";
+import { createRequire } from "node:module";
 
 import type { RspressPlugin } from "@rspress/core";
 
@@ -29,6 +30,7 @@ const remarkCodeBlockToMath: Plugin = () => {
 export default function rspressPluginKatex(
   options: RspressPluginKatexOptions = {},
 ): RspressPlugin {
+  const require = createRequire(import.meta.url);
   const katexCss = require.resolve("katex/dist/katex.min.css");
 
   return {
