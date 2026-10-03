@@ -71,7 +71,7 @@ GZCTF 的安全性和前端功能（如操作剪贴板）依赖于 HTTPS，此�
    ```yaml
    services:
      gzctf:
-        image: registry.cn-shanghai.aliyuncs.com/gztime/gzctf:latest
+        image: gztime/gzctf:latest
        restart: always
        environment:
          - "GZCTF_ADMIN_PASSWORD=<Your GZCTF_ADMIN_PASSWORD>"
@@ -188,16 +188,6 @@ GZCTF 已经预先构建并打包为统一的 Docker 镜像，你可以在 [Dock
 gztime/gzctf:latest
 ghcr.io/gztimewalker/gzctf/gzctf:latest
 ```
-
-:::info
-
-建议国内用户使用阿里云注册表（仅适用于 2024 年 6 月 20 日之后的版本）：
-
-```txt
-registry.cn-shanghai.aliyuncs.com/gztime/gzctf:latest
-```
-
-:::
 
 测试版本和开发版本请使用 `develop` 镜像标签。
 
