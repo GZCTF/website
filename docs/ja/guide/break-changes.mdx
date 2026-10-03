@@ -36,7 +36,7 @@
 新: aws.s3://accessKey=AKIA...;secretKey=secret...;bucket=my-bucket;region=us-east-1
 
 旧: minio.s3://keyId=admin;key=admin;bucket=gzctf;serviceUrl=http://minio:9000
-新: minio.s3://accessKey=admin;secretKey=admin;bucket=gzctf;endpoint=http://minio:9000;forcePathStyle=true
+新: s3://accessKey=admin;secretKey=admin;bucket=gzctf;endpoint=http://minio:9000;forcePathStyle=true
 ```
 
 **Azure Blob ユーザー:**
@@ -56,7 +56,7 @@ Azure Blob Storage はサポートされなくなりました。AWS S3 または
 - `region` (必須\*\*): AWS リージョン
 - `endpoint` (オプション): MinIO 用カスタム URL
 - `useHttp` (オプション): HTTP を使用 (デフォルト: false)
-- `forcePathStyle` (オプション): パススタイル URL (デフォルト: false)
+- `forcePathStyle` (オプション): パススタイル URL (デフォルト: false)。カスタム `endpoint` では `true` が必須。そうでないと仮想ホスト形式（`<bucket>.<endpoint-host>`）になり失敗します。
 - `sessionToken` (オプション): 一時認証情報
 
 \* 省略時は AWS デフォルト認証チェーンが使用されます

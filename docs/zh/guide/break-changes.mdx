@@ -40,7 +40,7 @@ aws.s3://accessKey=AKIA...;secretKey=secret...;bucket=my-bucket;region=us-east-1
 # 旧格式
 minio.s3://keyId=admin;key=admin;bucket=gzctf;serviceUrl=http://minio:9000
 # 新格式
-minio.s3://accessKey=admin;secretKey=admin;bucket=gzctf;endpoint=http://minio:9000;forcePathStyle=true
+s3://accessKey=admin;secretKey=admin;bucket=gzctf;endpoint=http://minio:9000;forcePathStyle=true
 ```
 
 **Azure Blob 用户：**
@@ -60,7 +60,7 @@ Azure Blob 存储不再受支持，请迁移到 AWS S3 或 MinIO：
 - `region`（必需\*\*）：AWS 区域
 - `endpoint`（可选）：MinIO 的自定义 URL
 - `useHttp`（可选）：使用 HTTP（默认：false）
-- `forcePathStyle`（可选）：使用路径样式 URL（默认：false）
+- `forcePathStyle`（可选）：使用路径样式 URL（默认：false）。使用自定义 `endpoint` 时必须为 `true`，否则会走虚拟托管风格（`<bucket>.<endpoint-host>`）导致失败。
 - `sessionToken`（可选）：临时凭据
 
 \* 如果省略，则使用 AWS 默认凭据链

@@ -192,9 +192,8 @@ GZCTF supports two types of storage providers:
 
   `s3://accessKey=...;secretKey=...;bucket=...;region=...`
 
-  or use specific schemes for convenience:
+  or use the following scheme for convenience:
   - `aws.s3://...` (equivalent to `s3://...`)
-  - `minio.s3://...` (equivalent to `s3://...`)
 
   Parameters:
   - `accessKey`: Optional. Access Key ID
@@ -203,7 +202,7 @@ GZCTF supports two types of storage providers:
   - `region`: Region (such as `us-east-1`)
   - `endpoint`: Optional. Custom endpoint URL (for MinIO or other S3-compatible services)
   - `useHttp`: Optional. Whether to use HTTP instead of HTTPS (default: false)
-  - `forcePathStyle`: Optional. Whether to use path-style URLs instead of virtual-hosted-style (default: false)
+  - `forcePathStyle`: Optional. Whether to use path-style URLs instead of virtual-hosted-style (default: false). **Must be `true` when a custom `endpoint` is used** (MinIO/RustFS or other S3-compatible services), otherwise requests use virtual-hosted-style (`<bucket>.<endpoint-host>`) and fail.
 
 For more information, see the following links:
 

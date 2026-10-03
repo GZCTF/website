@@ -208,9 +208,8 @@ GZCTF 支持两种类型的存储提供商：
 
   `s3://accessKey=...;secretKey=...;bucket=...;region=...`
 
-  或使用特定的协议头以方便使用：
+  或使用以下协议头以方便使用：
   - `aws.s3://...` (等同于 `s3://...`)
-  - `minio.s3://...` (等同于 `s3://...`)
 
   参数：
   - `accessKey`：可选。Access Key ID
@@ -219,7 +218,7 @@ GZCTF 支持两种类型的存储提供商：
   - `region`：区域 (例如 `us-east-1`)
   - `endpoint`：可选。自定义端点 URL（用于 MinIO 或其他 S3 兼容服务）
   - `useHttp`：可选。是否使用 HTTP 而不是 HTTPS（默认值：false）
-  - `forcePathStyle`：可选。是否使用路径风格 URL 而不是虚拟托管风格（默认值：false）
+  - `forcePathStyle`：可选。是否使用路径风格 URL 而不是虚拟托管风格（默认值：false）。**使用自定义 `endpoint` 时必须设为 `true`**（MinIO/RustFS 等 S3 兼容服务），否则请求会走虚拟托管风格（`<bucket>.<endpoint-host>`）而失败。
 
 更多详细内容，请查阅：
 

@@ -36,7 +36,7 @@ OLD: aws.s3://keyId=AKIA...;key=secret...;bucket=my-bucket;region=us-east-1
 NEW: aws.s3://accessKey=AKIA...;secretKey=secret...;bucket=my-bucket;region=us-east-1
 
 OLD: minio.s3://keyId=admin;key=admin;bucket=gzctf;serviceUrl=http://minio:9000
-NEW: minio.s3://accessKey=admin;secretKey=admin;bucket=gzctf;endpoint=http://minio:9000;forcePathStyle=true
+NEW: s3://accessKey=admin;secretKey=admin;bucket=gzctf;endpoint=http://minio:9000;forcePathStyle=true
 ```
 
 **Azure Blob users:**
@@ -56,7 +56,7 @@ Azure Blob Storage is no longer supported. Migrate to AWS S3 or MinIO:
 - `region` (required\*\*): AWS region
 - `endpoint` (optional): Custom URL for MinIO
 - `useHttp` (optional): Use HTTP (default: false)
-- `forcePathStyle` (optional): Path-style URLs (default: false)
+- `forcePathStyle` (optional): Path-style URLs (default: false). Must be `true` when a custom `endpoint` is used, otherwise virtual-hosted-style (`<bucket>.<endpoint-host>`) is used and requests fail.
 - `sessionToken` (optional): Temporary credentials
 
 \* If omitted, AWS default credential chain is used

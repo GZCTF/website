@@ -192,9 +192,8 @@ GZCTFは2種類のストレージプロバイダーをサポートしていま�
 
   `s3://accessKey=...;secretKey=...;bucket=...;region=...`
 
-  または便宜上、特定のスキームを使用できます:
+  または便宜上、以下のスキームを使用できます:
   - `aws.s3://...` (equivalent to `s3://...`)
-  - `minio.s3://...` (equivalent to `s3://...`)
 
   パラメータ:
   - `accessKey`: 任意。Access Key ID
@@ -203,7 +202,7 @@ GZCTFは2種類のストレージプロバイダーをサポートしていま�
   - `region`: リージョン（例：`us-east-1`）
   - `endpoint`: 任意。カスタムエンドポイント URL（MinIO または他の S3 互換サービス用）
   - `useHttp`: 任意。HTTPS の代わりに HTTP を使用するかどうか（デフォルト: false）
-  - `forcePathStyle`: 任意。パススタイル URL を使用するかどうか（デフォルト: false）
+  - `forcePathStyle`: 任意。パススタイル URL を使用するかどうか（デフォルト: false）。**カスタム `endpoint` を使う場合は `true` が必須**（MinIO/RustFS などの S3 互換サービス）。そうでないと仮想ホスト形式（`<bucket>.<endpoint-host>`）になり失敗します。
 
 詳細については、以下のリンクを参照してください:
 
