@@ -7,6 +7,489 @@
     "version": "v1"
   },
   "paths": {
+    "/api/passkey/token": {
+      "get": {
+        "tags": [
+          "Passkey"
+        ],
+        "summary": "Get a CSRF token for passkey operations, including anonymous login",
+        "operationId": "Passkey_Token",
+        "responses": {
+          "200": {
+            "description": "Request token returned and its matching cookie set",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/PasskeyAntiforgeryModel"
+                }
+              }
+            }
+          },
+          "429": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/RequestResponse"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/passkey/options": {
+      "post": {
+        "tags": [
+          "Passkey"
+        ],
+        "summary": "Start username-less passkey login",
+        "description": "Creates a protected, short-lived ceremony cookie required by POST /api/passkey/login.",
+        "operationId": "Passkey_RequestOptions",
+        "responses": {
+          "200": {
+            "description": "WebAuthn PublicKeyCredentialRequestOptions JSON",
+            "content": {
+              "application/json": {
+                "schema": {}
+              }
+            }
+          },
+          "400": {
+            "description": "Request token validation failed",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/RequestResponse"
+                }
+              }
+            }
+          },
+          "429": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/RequestResponse"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/passkey/login": {
+      "post": {
+        "tags": [
+          "Passkey"
+        ],
+        "summary": "Log in using a passkey",
+        "operationId": "Passkey_LogIn",
+        "requestBody": {
+          "x-name": "model",
+          "description": "Signed WebAuthn credential returned after requesting login options",
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/PasskeyCredentialModel"
+              }
+            }
+          },
+          "required": true,
+          "x-position": 1
+        },
+        "responses": {
+          "200": {
+            "description": "Login successful"
+          },
+          "400": {
+            "description": "Request validation failed",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/RequestResponse"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Passkey verification failed, ceremony expired, or account cannot sign in",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/RequestResponse"
+                }
+              }
+            }
+          },
+          "429": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/RequestResponse"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/passkey": {
+      "get": {
+        "tags": [
+          "Passkey"
+        ],
+        "summary": "List the current user's passkeys",
+        "operationId": "Passkey_List",
+        "responses": {
+          "200": {
+            "description": "Passkey metadata returned without public keys or attestation data",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/PasskeyModel"
+                  }
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Login required",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/RequestResponse"
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "Account access forbidden",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/RequestResponse"
+                }
+              }
+            }
+          },
+          "429": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/RequestResponse"
+                }
+              }
+            }
+          }
+        }
+      },
+      "post": {
+        "tags": [
+          "Passkey"
+        ],
+        "summary": "Verify and save a passkey for the current user",
+        "operationId": "Passkey_Register",
+        "requestBody": {
+          "x-name": "model",
+          "description": "WebAuthn registration response and passkey name",
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/PasskeyRegistrationModel"
+              }
+            }
+          },
+          "required": true,
+          "x-position": 1
+        },
+        "responses": {
+          "200": {
+            "description": "Passkey registered successfully"
+          },
+          "400": {
+            "description": "Request or attestation invalid, passkey limit reached, or account update failed",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/RequestResponse"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Login required",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/RequestResponse"
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "Account access forbidden",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/RequestResponse"
+                }
+              }
+            }
+          },
+          "429": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/RequestResponse"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/passkey/creation-options": {
+      "post": {
+        "tags": [
+          "Passkey"
+        ],
+        "summary": "Confirm the current password and start registering a passkey",
+        "description": "Creates a protected, short-lived ceremony cookie required by POST /api/passkey.",
+        "operationId": "Passkey_CreationOptions",
+        "requestBody": {
+          "x-name": "model",
+          "description": "Current password confirmation",
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/PasskeyCreationModel"
+              }
+            }
+          },
+          "required": true,
+          "x-position": 1
+        },
+        "responses": {
+          "200": {
+            "description": "WebAuthn PublicKeyCredentialCreationOptions JSON",
+            "content": {
+              "application/json": {
+                "schema": {}
+              }
+            }
+          },
+          "400": {
+            "description": "Invalid request, incorrect password, account locked, or passkey limit reached",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/RequestResponse"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Login required",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/RequestResponse"
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "Account access forbidden",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/RequestResponse"
+                }
+              }
+            }
+          },
+          "429": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/RequestResponse"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/passkey/{credentialId}": {
+      "put": {
+        "tags": [
+          "Passkey"
+        ],
+        "summary": "Rename one of the current user's passkeys",
+        "operationId": "Passkey_Rename",
+        "parameters": [
+          {
+            "name": "credentialId",
+            "in": "path",
+            "required": true,
+            "description": "Base64url-encoded credential ID",
+            "schema": {
+              "type": "string"
+            },
+            "x-position": 1
+          }
+        ],
+        "requestBody": {
+          "x-name": "model",
+          "description": "New passkey name",
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/PasskeyRenameModel"
+              }
+            }
+          },
+          "required": true,
+          "x-position": 2
+        },
+        "responses": {
+          "200": {
+            "description": "Passkey renamed successfully"
+          },
+          "400": {
+            "description": "Request validation or account update failed",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/RequestResponse"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Login required",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/RequestResponse"
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "Account access forbidden",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/RequestResponse"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Credential ID is invalid or does not belong to the current user",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            }
+          },
+          "429": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/RequestResponse"
+                }
+              }
+            }
+          }
+        }
+      },
+      "delete": {
+        "tags": [
+          "Passkey"
+        ],
+        "summary": "Remove one of the current user's passkeys",
+        "operationId": "Passkey_Remove",
+        "parameters": [
+          {
+            "name": "credentialId",
+            "in": "path",
+            "required": true,
+            "description": "Base64url-encoded credential ID",
+            "schema": {
+              "type": "string"
+            },
+            "x-position": 1
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Passkey removed successfully"
+          },
+          "400": {
+            "description": "Request validation or account update failed",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/RequestResponse"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Login required",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/RequestResponse"
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "Account access forbidden",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/RequestResponse"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Credential ID is invalid or does not belong to the current user",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            }
+          },
+          "429": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/RequestResponse"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
     "/api/account/register": {
       "post": {
         "tags": [
@@ -8056,6 +8539,114 @@
   },
   "components": {
     "schemas": {
+      "PasskeyAntiforgeryModel": {
+        "type": "object",
+        "description": "Request token for passkey operations",
+        "additionalProperties": false,
+        "required": [
+          "token"
+        ],
+        "properties": {
+          "token": {
+            "type": "string",
+            "description": "Send in the X-CSRF-TOKEN header together with the matching antiforgery cookie"
+          }
+        }
+      },
+      "PasskeyCredentialModel": {
+        "type": "object",
+        "description": "WebAuthn credential returned by the browser",
+        "additionalProperties": false,
+        "required": [
+          "credentialJson"
+        ],
+        "properties": {
+          "credentialJson": {
+            "type": "string",
+            "description": "Serialized public-key credential with base64url-encoded binary fields",
+            "maxLength": 65536,
+            "minLength": 1
+          }
+        }
+      },
+      "PasskeyModel": {
+        "type": "object",
+        "description": "Public metadata for a registered passkey. Credential material is never returned.",
+        "additionalProperties": false,
+        "required": [
+          "credentialId"
+        ],
+        "properties": {
+          "credentialId": {
+            "type": "string",
+            "description": "Base64url-encoded credential ID"
+          },
+          "name": {
+            "type": "string",
+            "description": "User-assigned passkey name",
+            "nullable": true
+          },
+          "createdAt": {
+            "type": "integer",
+            "description": "Creation time",
+            "format": "uint64"
+          }
+        }
+      },
+      "PasskeyCreationModel": {
+        "type": "object",
+        "description": "Current password confirmation for passkey registration",
+        "additionalProperties": false,
+        "required": [
+          "password"
+        ],
+        "properties": {
+          "password": {
+            "type": "string",
+            "description": "Current password, encrypted when API encryption is enabled",
+            "minLength": 1
+          }
+        }
+      },
+      "PasskeyRegistrationModel": {
+        "allOf": [
+          {
+            "$ref": "#/components/schemas/PasskeyCredentialModel"
+          },
+          {
+            "type": "object",
+            "description": "A new passkey and its user-assigned name",
+            "additionalProperties": false,
+            "required": [
+              "name"
+            ],
+            "properties": {
+              "name": {
+                "type": "string",
+                "description": "Passkey name",
+                "maxLength": 100,
+                "minLength": 1
+              }
+            }
+          }
+        ]
+      },
+      "PasskeyRenameModel": {
+        "type": "object",
+        "description": "Update a passkey's display name",
+        "additionalProperties": false,
+        "required": [
+          "name"
+        ],
+        "properties": {
+          "name": {
+            "type": "string",
+            "description": "New passkey name",
+            "maxLength": 100,
+            "minLength": 1
+          }
+        }
+      },
       "RequestResponseOfRegisterStatus": {
         "type": "object",
         "description": "Request response",
@@ -11985,6 +12576,10 @@
     {
       "name": "Team",
       "description": "Team related APIs"
+    },
+    {
+      "name": "Passkey",
+      "description": "Passkey login and account management"
     }
   ]
 }

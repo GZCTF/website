@@ -75,6 +75,9 @@
       "BypassCertVerify": false
     }
   },
+  "Passkey": {
+    "ServerDomain": null
+  },
   "XorKey": "<Random Key Str>",
   "ContainerProvider": {
     "Type": "Docker", // or "Kubernetes"
@@ -278,6 +281,31 @@ GZCTF 支持指标和分布式追踪。您可以配置您想要使用的提供�
 
 :::
 
+### Passkey
+
+通行密钥登录和管理无需单独的启用开关。
+
+- **ServerDomain:** 可选的依赖方 ID（RP ID）。填写用户访问的公共主机名，不包含协议、端口或路径。省略或设为 `null` 时，使用请求中的主机名。
+
+例如，平台部署在 `https://ctf.example.com`：
+
+```json
+{
+  "AllowedHosts": "ctf.example.com",
+  "Passkey": {
+    "ServerDomain": "ctf.example.com"
+  }
+}
+```
+
+也可以通过环境变量 `GZCTF_Passkey__ServerDomain=ctf.example.com` 设置 `ServerDomain`。
+
+请通过 `AllowedHosts` 或反向代理限制允许的主机名，尤其是在根据请求主机名确定 RP ID 时。如果代理转发 `X-Forwarded-Host`，还应限制 `ForwardedOptions.AllowedHosts`，详见 [ForwardedOptions](#forwardedoptions)。
+
+用户注册通行密钥后，应保持实际使用的 RP ID 不变。修改后，原有凭据将无法在新的 RP ID 下使用。
+
+浏览器访问的页面需要使用 HTTPS 和受信任的证书。如果在反向代理上终止 HTTPS，需要保留公共主机名，并通过受信任的代理转发原始请求协议。浏览器允许在本地开发时使用 HTTP localhost，但部分密码管理器扩展仍要求 HTTPS。
+
 ### XorKey
 
 此处配置加密密钥，用于加密数据库中比赛的私钥信息，可为任意长度的任意字符串。
@@ -412,7 +440,7 @@ GZCTF 会在题目的 Namespace 下创建名为 `gzctf-network-open` 和 `gzctf-
 
 ### CaptchaConfig
 
-此处配置验证码相关信息，用于注册、找回账号和登录时的验证码验证，可选项。
+此处配置验证码相关信息，用于注册、找回账号和密码登录时的验证码验证，可选项。通行密钥登录无需验证码。
 
 - **Provider:** 验证码提供商，可选 `None`、`HashPow` 或 `CloudflareTurnstile`
 - **SiteKey:** 验证码 Sitekey

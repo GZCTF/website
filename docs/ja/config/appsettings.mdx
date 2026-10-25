@@ -75,6 +75,9 @@
       "BypassCertVerify": false
     }
   },
+  "Passkey": {
+    "ServerDomain": null
+  },
   "XorKey": "<Random Key Str>",
   "ContainerProvider": {
     "Type": "Docker", // or "Kubernetes"
@@ -262,6 +265,31 @@ GZCTF はメトリクスと分散トレーシングをサポートしていま�
 
 :::
 
+### Passkey
+
+パスキーによるログインと管理に、個別の有効化設定は不要です。
+
+- **ServerDomain:** 任意の RP ID。ユーザーがアクセスする公開ホスト名を指定します。スキーム、ポート、パスは含めません。省略するか `null` にすると、リクエストのホスト名が使用されます。
+
+`https://ctf.example.com` で運用する場合の設定例：
+
+```json
+{
+  "AllowedHosts": "ctf.example.com",
+  "Passkey": {
+    "ServerDomain": "ctf.example.com"
+  }
+}
+```
+
+環境変数 `GZCTF_Passkey__ServerDomain=ctf.example.com` でも `ServerDomain` を設定できます。
+
+`AllowedHosts` またはリバースプロキシで、許可するホスト名を制限してください。特に、リクエストのホスト名から RP ID を決定する場合に必要です。`X-Forwarded-Host` を転送する場合は、`ForwardedOptions.AllowedHosts` も制限してください。詳しくは [ForwardedOptions](#forwardedoptions) を参照してください。
+
+ユーザーがパスキーを登録した後は、実際に使用する RP ID を維持してください。変更すると、以前の資格情報は新しい RP ID では使用できなくなります。
+
+ブラウザーで開くページは、信頼された証明書を使用する HTTPS で配信してください。リバースプロキシで HTTPS を終端する場合は、公開ホスト名を保持し、信頼するプロキシを通じて元のリクエストのスキームを転送してください。ブラウザーは開発時の HTTP localhost を許可しますが、パスワードマネージャーの拡張機能によっては HTTPS が必要です。
+
 ### XorKey
 
 ここでは暗号化キーを設定します。これは、データベース内のゲームの秘密鍵情報を暗号化するために使用されます。任意の長さの任意の文字列を使用できます。
@@ -398,7 +426,7 @@ GZCTF はチャレンジの Namespace に `gzctf-network-open` と `gzctf-networ
 
 ### CaptchaConfig
 
-ここでは、キャプチャ関連の情報を設定します。これは、登録、アカウントの回復、ログイン時のキャプチャの検証に使用されます。オプションです。
+ここでは、登録、アカウントの回復、パスワードによるログインに使用する CAPTCHA を設定します。設定は任意です。パスキーによるログインでは CAPTCHA は不要です。
 
 - **Provider:** キャプチャのプロバイダ。`None`、`HashPow`または`CloudflareTurnstile`を選択できます。
 - **SiteKey:** キャプチャの Sitekey

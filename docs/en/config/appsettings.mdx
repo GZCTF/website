@@ -75,6 +75,9 @@ Here is a complete example of configuration:
       "BypassCertVerify": false
     }
   },
+  "Passkey": {
+    "ServerDomain": null
+  },
   "XorKey": "<Random Key Str>",
   "ContainerProvider": {
     "Type": "Docker", // or "Kubernetes"
@@ -262,6 +265,31 @@ Some cloud service providers may block port 465, please try port 587.
 
 :::
 
+### Passkey
+
+Passkey login and management are available without a separate enable switch.
+
+- **ServerDomain:** Optional relying-party ID (RP ID). Use the public hostname users visit, without a scheme, port, or path. When omitted or `null`, the request hostname is used.
+
+For a deployment at `https://ctf.example.com`:
+
+```json
+{
+  "AllowedHosts": "ctf.example.com",
+  "Passkey": {
+    "ServerDomain": "ctf.example.com"
+  }
+}
+```
+
+You can also set `ServerDomain` using the environment variable `GZCTF_Passkey__ServerDomain=ctf.example.com`.
+
+Configure accepted hostnames with `AllowedHosts` or enforce them at the reverse proxy, especially when deriving the RP ID from the request host. If the proxy forwards `X-Forwarded-Host`, also restrict `ForwardedOptions.AllowedHosts`. See [ForwardedOptions](#forwardedoptions).
+
+Keep the effective RP ID stable after users register passkeys. Changing it makes those credentials unusable under the new ID.
+
+Serve the browser-facing page over HTTPS with a trusted certificate. When terminating HTTPS at a reverse proxy, preserve the public host and forward the original scheme through a trusted proxy. Browsers allow HTTP localhost for development, but some password manager extensions require HTTPS even there.
+
 ### XorKey
 
 Configure the encryption key used to encrypt the competition private keys stored in the database. It can be any string of any length.
@@ -398,7 +426,7 @@ Please make sure that the password does not contain special characters (such as 
 
 ### CaptchaConfig
 
-Configure the CAPTCHA used for user registration, account recovery and login, optional.
+Configure the CAPTCHA used for user registration, account recovery and password login, optional. Passkey login does not require a CAPTCHA.
 
 - **Provider:** CAPTCHA provider, can be `None`, `HashPow` or `CloudflareTurnstile`
 - **SiteKey:** CAPTCHA Sitekey
