@@ -87,6 +87,7 @@ Here is a complete example of configuration:
     "DockerConfig": {
       // optional
       "ChallengeNetwork": "",
+      "ImagePullPolicy": "IfNotPresent", // or "Always", "Never"
       "Uri": "unix:///var/run/docker.sock",
       "UserName": "",
       "Password": ""
@@ -328,6 +329,8 @@ Docker Swarm is no longer supported since v1.8.0. Please use Kubernetes for bett
   You can also manually create a `<ChallengeNetwork>-custom` network for custom network mode, and configure it according to your needs.
 
 - **UserName, Password:** Docker API Basic Auth username and password, optional.
+
+- **ImagePullPolicy:** Docker image pull policy for challenge containers, optional. Can be `IfNotPresent` (default), `Always`, or `Never`. With `Never`, container creation fails when the image is not present locally, which is useful if the images are preloaded on the host.
 
 #### Kubernetes
 

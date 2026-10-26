@@ -87,6 +87,7 @@
     "DockerConfig": {
       // optional
       "ChallengeNetwork": "",
+      "ImagePullPolicy": "IfNotPresent", // or "Always", "Never"
       "Uri": "unix:///var/run/docker.sock",
       "UserName": "",
       "Password": ""
@@ -328,6 +329,8 @@ Docker Swarm は v1.8.0 以降サポートされなくなりました。より�
   また、自分で `<ChallengeNetwork>-custom` ネットワークを作成してカスタムネットワークモードに利用することもできます。要件に合わせて自由に設定してください。
 
 - **UserName, Password:** Docker API Basic Auth のユーザー名とパスワード。オプションです。
+
+- **ImagePullPolicy:** チャレンジコンテナのイメージ取得ポリシー。オプションです。`IfNotPresent`（デフォルト）、`Always`、`Never` のいずれかを指定できます。`Never` を指定した場合、イメージがローカルに存在しないとコンテナの作成に失敗します。イメージをホスト側で事前に取得しておく運用に適しています。
 
 #### Kubernetes
 

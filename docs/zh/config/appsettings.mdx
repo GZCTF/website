@@ -87,6 +87,7 @@
     "DockerConfig": {
       // optional
       "ChallengeNetwork": "",
+      "ImagePullPolicy": "IfNotPresent", // or "Always", "Never"
       "Uri": "unix:///var/run/docker.sock",
       "UserName": "",
       "Password": ""
@@ -344,6 +345,8 @@ GZCTF 支持指标和分布式追踪。您可以配置您想要使用的提供�
   你也可以手动创建 `<ChallengeNetwork>-custom` 网络用于自定义网络模式，并根据需要自行配置。
 
 - **UserName, Password:** Docker API Basic Auth 用户名和密码，可选项。
+
+- **ImagePullPolicy:** 题目容器镜像的拉取策略，可选项。可选 `IfNotPresent`（默认）、`Always` 或 `Never`。设置为 `Never` 时，若本地不存在对应镜像，创建容器将会失败；适合在宿主机上预加载题目镜像的场景。
 
 #### Kubernetes
 
